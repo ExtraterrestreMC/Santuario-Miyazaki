@@ -7,10 +7,10 @@ Curso: 2 DAW
 
 ## NPM
 
-Se a instaldo Express
-Se a instaldo Margan
-Se a instaldo fs
-Se a instaldo log4js
+    Se a instaldo Express
+    Se a instaldo Margan
+    Se a instaldo fs
+    Se a instaldo log4js
 
 ### Por instalar
 
