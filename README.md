@@ -24,6 +24,7 @@ Curso: 2 DAW
     express-session
     cookie-parse
     EJS
+    Incriptacion de la clase 4 
 
 ### Figma
     Enlace a figma:
