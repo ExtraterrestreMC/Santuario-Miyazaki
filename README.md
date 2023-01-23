@@ -23,6 +23,7 @@ Curso: 2 DAW
     cors
     express-session
     cookie-parse
+    EJS
 
 ### Figma
     Enlace a figma:
