@@ -3,20 +3,23 @@ const app = express()
 const port = process.env.PORT || 3000
 const utils = require("./controllers/utils");
 const version = "v1"
+const cors = require("cors");
+const AppError = require("./AppError");
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
+app.use(cors());
 
 
 
-
-const basicRoutes = require("./routers/X.routes")
-
-app.use(`/api/${version}/basic`, basicRoutes);
+//const basicRoutes = require("./routers/X.routes")
+const usuarioRoutes = require("./routers/usuario.routes")
+//app.use(`/api/${version}/basic`, basicRoutes);
+app.use(`/api/${version}/usuarios`, usuarioRoutes);
 
 
 //Para las vistas
-app.set("views", path.join(__dirname, "views"))
-app.set("view engine", "ejs")
+// app.set("views", path.join(__dirname, "views"))
+// app.set("view engine", "ejs")
 
 
 app.use((err, req, res, next) => {
