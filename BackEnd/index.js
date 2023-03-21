@@ -13,8 +13,12 @@ app.use(cors());
 
 //const basicRoutes = require("./routers/X.routes")
 const usuarioRoutes = require("./routers/usuario.routes")
+const bonosRoutes = require("./routers/bonos.routes")
+const platosRoutes = require("./routers/menu.routes")
 //app.use(`/api/${version}/basic`, basicRoutes);
 app.use(`/api/${version}/usuarios`, usuarioRoutes);
+app.use(`/api/${version}/bonos`, bonosRoutes);
+app.use(`/api/${version}/menu`, platosRoutes);
 
 
 //Para las vistas
