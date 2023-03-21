@@ -1,0 +1,33 @@
+_id: req_4f401147118742b3b3f9aad22baec77a
+type: Request
+parentId: fld_477350de830c40128e6fbcaaf261f071
+modified: 1679430300675
+created: 1679427695318
+url: http://localhost:3000/api/v1/menu/641a0d9bf04a14b16c0efb11
+name: updatePlato
+description: ""
+method: PUT
+body:
+  mimeType: application/json
+  text: >-
+    	{
+    		"nombre": "Pizza",
+    		"precio": "50",
+    		"descripcion": "Pizza cara",
+    		"imagen": "https://newluxbrand.com/wp-content/uploads/2022/01/pizza-jamo%CC%81n-y-queso-Newlux-1024x1024-optimized",
+    		"extension": "jpg",
+    		"__v": 0
+    	}
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+authentication: {}
+metaSortKey: -1679424768911
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global
