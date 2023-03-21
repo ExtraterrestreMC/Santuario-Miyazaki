@@ -1,0 +1,33 @@
+_id: req_9c1c166e1e654045a932306b55609322
+type: Request
+parentId: fld_680ee5e6108a43eb9165eeeedbb7de0c
+modified: 1679424746090
+created: 1679249176563
+url: http://localhost:3000/api/v1/usuarios
+name: Add_user
+description: ""
+method: POST
+body:
+  mimeType: application/json
+  text: |-
+    {
+    	"DNI":"46085985B",
+    	"Nombre":"Alejandro",
+    	"Apellidos":"Montero",
+    	"Correo":"alejandro.montero.cerdan@gmail.com",
+    	"Contraseña":"alumno",
+    	"id_perfiles":1
+    }
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+authentication: {}
+metaSortKey: -1679249198093
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global
