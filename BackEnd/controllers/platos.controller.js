@@ -1,6 +1,13 @@
 const Platos = require("../models/platos.model")
 const dbConn = require("../config/db.config.MongoDB");
 const utils = require("./utils")
+const NoExisteError = require("./errors/NoExisteError");
+const BaseDatosNoConectadaError = require("./errors/BaseDatosNoConectadaError");
+const MissingDatosError = require("./errors/MissingDatosError");
+const ParametrosIncorrectosError = require("./errors/ParametrosIncorrectosError");
+const ErrInterno = require("./errors/ErrInterno");
+const logger = require("../logs/logger")
+const utilsLogs = require("./utilsLogs")
 
 exports.find_platos = utils.wrapAsync(async function (req, res, next) {
     try {
@@ -8,10 +15,16 @@ exports.find_platos = utils.wrapAsync(async function (req, res, next) {
         await Platos.get_platos()
             .then((platos) => res.status(200).json(platos))
             .catch((error) => {
-                res.status(500).json(utils.errInterno(error))
+                logger.error.error(utilsLogs.errInterno(err));
+                throw new ErrInterno(utils.errInterno(err));
             })
     } catch (err) {
-        console.log("base de datos no conectada");
+        if (!(err instanceof ErrInterno)) {
+            logger.error.error(utilsLogs.baseDatosNoConectada());
+            throw new BaseDatosNoConectadaError(utils.baseDatosNoConectada())
+        } else {
+            throw err;
+        }
     }
 
 })
@@ -25,21 +38,40 @@ exports.get_plato_id = utils.wrapAsync(async function (req, res, next) {
             await Platos.get_plato_id(id)
                 .then((plato) => {
                     if (plato === null) {
-                        console.log("Plato no exite");
+                        logger.warning.warn(utilsLogs.noExiste("plato"));
+                        throw new NoExisteError(utils.noExiste("plato"));
                     } else {
+                        logger.access.info(utilsLogs.accesoCorrecto(`el plato: ${plato._id}`));
                         res.status(200).json(plato)
                     }
                 })
                 .catch((err) => {
-                    console.log("datos incorrectos 2");
+                    /*res.status(406).json(utils.parametrosIncorrectos()*/
+                    if (!(err instanceof NoExisteError)) {
+                        logger.warning.warn(utilsLogs.parametrosIncorrectos());
+                        throw new ParametrosIncorrectosError(utils.parametrosIncorrectos())
+                    } else {
+                        throw err;
+                    }
                 })
         } catch (err) {
-            console.log("Parametros incorrectos");
+            //res.status(406).json(utils.parametrosIncorrectos());
+            if (!(err instanceof NoExisteError)) {
+                logger.error.error(utilsLogs.baseDatosNoConectada());
+                throw new ParametrosIncorrectosError(utils.parametrosIncorrectos())
+            } else {
+                throw err;
+            }
         }
     } catch (err) {
-        console.log("base de datos no conectada");
+        //res.status(500).json(utils.baseDatosNoConectada());
+        if (!((err instanceof NoExisteError) || (err instanceof ParametrosIncorrectosError))) {
+            logger.error.error(utilsLogs.baseDatosNoConectada());
+            throw new BaseDatosNoConectadaError(utils.baseDatosNoConectada())
+        } else {
+            throw err;
+        }
     }
-
 })
 
 exports.add_plato = utils.wrapAsync(async function (req, res, next) {
@@ -50,18 +82,23 @@ exports.add_plato = utils.wrapAsync(async function (req, res, next) {
             try {
                 await Platos.add_plato(plato)
                     .then((resultado) => {
-                        res.status(201).json("plato creada correctamente")
+                        res.status(201).json(utils.creadoCorrectamente('plato'));
+                        logger.access.info(utilsLogs.creadoCorrectamente("plato", result._id));
                     }).cath((err) => {
-                        console.log("Paramentros incorrectos 2");
+                        res.status(406).json(utils.parametrosIncorrectos())
+                        logger.warning.warn(utilsLogs.parametrosIncorrectos());;
                     })
             } catch (err) {
-                console.log("Parametros incorrectos");
+                res.status(406).json(utils.parametrosIncorrectos());
+                logger.warning.warn(utilsLogs.parametrosIncorrectos());
             }
         } catch (err) {
-            console.log("base de datos no conectada");
+            res.status(500).json(utils.baseDatosNoConectada());
+            logger.error.error(utilsLogs.baseDatosNoConectada());
         }
     } else {
-        console.log("faltan datos");
+        logger.warning.warn(utilsLogs.faltanDatosAcceso("añadir una plato"));
+        throw new MissingDatosError(utils.missingDatos())
     }
 })
 
@@ -76,21 +113,27 @@ exports.edit_plato = utils.wrapAsync(async function (req, res, next) {
                 await Platos.edit_plato(id, plato)
                     .then((resultado) => {
                         if (resultado.value === null) {
-                            res.status(404).json("No exite plato")
+                            res.status(404).json(utils.noExiste("plato"));
+                            logger.warning.warn(utilsLogs.noExiste("plato"));
                         } else {
-                            res.status(201).json("plato editada correctamente")
+                            res.status(200).json(utils.editadoCorrectamente("plato"))
+                            logger.access.info(utilsLogs.actualizadoCorrectamente("plato", result.value._id));
                         }
                     }).cath((err) => {
-                        console.log("Paramentros incorrectos 2");
+                        res.status(406).json(utils.parametrosIncorrectos())
+                        logger.warning.warn(utilsLogs.parametrosIncorrectos());
                     })
             } catch (err) {
-                console.log("Parametros incorrectos");
+                res.status(406).json(utils.parametrosIncorrectos());
+                logger.warning.warn(utilsLogs.parametrosIncorrectos());
             }
         } catch (err) {
-            console.log("base de datos no conectada");
+            res.status(406).json(utils.parametrosIncorrectos());
+            logger.warning.warn(utilsLogs.parametrosIncorrectos());
         }
     } else {
-        console.log("faltan datos");
+        logger.warning.warn(utilsLogs.faltanDatosAcceso("editar un plato"));
+        throw new MissingDatosError(utils.missingDatos())
     }
 })
 exports.delete_plato = utils.wrapAsync(async function (req, res, next) {
@@ -102,21 +145,39 @@ exports.delete_plato = utils.wrapAsync(async function (req, res, next) {
             await Platos.delete_plato(id)
                 .then((info) => {
                     if (info === null) {
-                        res.status(404).json(utils.noExiste("plato"));
+                        logger.warning.warn(utilsLogs.noExiste("platos"));
+                        throw new NoExisteError(utils.noExiste("platos"));
                     } else {
-                        res.status(200).json("Borrado correctamente");
+                        res.status(200).json(utils.borradoCorrectamente("platos"));
+                        logger.access.info(utilsLogs.borradoCorrectamente("platos", info._id));
                     }
                 })
                 .catch((err) => {
-                    console.log("datos incorrectos");
+                    //res.status(406).json(utils.parametrosIncorrectos())
+                    if (!(err instanceof NoExisteError)) {
+                        logger.warning.warn(utilsLogs.parametrosIncorrectos());
+                        throw new ParametrosIncorrectosError(utils.parametrosIncorrectos())
+                    } else {
+                        throw err;
+                    }
                 });
         } catch (err) {
-            res.status(406).json(utils.parametrosIncorrectos());
-            console.log("parametros incorrectos");
+            //res.status(406).json(utils.parametrosIncorrectos());
+            if (!((err instanceof NoExisteError) || (err instanceof ParametrosIncorrectosError))) {
+                logger.warning.warn(utilsLogs.parametrosIncorrectos());
+                throw new ParametrosIncorrectosError(utils.parametrosIncorrectos())
+            } else {
+                throw err;
+            }
         }
     } catch (err) {
-        console.log("base de datos no conecta");
-
+        //res.status(500).json(utils.baseDatosNoConectada());
+        if (!((err instanceof NoExisteError) || (err instanceof ParametrosIncorrectosError))) {
+            logger.error.error(utilsLogs.baseDatosNoConectada());
+            throw new BaseDatosNoConectadaError(utils.baseDatosNoConectada())
+        } else {
+            throw err;
+        }
     }
 
 })

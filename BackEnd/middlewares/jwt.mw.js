@@ -1,6 +1,6 @@
-  const jwt = require("jsonwebtoken");
+const jwt = require("jsonwebtoken");
 
-exports.claveJWT = "j9EjY#yQb^#NJdCR"; 
+exports.claveJWT = "j9EjY#yQb^#NJdCR";
 
 /**
  * Extrae el token de la sesión
@@ -8,6 +8,8 @@ exports.claveJWT = "j9EjY#yQb^#NJdCR";
  * @returns 
  */
 exports.extractToken = (req) => {
+    // console.log("----extract---");
+    // console.log(req.session.token);
     if (req.session && req.session.token) {
         return req.session.token;
     }
@@ -21,18 +23,21 @@ exports.extractToken = (req) => {
  * @param {*} next 
  */
 exports.requireJWT = (req, res, next) => {
+
+    // console.log("------require----");
+    // console.log(req.session.token);
     const token = this.extractToken(req);
 
     if (token) {
         jwt.verify(token, this.claveJWT, (err, token_decoded) => {
             if (err) {
-                res.status(401).json({msg: err}) 
+                res.status(401).json({ msg: err })
             } else {
                 next();
             }
         })
     } else {
-        res.status(401).json({codError: 401, desc: "No existe el token. Debes autenticarte primero"}) 
+        res.status(401).json({ codError: 401, desc: "No existe el token. Debes autenticarte primero" })
     }
 }
 
@@ -41,8 +46,11 @@ exports.requireJWT = (req, res, next) => {
  * @param {*} req 
  */
 exports.createJWT = (req) => {
-    const token = jwt.sign({check: true}, this.claveJWT, {
-        expiresIn: "24h" 
+    const token = jwt.sign({ check: true }, this.claveJWT, {
+        expiresIn: "24h"
     })
+
     req.session.token = token;
+    // console.log("----Create---");
+    // console.log(req.session.token);
 }

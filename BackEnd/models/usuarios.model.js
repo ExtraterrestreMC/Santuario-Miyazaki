@@ -43,7 +43,7 @@ Usuario.findByemail = async function (email, resultado) {
     })
 }
 Usuario.create = async function (newUser, resultado) {
-    //console.log(newUser);
+    console.log(newUser);
     const sql = "INSERT INTO usuarios (`DNI`, `Nombre`, `Apellidos`, `Correo`, `Contraseña`,`id_perfiles`) VALUES (?,?,?,?,?,?)"
     dbConn.query(sql, [newUser.DNI, newUser.Nombre, newUser.Apellidos, newUser.Correo, newUser.Contraseña, newUser.id_perfiles], function (err, res) {
         if (err) {

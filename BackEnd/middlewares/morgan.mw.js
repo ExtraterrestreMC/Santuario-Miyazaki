@@ -3,7 +3,7 @@ const fs = require("fs") //npm i fs
 
 
 const anyadirMorgan = morgan('combined', {
-    stream: fs.createWriteStream('./archivosLogs/acceso/access.log', { flags: 'a' })
+    stream: fs.createWriteStream('./Logs/archivosLogs/acceso/access.log', { flags: 'a' })
 })
 
 module.exports = anyadirMorgan;

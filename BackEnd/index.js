@@ -8,11 +8,23 @@ const AppError = require("./AppError");
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 const logger = require("./Logs/logger");
-
-
+const cookieParser = require("cookie-parser")
+const https = require("https");
+const fs = require("fs")
+//Para las sessiones
+const session = require("express-session");
+const sessionOptions = {
+    secret: "iTF%g69M2D#w$hc&",
+    cookie: {
+        secure: true,
+        sameSite: "none",
+        maxAge: 60 * 60 * 24 * 1000 // == 24 h
+    }
+}
+app.use(session(sessionOptions));
 
 //CORS
-const whitelist = ["http://127.0.0.1:5500", "http://127.0.0.1:5501", "http://127.0.0.1:5502", "http://127.0.0.1:5503", "http://127.0.0.1:5504", "http://127.0.0.1:5505", "http://127.0.0.1:5506"]
+const whitelist = ["http://127.0.0.1:3000", "http://127.0.0.1:5500", "http://127.0.0.1:5501", "http://127.0.0.1:5502", "http://127.0.0.1:5503", "http://127.0.0.1:5504", "http://127.0.0.1:5505", "http://127.0.0.1:5506"]
 const corsOptions = {
     origin: (origin, callback) => {
         if (whitelist.indexOf(origin) !== -1) {
@@ -27,26 +39,22 @@ const corsOptions = {
 }
 
 app.use(cors(corsOptions));
-app.use(cookieParser("uMfgWE8FA$@&H9LW"))
+//app.use(cors(corsOptions));
+app.use(cookieParser("passwordforcookies"))
 
 
-//Para las sessiones
-const session = require("express-session");
-const jwtMW = require("./middleware/jwt.mw");
-const authorization = require("./middleware/auth.mw");
+//Token
+const jwtMW = require("./middlewares/jwt.mw");
+const authorization = require("./middlewares/auth.mw");
 
-const sessionOptions = {
-    secret: "iTF%g69M2D#w$hc&",
-    cookie: {
-        secure: true,
-        sameSite: "none",
-        maxAge: 60 * 60 * 24 * 1000 // == 24 h
-    }
-}
-app.use(session(sessionOptions));
+
 
 app.use((req, res, next) => {
+    // console.log("-------use1---------");
+    // console.log(req.session.token);
+    // console.log(req.url);
     if (
+
         (req.url != "/api/v1/usuarios/autenticar" && req.url != "/api/v1/usuarios/autenticar/") &&
         ((req.url != "/api/v1/usuarios" && req.url != "/api/v1/usuarios/"))
     ) {
@@ -59,7 +67,20 @@ app.use((req, res, next) => {
         }
     }
 });
-
+app.use((req, res, next) => {
+    if (
+        (req.url != "/api/v1/usuarios/autenticar" && req.url != "/api/v1/usuarios/autenticar/") &&
+        ((req.url != "/api/v1/usuarios" && req.url != "/api/v1/usuarios/"))
+    ) {
+        authorization(req, res, next)
+    } else {
+        if (req.method == "POST") {
+            next();
+        } else {
+            authorization(req, res, next);
+        }
+    }
+});
 
 //const basicRoutes = require("./routers/X.routes")
 const usuarioRoutes = require("./routers/usuario.routes")
@@ -90,6 +111,17 @@ app.use((req, res) => {
 })
 
 
-app.listen(port, () => {
-    console.log(`escuchando en puerto ${port}`);
-})
+
+const httpsOptions = {
+    cert: fs.readFileSync("certificadosSSL/mi_certificado.crt"),
+    key: fs.readFileSync("certificadosSSL/mi_certificado.key")
+}
+
+// createServer requiere dos parámetros: un objeto (con los certificados) y express
+https.createServer(httpsOptions, app).listen(port, () => {
+    console.log("Servidor HTTPS escuchando en puerto " + port);
+});
+
+// app.listen(port, () => {
+//     console.log(`escuchando en puerto ${port}`);
+// })
