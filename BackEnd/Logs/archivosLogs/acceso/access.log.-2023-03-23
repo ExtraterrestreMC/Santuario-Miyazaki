@@ -1,9 +1,0 @@
-[2023-03-23T23:17:26.684] [INFO] access - se ha accedido a Alex2 con el id 2 
-::ffff:127.0.0.1 - - [23/Mar/2023:22:17:26 +0000] "POST /api/v1/usuarios/autenticar HTTP/1.1" 200 215 "-" "insomnia/2023.1.0"
-[2023-03-23T23:34:06.119] [INFO] access - se ha accedido a Alex2 con el id 2 
-::ffff:127.0.0.1 - - [23/Mar/2023:22:34:06 +0000] "POST /api/v1/usuarios/autenticar HTTP/1.1" 200 215 "-" "insomnia/2023.1.0"
-[2023-03-23T23:56:42.000] [INFO] access - se ha accedido a Alex2 con el id 2 
-::ffff:127.0.0.1 - - [23/Mar/2023:22:56:42 +0000] "POST /api/v1/usuarios/autenticar HTTP/1.1" 200 215 "-" "insomnia/2023.1.0"
-[2023-03-23T23:58:49.426] [INFO] access - se ha accedido a Alex2 con el id 2 
-::ffff:127.0.0.1 - - [23/Mar/2023:22:58:49 +0000] "POST /api/v1/usuarios/autenticar HTTP/1.1" 200 215 "-" "insomnia/2023.1.0"
-::ffff:127.0.0.1 - - [23/Mar/2023:23:00:00 +0000] "POST /api/v1/usuarios/autenticar HTTP/1.1" 200 215 "-" "insomnia/2023.1.0"
