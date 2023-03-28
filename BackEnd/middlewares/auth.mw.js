@@ -4,18 +4,14 @@ let ID_Invitados = 3
 
 
 const RUTA_Admin = "/api/v1/usuarios"
-const RUTAS_Permitidas = ["/api/v1/menu", "/api/v1/menu/:id", "/api/v1/bonos"]
+const RUTAS_Permitidas = ["/api/v1/menu", "/api/v1/bonos"]
 
 //Middleware de autorización
 const authorization = async (req, res, next) => {
     console.log("----------------------------------------");
-    console.log(req.session);
-    console.log("----------------------------------------");
     console.log(req._parsedOriginalUrl.path);
     if (!req._parsedOriginalUrl.path.includes(RUTA_Admin)) {
         RUTAS_Permitidas.push(req._parsedOriginalUrl.path)
-    } else {
-        req._parsedOriginalUrl.path
     }
 
     if (req.session && req.session.usuario) {

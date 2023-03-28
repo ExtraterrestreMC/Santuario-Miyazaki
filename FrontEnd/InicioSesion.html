@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="assets/js/config.js"></script>
+    <script src="assets/js/usuarios/inicioSesion.js"></script>
+</head>
+
+<body>
+    <form id="login" action="/" method="post">
+        <div>
+            <strong><label for="Correo" >Dirección de correo electrónico:</label></strong>
+            <input type="email" id="Correo" name="Correo" placeholder="Introduce tu dirección de correo electrónico" required>
+        </div>
+        <div>
+            <strong><label for="Contraseña"">Contraseña:</label></strong>
+            <input type="password" id="Contraseña" name="Contraseña" placeholder="Introduce tu contraseña" required>
+        </div>
+        <button>Inicia sesión</button>
+    </form>
+    <p>¿No tienes una cuenta? <a href="./registro.html">¡Regístrate!</a></p>
+</body>
+
+</html>

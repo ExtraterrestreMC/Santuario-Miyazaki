@@ -40,12 +40,14 @@ exports.findById = utils.wrapAsync(async function (req, res, next) {
                     res.status(404).json(utils.noExiste("usuario")),
                         logger.warning.warn(utilsLogs.noExiste("usuario con id: " + id));
                 } else {
+                    delete usuario[0].Contraseña
                     res.status(200).json((usuario)),
                         logger.access.info(utilsLogs.accesoCorrecto(`usuario ${id}`))
                 }
             }
         })
     } catch (err) {
+        console.log(err);
         res.status(500).json((utils.baseDatosNoConectada())),
             logger.error.err(utilsLogs.baseDatosNoConectada());
     }
@@ -72,6 +74,7 @@ exports.findInicioSesion = async function (req, res, next) {
                             req.session.usuario = usuario;
                             //console.log(req.session.token);
                             logger.access.info(utilsLogs.accesoCorrecto(usuario[0]))
+                            delete usuario[0].Contraseña
                             res.status(200).json((usuario));
 
                         } else {
@@ -93,7 +96,7 @@ exports.findInicioSesion = async function (req, res, next) {
 
 exports.add_usuario = async function (req, res) {
     const newUser = new Usuario(req.body)
-    //console.log(newUser);
+    console.log(newUser);
     if (newUser.DNI && newUser.Nombre && newUser.Apellidos && newUser.Correo && newUser.Contraseña && newUser.id_perfiles) {
         newUser.Contraseña = await bcrypt.hash(newUser.Contraseña, 12)
         try {

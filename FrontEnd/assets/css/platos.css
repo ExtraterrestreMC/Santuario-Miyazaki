@@ -1,0 +1,7 @@
+#mainCarta {
+    display: flex;
+}
+
+.card {
+    margin: 0 5%;
+}
