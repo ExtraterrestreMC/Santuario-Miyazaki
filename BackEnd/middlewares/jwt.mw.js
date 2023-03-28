@@ -2,6 +2,7 @@ const jwt = require("jsonwebtoken");
 
 exports.claveJWT = "j9EjY#yQb^#NJdCR";
 
+const RUTAS_Permitidas = ["/api/v1/menu", "/api/v1/menu/:id", "/api/v1/bonos"]
 /**
  * Extrae el token de la sesión
  * @param {*} req 
@@ -37,7 +38,11 @@ exports.requireJWT = (req, res, next) => {
             }
         })
     } else {
-        res.status(401).json({ codError: 401, desc: "No existe el token. Debes autenticarte primero" })
+        if (req.method === "GET" && RUTAS_Permitidas.includes(req._parsedOriginalUrl.path)) {
+            next()
+        } else {
+            res.status(401).json({ codError: 401, desc: "No existe el token. Debes autenticarte primero" })
+        }
     }
 }
 

@@ -175,7 +175,7 @@ exports.delete_usuario = async function (req, res) {
         }
 
     } catch {
-        rres.status(500).json((utils.baseDatosNoConectada())),
+        res.status(500).json((utils.baseDatosNoConectada())),
             logger.error.err(utilsLogs.baseDatosNoConectada())
     }
 }

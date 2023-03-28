@@ -8,7 +8,7 @@ const platosSchema = new mongoose.Schema({
         required: true
     },
     precio: {
-        type: String,
+        type: Number,
         required: true
     },
     descripcion: {
@@ -41,6 +41,7 @@ Platos.get_plato_id = async function (id_plato) {
 
 Platos.add_plato = async function (plato) {
     const nuevoPlato = new Platos(plato)
+    //console.log(nuevoPlato);
     return nuevoPlato.save()
 }
 

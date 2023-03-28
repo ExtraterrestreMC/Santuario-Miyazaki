@@ -28,6 +28,9 @@ exports.creadoCorrectamente = (nombre, id) => {
     return (`se ha creado un nuevo ${nombre} con el id ${id}`);
 
 }
+exports.faltanDatosAcceso = (valor) => {
+    return (`no tienes permisos para ${valor}`)
+}
 
 //Función para registrar cuando editamos algun elemento de la página con exito
 

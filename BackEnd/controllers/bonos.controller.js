@@ -31,20 +31,21 @@ exports.find_bonos = utils.wrapAsync(async function (req, res, next) {
 
 exports.get_bono_id = utils.wrapAsync(async function (req, res, next) {
     let id = req.params.id;
-
+    console.log(id);
     try {
         await dbConn.conectar;
         try {
             await Bonos.get_bono_id(id)
-            then((bono) => {
-                if (bono === null) {
-                    logger.warning.warn(utilsLogs.noExiste("bono"));
-                    throw new NoExisteError(utils.noExiste("bono"));
-                } else {
-                    logger.access.info(utilsLogs.accesoCorrecto(`el bono: ${bono._id}`));
-                    res.status(200).json(bono)
-                }
-            })
+                .then((bono) => {
+                    console.log(bono);
+                    if (bono === null) {
+                        logger.warning.warn(utilsLogs.noExiste("bono"));
+                        throw new NoExisteError(utils.noExiste("bono"));
+                    } else {
+                        logger.access.info(utilsLogs.accesoCorrecto(`el bono: ${bono._id}`));
+                        res.status(200).json(bono)
+                    }
+                })
                 .catch((err) => {
                     /*res.status(406).json(utils.parametrosIncorrectos()*/
                     if (!(err instanceof NoExisteError)) {
@@ -55,13 +56,14 @@ exports.get_bono_id = utils.wrapAsync(async function (req, res, next) {
                     }
                 })
         } catch (err) {
-            //res.status(406).json(utils.parametrosIncorrectos());
-            if (!(err instanceof NoExisteError)) {
-                logger.error.error(utilsLogs.baseDatosNoConectada());
-                throw new ParametrosIncorrectosError(utils.parametrosIncorrectos())
-            } else {
-                throw err;
-            }
+            console.log(err);
+            res.status(406).json(err);
+            // if (!(err instanceof NoExisteError)) {
+            //     logger.error.error(utilsLogs.baseDatosNoConectada());
+            //     throw new ParametrosIncorrectosError(utils.parametrosIncorrectos())
+            // } else {
+            //     throw err;
+            // }
         }
     } catch (err) {
         //res.status(500).json(utils.baseDatosNoConectada());
@@ -84,13 +86,13 @@ exports.add_bono = utils.wrapAsync(async function (req, res, next) {
                 await Bonos.add_bono(bono)
                     .then((resultado) => {
                         res.status(201).json(utils.creadoCorrectamente('bono'));
-                        logger.access.info(utilsLogs.creadoCorrectamente("bono", result._id));
+                        logger.access.info(utilsLogs.creadoCorrectamente("bono", resultado._id));
                     }).cath((err) => {
                         res.status(406).json(utils.parametrosIncorrectos())
                         logger.warning.warn(utilsLogs.parametrosIncorrectos());;
                     })
             } catch (err) {
-                res.status(406).json(utils.parametrosIncorrectos());
+                //res.status(406).json(utils.parametrosIncorrectos());
                 logger.warning.warn(utilsLogs.parametrosIncorrectos());
             }
         } catch (err) {
@@ -118,14 +120,14 @@ exports.edit_bono = utils.wrapAsync(async function (req, res, next) {
                             logger.warning.warn(utilsLogs.noExiste("bono"));
                         } else {
                             res.status(200).json(utils.editadoCorrectamente("bono"))
-                            logger.access.info(utilsLogs.actualizadoCorrectamente("bono", result.value._id));
+                            logger.access.info(utilsLogs.actualizadoCorrectamente("bono", resultado.value._id));
                         }
                     }).cath((err) => {
                         res.status(406).json(utils.parametrosIncorrectos())
                         logger.warning.warn(utilsLogs.parametrosIncorrectos());
                     })
             } catch (err) {
-                res.status(406).json(utils.parametrosIncorrectos());
+                //res.status(406).json(utils.parametrosIncorrectos());
                 logger.warning.warn(utilsLogs.parametrosIncorrectos());
             }
         } catch (err) {

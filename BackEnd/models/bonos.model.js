@@ -8,7 +8,7 @@ const BonosSchema = new mongoose.Schema({
         required: true
     },
     precio: {
-        type: String,
+        type: Number,
         required: true
     },
     descripcion: {

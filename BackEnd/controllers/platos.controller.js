@@ -81,16 +81,29 @@ exports.add_plato = utils.wrapAsync(async function (req, res, next) {
             await dbConn.conectar;
             try {
                 await Platos.add_plato(plato)
-                    .then((resultado) => {
+                    .then((result) => {
+                        console.log(result);
                         res.status(201).json(utils.creadoCorrectamente('plato'));
                         logger.access.info(utilsLogs.creadoCorrectamente("plato", result._id));
+
+
                     }).cath((err) => {
+
+                        console.log("primer");
+                        console.log(err);
+
                         res.status(406).json(utils.parametrosIncorrectos())
                         logger.warning.warn(utilsLogs.parametrosIncorrectos());;
                     })
             } catch (err) {
-                res.status(406).json(utils.parametrosIncorrectos());
-                logger.warning.warn(utilsLogs.parametrosIncorrectos());
+                /**
+                 * TODO Corregir
+                 */
+                //console.log("segundo");
+                console.log(err);
+                //console.log(res);
+                //res.status(406).json(err);
+                //logger.warning.warn(utilsLogs.parametrosIncorrectos());
             }
         } catch (err) {
             res.status(500).json(utils.baseDatosNoConectada());
@@ -117,14 +130,14 @@ exports.edit_plato = utils.wrapAsync(async function (req, res, next) {
                             logger.warning.warn(utilsLogs.noExiste("plato"));
                         } else {
                             res.status(200).json(utils.editadoCorrectamente("plato"))
-                            logger.access.info(utilsLogs.actualizadoCorrectamente("plato", result.value._id));
+                            logger.access.info(utilsLogs.actualizadoCorrectamente("plato", resultado.value._id));
                         }
                     }).cath((err) => {
                         res.status(406).json(utils.parametrosIncorrectos())
                         logger.warning.warn(utilsLogs.parametrosIncorrectos());
                     })
             } catch (err) {
-                res.status(406).json(utils.parametrosIncorrectos());
+                //res.status(406).json(utils.parametrosIncorrectos());
                 logger.warning.warn(utilsLogs.parametrosIncorrectos());
             }
         } catch (err) {
