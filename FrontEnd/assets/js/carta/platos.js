@@ -22,10 +22,10 @@ async function recogerMenu() {
 
 function mostrarCarta(dato) {
     let mainCarta = document.getElementById("mainCarta")
-    let div = document.createElement("div")
-    div.className = "card"
-    div.id = dato._id
-    div.style.width = "25rem"
+    let card = document.createElement("div")
+    card.className = "card m-4"
+    card.id = dato._id
+    card.style.width = "20rem"
 
     let div_img = document.createElement("div")
     let img = document.createElement("img")
@@ -53,9 +53,9 @@ function mostrarCarta(dato) {
     div_text.appendChild(hr)
     div_text.appendChild(p_descripcion)
 
-    div.appendChild(div_img)
-    div.appendChild(div_text)
-    mainCarta.appendChild(div)
+    card.appendChild(div_img)
+    card.appendChild(div_text)
+    mainCarta.appendChild(card)
 
 
     // let precio = document.createElement("h4")

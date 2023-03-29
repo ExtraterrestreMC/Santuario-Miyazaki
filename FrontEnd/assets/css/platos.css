@@ -1,5 +1,12 @@
 #mainCarta {
     display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+#gallery {
+    background-color: #7e7e7e;
 }
 
 .card {
