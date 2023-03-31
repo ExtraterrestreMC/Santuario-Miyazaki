@@ -27,7 +27,8 @@ app.use(session(sessionOptions));
 const whitelist = ["http://127.0.0.1:5500", "http://127.0.0.1:5501", "http://127.0.0.1:5502", "http://127.0.0.1:5503", "http://127.0.0.1:5504", "http://127.0.0.1:5505", "http://127.0.0.1:5506"]
 const corsOptions = {
     origin: (origin, callback) => {
-        console.log(origin);
+        //console.log(origin);
+        //console.log(origin);
         if (whitelist.indexOf(origin) !== -1) {
             logger.access.info("Acceso a la back desde " + origin);
             callback(null, true);
@@ -36,6 +37,7 @@ const corsOptions = {
             callback(null, false);
         }
     },
+
     credentials: true
 }
 
@@ -51,13 +53,15 @@ const authorization = require("./middlewares/auth.mw");
 
 
 app.use((req, res, next) => {
-    // console.log("-------use1---------");
+    console.log("-------use1---------");
     // console.log(req.session.token);
     // console.log(req.url);
+    console.log(req.session);
     if (
 
         (req.url != "/api/v1/usuarios/autenticar" && req.url != "/api/v1/usuarios/autenticar/") &&
-        ((req.url != "/api/v1/usuarios" && req.url != "/api/v1/usuarios/"))
+        ((req.url != "/api/v1/usuarios" && req.url != "/api/v1/usuarios/")) &&
+        ((req.url != "/api/v1/cerrarSesion" && req.url != "/api/v1/cerrarSesion/"))
     ) {
         jwtMW.requireJWT(req, res, next)
     } else {
@@ -69,9 +73,12 @@ app.use((req, res, next) => {
     }
 });
 app.use((req, res, next) => {
+    console.log("----------use2-------------");
+    console.log(req.session);
     if (
         (req.url != "/api/v1/usuarios/autenticar" && req.url != "/api/v1/usuarios/autenticar/") &&
-        ((req.url != "/api/v1/usuarios" && req.url != "/api/v1/usuarios/"))
+        ((req.url != "/api/v1/usuarios" && req.url != "/api/v1/usuarios/")) &&
+        ((req.url != "/api/v1/cerrarSesion" && req.url != "/api/v1/cerrarSesion/"))
     ) {
         authorization(req, res, next)
     } else {

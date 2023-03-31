@@ -1,26 +1,26 @@
 'use strict'
-const url = url_base + "usuarios/autenticar";
+const url_inicioSesion = url_base + "usuarios/autenticar";
 
 window.addEventListener("load", () => {
-    const form = document.getElementById("login")
-    form.addEventListener("submit", (event) => {
+    const form_inicioSesion = document.getElementById("login")
+    form_inicioSesion.addEventListener("submit", (event) => {
         event.preventDefault()
-        let formData = new FormData(form)
+        let formData_incioSesion = new FormData(form_inicioSesion)
 
         let usuario = {
-            Correo: formData.get("Correo"),
-            Contraseña: formData.get("Contraseña"),
+            Correo: formData_incioSesion.get("Correo"),
+            Contraseña: formData_incioSesion.get("Contraseña"),
         }
-        findBy_correo_and_password(url, usuario)
+        inciarSesion(url_inicioSesion, usuario)
     })
 
 })
 
-async function findBy_correo_and_password(url, usuario) {
-    await axios.post(url, usuario, { withCredentials: true, mode: "cors" })
+async function inciarSesion(url_inicioSesion, usuario) {
+    await axios.post(url_inicioSesion, usuario, { withCredentials: true, mode: "cors" })
         .then(responseData => {
             sessionStorage.setItem('usuario', JSON.stringify(responseData.data[0]))
-            document.location.href = "./index.html"
+            document.location.href = "/FrontEnd/index.html"
         }).catch(err => alert(err.response.data.desc) /* console.log(err) */)
 
 }

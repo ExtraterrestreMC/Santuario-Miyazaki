@@ -2,15 +2,15 @@ const jwt = require("jsonwebtoken");
 
 exports.claveJWT = "j9EjY#yQb^#NJdCR";
 
-const RUTAS_Permitidas = ["/api/v1/menu", "/api/v1/menu/:id", "/api/v1/bonos"]
+const RUTAS_Permitidas = ["/api/v1/menu", "/api/v1/bonos"]
 /**
  * Extrae el token de la sesión
  * @param {*} req 
  * @returns 
  */
 exports.extractToken = (req) => {
-    // console.log("----extract---");
-    // console.log(req.session.token);
+    console.log("----JWT extract---");
+    console.log(req.session);
     if (req.session && req.session.token) {
         return req.session.token;
     }
@@ -25,8 +25,8 @@ exports.extractToken = (req) => {
  */
 exports.requireJWT = (req, res, next) => {
 
-    // console.log("------require----");
-    // console.log(req.session.token);
+    console.log("------JWT require----");
+    console.log(req.session);
     const token = this.extractToken(req);
 
     if (token) {
@@ -38,7 +38,8 @@ exports.requireJWT = (req, res, next) => {
             }
         })
     } else {
-        if (req.method === "GET" && RUTAS_Permitidas.includes(req._parsedOriginalUrl.path)) {
+        if ((req.method === "GET" && RUTAS_Permitidas.includes(req._parsedOriginalUrl.path)) ||
+            (req.method === "GET" && req._parsedOriginalUrl.path == "/api/v1/usuarios/cerrarSesion")) {
             next()
         } else {
             res.status(401).json({ codError: 401, desc: "No existe el token. Debes autenticarte primero" })
@@ -56,6 +57,6 @@ exports.createJWT = (req) => {
     })
 
     req.session.token = token;
-    // console.log("----Create---");
-    // console.log(req.session.token);
+    console.log("----JWT Create---");
+    console.log(req.session);
 }

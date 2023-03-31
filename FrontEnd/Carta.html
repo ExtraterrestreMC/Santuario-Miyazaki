@@ -11,7 +11,10 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="assets/js/config.js"></script>
     <script src="assets/js/carta/platos.js"></script>
+    <script src="assets/js/principal.js"></script>
+    <script src="assets/js/usuarios/cerrarSesion.js"></script>
     <link rel="stylesheet" href="assets/css/platos.css">
+    <link rel="stylesheet" href="assets/css/style.css">
 </head>
 
 <body>
@@ -38,11 +41,21 @@
                 </ul>
                 <ul class="navbar-nav">
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Registro/Inicio Sesion</a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="registro.html">Registro</a></li>
-                            <li><a class="dropdown-item" href="InicioSesion.html">Inicio Sesion</a></li>
-                        </ul>
+                        <div id="sinInciar">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Registro/Inicio Sesion</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="registro.html">Registro</a></li>
+                                <li><a class="dropdown-item" href="InicioSesion.html">Inicio Sesion</a></li>
+                            </ul>
+                        </div>
+                        <div id="Inciar">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" id="nombreUser"></a>
+                            <ul class="dropdown-menu" id="ul_Inciar">
+                                <li><a class="dropdown-item " href="registro.html ">Editar</a></li>
+                                <li><a class="dropdown-item " href="InicioSesion.html ">Borrar Cuenta</a></li>
+                                <li><a class="dropdown-item " href="#" onclick="cerrarSesion()">Cerrar Sesion</a></li>
+                            </ul>
+                        </div>
                     </li>
                 </ul>
             </div>

@@ -1,11 +1,11 @@
 'use strict'
-const url = url_base + "usuarios";
-
+const url_registro = url_base + "usuarios";
+const url_InicioSesion = url_base + "usuarios/autenticar";
 window.addEventListener("load", () => {
-    const form = document.getElementById("registro")
-    form.addEventListener("submit", (event) => {
+    const form_registro = document.getElementById("registro")
+    form_registro.addEventListener("submit", (event) => {
         event.preventDefault()
-        let formData = new FormData(form)
+        let formData = new FormData(form_registro)
         // if (!(erdni.test(formData.get("DNI")))) {
         //     alert("Error en el DNI")
         // } else {
@@ -18,17 +18,17 @@ window.addEventListener("load", () => {
             id_perfiles: 2
         }
         console.log(usuario);
-        addUser(url, usuario)
-        //}
+        addUser(url_registro, usuario)
+
+
     })
 })
 
-async function addUser(url, usuario) {
-    await axios.post(url, usuario, { withCredentials: true, mode: "cors" }).then(responseData => {
-        //alert(responseData.data.info + ". Por favor, inicia sesión a continuación")
-        console.log(responseData);
+async function addUser(url_registro, usuario) {
+    await axios.post(url_registro, usuario, { withCredentials: true, mode: "cors" }).then(async responseData => {
+        alert(responseData.data.info + ". Se dirigira al incio de sesion a continuación")
+        document.location.href = "/FrontEnd/InicioSesion.html"
     }).catch(err =>
-
         //alert(err.response.data.desc)
         console.log(err)
     )

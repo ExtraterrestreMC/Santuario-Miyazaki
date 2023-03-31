@@ -1,8 +1,5 @@
-const url = url_base + "bonos";
-
-
 window.addEventListener("load", () => {
-    let map = L.map('map').setView([38.6436863, -0.8732], 15)
+    let map = L.map('map').setView([38.6436863, -0.8732], 17)
 
     //Agregar tilelAyer mapa base desde openstreetmap
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -10,8 +7,8 @@ window.addEventListener("load", () => {
     }).addTo(map);
     var marker = L.marker([38.6436863, -0.8732]).addTo(map);
     var popup = L.popup()
-        .setLatLng([38.6442, -0.8732])
-        .setContent("Estamos aqui.")
+        .setLatLng([38.643799, -0.8732])
+        .setContent("Estamos aqui. Visitanos")
         .openOn(map)
         .addTo(map)
 })

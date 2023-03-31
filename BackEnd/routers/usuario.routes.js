@@ -20,18 +20,19 @@ const anyadirMorgan = require("../middlewares/morgan.mw")
 router.get("/", anyadirMorgan, userController.find_usuarios)
 
 /**
+ * Ruta la cual sirve para poder cerrar session  de un usuario
+ * Llamamos a los userController y a la función cerrarSesion_usuario
+ * Ej: //http://localhost:3000/api/v1/usuarios/cerrarSesion
+ */
+router.get("/cerrarSesion", anyadirMorgan, userController.cerrarSesion_usuario)
+
+/**
  * Ruta para recoger el usuario en espefico atraves de la id_usuario
  * Llamamos a los userController y a la funcion findById
  * Ej: //http://localhost:3000/api/v1/usuarios/1
  */
 router.get("/:id", anyadirMorgan, userController.findById)
 
-/**
- * Ruta la cual sirve para poder cerrar session  de un usuario
- * Llamamos a los userController y a la función logout_usuario
- * Ej: //http://localhost:3000/api/v1/usuarios/logout
- */
-//router.post("/logout".logout_usuario)
 
 /**
  * Ruta para recoger el usuario en espefico atraves del correo y la contraseña

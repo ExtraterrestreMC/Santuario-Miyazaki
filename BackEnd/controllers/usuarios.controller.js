@@ -94,6 +94,29 @@ exports.findInicioSesion = async function (req, res, next) {
     }
 }
 
+exports.cerrarSesion_usuario = function (req, res, next) {
+    console.log("Controler");
+    console.log(req.session);
+    const token = jwtMiddleware.extractToken(req);
+    //console.log(token)
+    if (token) {
+        jwt.sign(token, jwtMiddleware.claveJWT, { expiresIn: 1 }, (cerrarSesion, err) => {
+            if (cerrarSesion) {
+                if (req.session && req.session.token) {
+                    req.session.destroy()
+                    res.status(200).json(utils.borradoCorrectamente("token"));
+                }
+            } else {
+                res.status(500).json(utils.errInterno(err));
+            }
+        })
+    } else {
+        res.status(404).json(mensajes.noExiste("toasdasdadken"));
+    }
+}
+
+
+
 exports.add_usuario = async function (req, res) {
     const newUser = new Usuario(req.body)
     console.log(newUser);
