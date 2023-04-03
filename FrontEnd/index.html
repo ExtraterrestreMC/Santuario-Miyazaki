@@ -12,6 +12,8 @@
     <script src="assets/js/config.js"></script>
     <script src="assets/js/principal.js"></script>
     <script src="assets/js/usuarios/cerrarSesion.js"></script>
+    <script src="assets/js/usuarios/editarUsuario.js"></script>
+    <script src="assets/js/usuarios/borrarCuenta.js"></script>
     <link rel="stylesheet" href="assets/css/index.css">
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
@@ -51,9 +53,12 @@
                         <div id="Inciar">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" id="nombreUser"></a>
                             <ul class="dropdown-menu" id="ul_Inciar">
-                                <li><a class="dropdown-item" href="registro.html ">Editar</a></li>
-                                <li><a class="dropdown-item" href="InicioSesion.html ">Borrar Cuenta</a></li>
-                                <li><a class="dropdown-item" href="#" onclick="cerrarSesion()">Cerrar Sesion</a></li>
+                                <li class="nav-item px-2 mb-1">
+                                    <button class="btn btn-lg nav-link bg-dark w-100  " id="editarUser" data-bs-toggle="modal" data-bs-target="#update_usuario_modal">Editar</button>
+                                </li>
+                                <!-- <li><a class="dropdown-item" href="registro.html ">Editar</a></li> -->
+                                <li class="nav-item  px-2 mb-1"><button class="btn btn-lg nav-link bg-dark w-100" id="borrarCuenta" onclick="borrarCuenta()">Borrar Cuenta</button></li>
+                                <li class="nav-item  px-2 mb-1"><button class="btn btn-lg nav-link bg-dark w-100" id="cerrarSesion" onclick="cerrarSesion()">Cerrar Sesion</button></li>
                             </ul>
                         </div>
                     </li>
@@ -61,6 +66,56 @@
             </div>
         </div>
     </nav>
+    <!-- Modal: FORMULARIO PARA MODIFICAR Usuarios -->
+    <div class="modal fade" style="z-index:1200 !important" id="update_usuario_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Edita un usuario</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="update_usuario" method="POST" action="">
+                    <div class="modal-body">
+                        <div class="form-group mb-2">
+                            <strong><label for="nombre_user" class="mb-2">Nombre:</label></strong>
+                            <input type="text" class="form-control" id="nombre_user" name="nombre_user" placeholder="Introduce el contenido de la tarea" required></textarea>
+                        </div>
+                        <div class="form-group mb-2">
+                            <strong><label for="apellido_user" class="mb-2">Apellido:</label></strong>
+                            <input type="text" class="form-control" id="apellido_user" name="apellido_user" placeholder="Introduce el contenido de la tarea" required></textarea>
+                        </div>
+                        <div class="form-group mb-2">
+                            <strong><label for="correo_user" class="mb-2">Correo:</label></strong>
+                            <input type="email" class="form-control" id="correo_user" name="correo_user" placeholder="Introduce el contenido de la tarea" required></textarea>
+                        </div>
+                        <div class="form-group mb-2">
+                            <strong><label for="contraseña_user"
+                                class="mb-2">Contraseña:</label></strong>
+                            <input type="password" class="form-control" id="contraseña_user" name="contraseña_user" placeholder="Introduce el contenido de la tarea" required></textarea>
+                        </div>
+                        <div class="form-group mb-2">
+                            <strong><label for="DNI_user" class="mb-2">DNI:</label></strong>
+                            <input type="text" class="form-control" id="DNI_user" name="DNI_user" placeholder="Introduce el contenido de la tarea" required></textarea>
+                        </div>
+                        <div class="form-group mb-2">
+                            <strong><label for="id_profiles_user" class="mb-2">Perfil:</label></strong>
+                            <select class="form-control" id="id_profiles_user" name="id_profiles_user" disabled>
+                            <option value="1">Administrador</option>
+                            <option value="2">Usuario</option>
+                            <option value="3">Invitado</option>
+                        </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary text-white" id="cancelar" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary text-white" id="actualizar_usuario">Actualizar Usuario</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
 
     <!-- Carousel -->
     <div id="demo" class="carousel slide myCarusel" data-bs-ride="carousel">
