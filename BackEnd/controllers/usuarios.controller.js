@@ -1,8 +1,10 @@
 const Usuario = require("../models/usuarios.model")
 const utils = require("./utils")
-// const logger = require("../logs/logger")
-// const utilsLogs = require("./utilsLogs")
+const logger = require("../logs/logger")
+const utilsLogs = require("./utilsLogs")
 const bcrypt = require("bcrypt");
+const jwtMiddleware = require("../middlewares/jwt.mw")
+const jwt = require("jsonwebtoken");
 /**
  * Funciones para la gestion de controladores  
  */
@@ -11,34 +13,43 @@ exports.find_usuarios = async function (req, res) {
     try {
         await Usuario.findAll(function (err, usuarios) {
             if (err) {
-                console.log(err);
+                res.status(500).json((utils.errInterno(err))),
+                    logger.error.err(utilsLogs.errInterno(err));
             } else {
                 res.status(200).json(usuarios)
+                logger.access.info(utilsLogs.accesoCorrecto('Todos Usuarios'));
             }
         })
     } catch (err) {
-        console.log(err);
+        res.status(500).json((utils.baseDatosNoConectada())),
+            logger.error.err(utilsLogs.baseDatosNoConectada())
     }
 
 }
 
 exports.findById = utils.wrapAsync(async function (req, res, next) {
     const { id } = req.params
-    console.log(id);
+    //console.log(id);
     try {
         await Usuario.findById(id, function (err, usuario) {
             if (err) {
-                console.log("parametros no encontrado");
+                res.status(406).json(utils.parametrosIncorrectos()),
+                    logger.warning.warn(utilsLogs.parametrosIncorrectos())
             } else {
                 if (usuario == 0) {
-                    console.log("usuario no encontrado");
+                    res.status(404).json(utils.noExiste("usuario")),
+                        logger.warning.warn(utilsLogs.noExiste("usuario con id: " + id));
                 } else {
-                    res.status(200).json((usuario))
+                    delete usuario[0].Contraseña
+                    res.status(200).json((usuario)),
+                        logger.access.info(utilsLogs.accesoCorrecto(`usuario ${id}`))
                 }
             }
         })
     } catch (err) {
         console.log(err);
+        res.status(500).json((utils.baseDatosNoConectada())),
+            logger.error.err(utilsLogs.baseDatosNoConectada());
     }
 })
 
@@ -48,53 +59,92 @@ exports.findInicioSesion = async function (req, res, next) {
         try {
             await Usuario.findByemail(emailycontraseña.Correo, async function (err, usuario) {
                 if (err) {
-                    res.status(404).json(("El email no exite"))
+                    res.status(404).json((utils.noExiste("El email"))),
+                        logger.warning.warn(utilsLogs.noExiste("usuario con el correo: " + emailycontraseña.Correo + " y con la contraseña: " + emailycontraseña.Contraseña));
                 } else {
                     if (usuario == 0) {
-                        res.status(404).json("El usuario no exite")
+                        res.status(404).json(utils.noExiste("usuario")),
+                            logger.warning.warn(utilsLogs.noExiste("usuario"));
                     } else {
                         let val = bcrypt.compareSync(emailycontraseña.Contraseña, usuario[0].Contraseña)
                         if (val) {
-                            //jwtMiddleware.createJWT(req);
-                            //req.session.usuario = usuario;
+                            console.log(usuario);
+                            //console.log(req);
+                            jwtMiddleware.createJWT(req);
+                            req.session.usuario = usuario;
+                            //console.log(req.session.token);
+                            logger.access.info(utilsLogs.accesoCorrecto(usuario[0]))
+                            delete usuario[0].Contraseña
                             res.status(200).json((usuario));
+
                         } else {
-                            res.status(406).json("Paramentros incorrecto (contraseña)")
+                            res.status(406).json(utils.parametrosIncorrectos()),
+                                logger.warning.warn(utilsLogs.parametrosIncorrectos());
                         }
                     }
                 }
             })
         } catch {
-            res.status(406).json("Correo incorrecto")
+            res.status(406).json(utils.parametrosIncorrectos()),
+                logger.warning.warn(utilsLogs.parametrosIncorrectos());
         }
     } catch {
-        res.status(500).json("Base de datos no conectada")
+        res.status(500).json((utils.baseDatosNoConectada())),
+            logger.error.err(utilsLogs.baseDatosNoConectada());
     }
 }
 
+exports.cerrarSesion_usuario = function (req, res, next) {
+    console.log("Controler");
+    console.log(req.session);
+    const token = jwtMiddleware.extractToken(req);
+    //console.log(token)
+    if (token) {
+        jwt.sign(token, jwtMiddleware.claveJWT, { expiresIn: 1 }, (cerrarSesion, err) => {
+            if (cerrarSesion) {
+                if (req.session && req.session.token) {
+                    req.session.destroy()
+                    res.status(200).json(utils.borradoCorrectamente("token"));
+                }
+            } else {
+                res.status(500).json(utils.errInterno(err));
+            }
+        })
+    } else {
+        res.status(404).json(mensajes.noExiste("toasdasdadken"));
+    }
+}
+
+
+
 exports.add_usuario = async function (req, res) {
     const newUser = new Usuario(req.body)
-    //console.log(newUser);
+    console.log(newUser);
     if (newUser.DNI && newUser.Nombre && newUser.Apellidos && newUser.Correo && newUser.Contraseña && newUser.id_perfiles) {
         newUser.Contraseña = await bcrypt.hash(newUser.Contraseña, 12)
         try {
             try {
                 //console.log(newUser);
-                await Usuario.create(newUser, function (err, user) {
+                await Usuario.create(newUser, function (err, usuario) {
                     if (err) {
-                        res.status(406).json(("faltan datos"));
+                        res.status(406).json((utils.parametroDucplicado()));
+                        logger.warning.warn(utilsLogs.parametroDucplicado(newUser));
                     } else {
-                        res.status(200).json("Se a creado el usuario correctamente");
+                        res.status(200).json((utils.creadoCorrectamente("usuario")));
+                        logger.access.info(utilsLogs.creadoCorrectamente("usuario", usuario.id_usuario));
                     }
                 })
             } catch {
-                res.status(406).json("parametros no encontrados en la basededatos")
+                res.status(406).json(utils.parametrosIncorrectos()),
+                    logger.warning.warn(utilsLogs.parametrosIncorrectos());
             }
         } catch {
-            res.status(500).json(("base de datos no nectada"))
+            res.status(500).json((utils.baseDatosNoConectada())),
+                logger.error.err(utilsLogs.baseDatosNoConectada())
         }
     } else {
-        res.status(406).json("paramentros incorrectos")
+        res.status(406).json(utils.parametrosIncorrectos()),
+            logger.warning.warn(utilsLogs.parametrosIncorrectos())
     }
 }
 
@@ -108,21 +158,27 @@ exports.edit_usuario = async function (req, res) {
         try {
             try {
                 console.log(editUser);
-                await Usuario.update(id, editUser, function (err, user) {
+                await Usuario.update(id, editUser, function (err, usuario) {
                     if (err) {
-                        res.status(406).json("faltan datos")
+                        res.status(406).json((utils.missingDatos())),
+                            logger.warning.warn(utilsLogs.faltanDatos("al usuario"));;
                     } else {
-                        res.status(200).json("Usuario editado correcamente")
+                        res.status(200).json((utils.editadoCorrectamente("usuario"))),
+                            logger.access.info(utilsLogs.actualizadoCorrectamente("usuario", usuario
+                                .id_usuario));
                     }
                 })
             } catch {
-                res.status(406).json("parametros no encontrados en la basededatos")
+                res.status(406).json(utils.parametrosIncorrectos()),
+                    logger.warning.warn(utilsLogs.parametrosIncorrectos());
             }
         } catch {
-            res.status(500).json("base de datos no conectada")
+            res.status(500).json((utils.baseDatosNoConectada())),
+                logger.error.err(utilsLogs.baseDatosNoConectada())
         }
     } else {
-        res.status(406).json("faltan datos desde el cliente")
+        res.status(406).json(utils.parametrosIncorrectos())
+        logger.warning.warn(utilsLogs.parametrosIncorrectos());
     }
 }
 
@@ -130,18 +186,22 @@ exports.delete_usuario = async function (req, res) {
     const { id } = req.params
     try {
         try {
-            await Usuario.delete(id, function (err, user) {
+            await Usuario.delete(id, function (err, usuari) {
                 if (err) {
-                    res.status(404).json(("Usuario no encontrado"))
+                    res.status(404).json((utils.noExiste("usuario"))),
+                        logger.warning.warn(utilsLogs.noExiste("usuario"));;
                 } else {
-                    res.status(200).json(("USuario borrado correctamente"))
+                    res.status(200).json((utils.borradoCorrectamente("usuario"))),
+                        logger.warning.warn(utilsLogs.borradoCorrectamente("usuario", id));
                 }
             })
         } catch {
-            res.status(406).json("Faltan datos")
+            res.status(406).json(utils.parametrosIncorrectos()),
+                logger.warning.warn(utilsLogs.parametrosIncorrectos());
         }
 
     } catch {
-        res.status(500).json("Base de datos no conectada")
+        res.status(500).json((utils.baseDatosNoConectada())),
+            logger.error.err(utilsLogs.baseDatosNoConectada())
     }
 }

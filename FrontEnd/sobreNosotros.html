@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carta</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js" integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="assets/js/config.js"></script>
+    <script src="assets/js/sobrenosotros.js"></script>
+    <script src="assets/js/principal.js"></script>
+    <script src="assets/js/usuarios/cerrarSesion.js"></script>
+    <script src="assets/js/usuarios/editarUsuario.js"></script>
+    <script src="assets/js/usuarios/borrarCuenta.js"></script>
+    <link rel="stylesheet" href="assets/css/sobrenosotros.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
+
+    <!-- <script src="https://cdn.maptiler.com/maplibre-gl-js/v2.4.0/maplibre-gl.js"></script>
+    <link href="https://cdn.maptiler.com/maplibre-gl-js/v2.4.0/maplibre-gl.css" rel="stylesheet" /> -->
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="javascript:void(0)">Logo</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mynavbar">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+            <div class="collapse navbar-collapse" id="mynavbar">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="Carta.html">Carta</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="bonos.html">Bonos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="sobreNosotros.html">Sobre Nosotros</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <div id="sinInciar">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Registro/Inicio Sesion</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="registro.html">Registro</a></li>
+                                <li><a class="dropdown-item" href="InicioSesion.html">Inicio Sesion</a></li>
+                            </ul>
+                        </div>
+                        <div id="Inciar">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" id="nombreUser"></a>
+                            <ul class="dropdown-menu" id="ul_Inciar">
+                                <li class="nav-item px-2 mb-1">
+                                    <button class="btn btn-lg nav-link bg-dark w-100  " id="editarUser" data-bs-toggle="modal" data-bs-target="#update_usuario_modal">Editar</button>
+                                </li>
+                                <!-- <li><a class="dropdown-item" href="registro.html ">Editar</a></li> -->
+                                <li class="nav-item  px-2 mb-1"><button class="btn btn-lg nav-link bg-dark w-100" id="borrarCuenta" onclick="borrarCuenta()">Borrar Cuenta</button></li>
+                                <li class="nav-item  px-2 mb-1"><button class="btn btn-lg nav-link bg-dark w-100" id="cerrarSesion" onclick="cerrarSesion()">Cerrar Sesion</button></li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- Modal: FORMULARIO PARA MODIFICAR Usuarios -->
+    <div class="modal fade" style="z-index:1200 !important" id="update_usuario_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Edita un usuario</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="update_usuario" method="POST" action="">
+                    <div class="modal-body">
+                        <div class="form-group mb-2">
+                            <strong><label for="nombre_user" class="mb-2">Nombre:</label></strong>
+                            <input type="text" class="form-control" id="nombre_user" name="nombre_user" placeholder="Introduce el contenido de la tarea" required></textarea>
+                        </div>
+                        <div class="form-group mb-2">
+                            <strong><label for="apellido_user" class="mb-2">Apellido:</label></strong>
+                            <input type="text" class="form-control" id="apellido_user" name="apellido_user" placeholder="Introduce el contenido de la tarea" required></textarea>
+                        </div>
+                        <div class="form-group mb-2">
+                            <strong><label for="correo_user" class="mb-2">Correo:</label></strong>
+                            <input type="email" class="form-control" id="correo_user" name="correo_user" placeholder="Introduce el contenido de la tarea" required></textarea>
+                        </div>
+                        <div class="form-group mb-2">
+                            <strong><label for="contraseña_user"
+                                class="mb-2">Contraseña:</label></strong>
+                            <input type="password" class="form-control" id="contraseña_user" name="contraseña_user" placeholder="Introduce el contenido de la tarea" required></textarea>
+                        </div>
+                        <div class="form-group mb-2">
+                            <strong><label for="DNI_user" class="mb-2">DNI:</label></strong>
+                            <input type="text" class="form-control" id="DNI_user" name="DNI_user" placeholder="Introduce el contenido de la tarea" required></textarea>
+                        </div>
+                        <div class="form-group mb-2">
+                            <strong><label for="id_profiles_user" class="mb-2">Perfil:</label></strong>
+                            <select class="form-control" id="id_profiles_user" name="id_profiles_user" disabled>
+                            <option value="1">Administrador</option>
+                            <option value="2">Usuario</option>
+                            <option value="3">Invitado</option>
+                        </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary text-white" id="cancelar" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary text-white" id="actualizar_usuario">Actualizar Usuario</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="conocenos" class="mx-5">
+        <div id="map"></div>
+        <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
+
+        <section id="ContenidorForm" class="mb-4">
+            <h2 class="h1-responsive font-weight-bold text-center my-4">Contactanos</h2>
+            <p class="text-center w-responsive mx-auto mb-5">¿Tiene usted alguna pregunta? Por favor, no dude en contactarnos directamente. Nuestro equipo se comunicará contigo en cuestión de horas para ayudarte.</p>
+            <div class="row">
+                <div class="col-md-9 mb-md-0 mb-5">
+                    <form id="contact-form" name="contact-form" action="" method="POST">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="md-form mb-0">
+                                    <input type="text" id="name" name="name" class="form-control">
+                                    <label for="name" class="">Tu Nombre</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="md-form mb-0">
+                                    <input type="text" id="email" name="email" class="form-control">
+                                    <label for="email" class="">Tu correo</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="md-form mb-0">
+                                    <input type="text" id="subject" name="subject" class="form-control">
+                                    <label for="subject" class="">Motivo</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="md-form">
+                                    <textarea type="text" id="message" name="message" rows="2" class="form-control md-textarea"></textarea>
+                                    <label for="message">Escriba tu mensaje aqui</label>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                    <div class="text-center text-md-left">
+                        <a class="btn btn-primary" ">Enviar</a>
+                    </div>
+                    <div class="status "></div>
+                </div>
+
+                <div class="col-md-3 text-center ">
+                    <ul class="list-unstyled mb-0 ">
+                        <li><i class="fas fa-map-marker-alt fa-2x "></i>
+                            <p>IES Hermanos Amoros, Villena, CP 03400, ESP</p>
+                        </li>
+
+                        <li><i class="fas fa-phone mt-4 fa-2x "></i>
+                            <p>+ 34 965 82 30 80</p>
+                        </li>
+
+                        <li><i class="fas fa-envelope mt-4 fa-2x "></i>
+                            <p>santuarioMiyazaki@gmail.com</p>
+                        </li>
+                    </ul>
+                </div>
+                <!--Grid column-->
+
+            </div>
+
+        </section>
+        <!--Section: Contact v.2-->
+    </div>
+
+
+
+    <footer class="bg-dark text-center text-white ">
+        <!-- Grid container -->
+        <div class="container p-2 pb-0 ">
+            <!-- Section: Redes Sociales -->
+            <section class="mb-2 ">
+                <!-- Twitter -->
+                <a class="btn " href="https://twitter.com/SatunarioMiyazaki " role="button ">
+                    <i>
+                    <svg xmlns="http://www.w3.org/2000/svg " class="icon icon-tabler icon-tabler-brand-twitter " width="20 " height="20 " viewBox="0 0 24 24 " stroke-width="1.5 " stroke="#FFF " fill="none " stroke-linecap="round " stroke-linejoin="round ">
+                        <path stroke="none " d="M0 0h24v24H0z " fill="none "/>
+                        <path d="M22 4.01c-1 .49 -1.98 .689 -3 .99c-1.121 -1.265 -2.783 -1.335 -4.38 -.737s-2.643 2.06 -2.62 3.737v1c-3.245 .083 -6.135 -1.395 -8 -4c0 0 -4.182 7.433 4 11c-1.872 1.247 -3.739 2.088 -6 2c3.308 1.803 6.913 2.423 10.034
+                            1.517c3.58 -1.04 6.522 -3.723 7.651 -7.742a13.84 13.84 0 0 0 .497 -3.753c-.002 -.249 1.51 -2.772 1.818 -4.013z " />
+                    </svg>
+                </i>
+                </a>
+                <!-- Instagram -->
+                <a class="btn " href="https://www.instagram.com/santuarioMiyazaki/ " role="button ">
+                    <i>
+                    <svg xmlns="http://www.w3.org/2000/svg " class="icon icon-tabler icon-tabler-brand-instagram " width="20 " height="20 " viewBox="0 0 24 24 " stroke-width="1.5 " stroke="#ffffff " fill="none " stroke-linecap="round
+                            " stroke-linejoin="round ">
+                        <path stroke="none " d="M0 0h24v24H0z " fill="none "/>
+                        <rect x="4 " y="4 " width="16 " height="16 " rx="4 " />
+                        <circle cx="12 " cy="12 " r="3 " />
+                        <line x1="16.5 " y1="7.5 " x2="16.5 " y2="7.501 " />
+                    </svg>
+                </i>
+                </a>
+                <!-- Facebook -->
+                <a class="btn " href="https://www.facebook.com/santuarioMiyazaki " role="button ">
+                    <i>
+                    <svg xmlns="http://www.w3.org/2000/svg " class="icon icon-tabler icon-tabler-brand-facebook " width="20 " height="20 " viewBox="0 0 24 24 " stroke-width="1.5 " stroke="#ffffff " fill="none " stroke-linecap="round
+                            " stroke-linejoin="round ">
+                        <path stroke="none " d="M0 0h24v24H0z " fill="none "/>
+                        <path d="M7 10v4h3v7h4v-7h3l1 -4h-4v-2a1 1 0 0 1 1 -1h3v-4h-3a5 5 0 0 0 -5 5v2h-3 " />
+                    </svg>
+                </i>
+                </a>
+            </section>
+        </div>
+        <div class="text-center p-3 " style="background-color: rgba(0, 0, 0, 0.2); ">
+            © 2023 Copyright:
+            <a class="text-white " href="https://SatunarioMiyazaki.com/ ">Santuario Miyazaki</a>
+        </div>
+    </footer>
+    </div>
+
+</body>
+
+</html>

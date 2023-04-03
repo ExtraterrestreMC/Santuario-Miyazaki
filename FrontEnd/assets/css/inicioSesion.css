@@ -1,0 +1,11 @@
+:root:root {
+    --AltuSectionInicio: 75.7vh;
+}
+
+#sectionInicio {
+    min-height: var(--AltuSectionInicio);
+}
+
+.card {
+    height: var(--AltuSectionInicio);
+}

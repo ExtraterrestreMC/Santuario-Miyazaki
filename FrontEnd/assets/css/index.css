@@ -1,0 +1,19 @@
+:root {
+    --tmoCarusel: 81.2vh;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.imgCarusel {
+    max-height: var(--tmoCarusel);
+    object-fit: cover;
+}
+
+.videoCarusel {
+    height: var(--tmoCarusel);
+    object-fit: cover;
+}

@@ -2,7 +2,7 @@ const userController = require("../controllers/usuarios.controller")
 const express = require("express")
 const router = express.Router()
 var cors = require("cors");
-//const anyadirMorgan = require("../middleware/morgan.mw")
+const anyadirMorgan = require("../middlewares/morgan.mw")
 
 
 //  variable que se aplica en el cors para que acepte unicamente la ruta del frontend ("http://127.0.0.1:5000") 
@@ -17,35 +17,36 @@ var cors = require("cors");
  * Llamamos a los userController y a la funcion find_usuarios
  * Ej: //http://localhost:3000/api/v1/usuarios
  */
-router.get("/", userController.find_usuarios)
+router.get("/", anyadirMorgan, userController.find_usuarios)
+
+/**
+ * Ruta la cual sirve para poder cerrar session  de un usuario
+ * Llamamos a los userController y a la función cerrarSesion_usuario
+ * Ej: //http://localhost:3000/api/v1/usuarios/cerrarSesion
+ */
+router.get("/cerrarSesion", anyadirMorgan, userController.cerrarSesion_usuario)
 
 /**
  * Ruta para recoger el usuario en espefico atraves de la id_usuario
  * Llamamos a los userController y a la funcion findById
  * Ej: //http://localhost:3000/api/v1/usuarios/1
  */
-router.get("/:id", userController.findById)
+router.get("/:id", anyadirMorgan, userController.findById)
 
-/**
- * Ruta la cual sirve para poder cerrar session  de un usuario
- * Llamamos a los userController y a la función logout_usuario
- * Ej: //http://localhost:3000/api/v1/usuarios/logout
- */
-//router.post("/logout".logout_usuario)
 
 /**
  * Ruta para recoger el usuario en espefico atraves del correo y la contraseña
  * Llamamos a los userController y a la funcion findBy_correo_and_password
  * Ej: http://localhost:3000/api/v1/usuarios/autenticar {Se pasann los datos atras vez de json}
  */
-router.post("/autenticar", userController.findInicioSesion)
+router.post("/autenticar", anyadirMorgan, userController.findInicioSesion)
 
 /**
  * Ruta para crear el usuario
  * Llamamos a los userController y a la funcion add_usuario
  * Ej: http://localhost:3000/api/v1/usuarios {Usuario nuevo}
  */
-router.post("/", userController.add_usuario)
+router.post("/", anyadirMorgan, userController.add_usuario)
 
 /**
  * Ruta para editar el usuario y atra vez del id_usuario
@@ -53,14 +54,14 @@ router.post("/", userController.add_usuario)
  * Ej: http://localhost:3000/api/v1/usuarios/2 {id_usuario + Usuario editado}
  */
 //http://localhost:3000/api/v1/usuarios/2
-router.put("/:id", userController.edit_usuario)
+router.put("/:id", anyadirMorgan, userController.edit_usuario)
 
 /**
  * Ruta para elimnar el usuario atraves del id_usuario
  * Llamamos a los userController y a la funcion delete_usuario
  * Ej: http://localhost:3000/api/v1/usuarios/2
  */
-router.delete("/:id", userController.delete_usuario)
+router.delete("/:id", anyadirMorgan, userController.delete_usuario)
 
 
 /**
