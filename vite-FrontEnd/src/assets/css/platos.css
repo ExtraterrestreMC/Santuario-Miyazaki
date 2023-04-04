@@ -1,0 +1,20 @@
+:root {
+    --HeGalley: 88.6vh;
+}
+
+#mainCarta {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+#gallery {
+    min-height: var(--HeGalley);
+    background-color: #3f3f3f;
+}
+
+.card {
+    width: 20rem;
+    margin: 0 5%;
+}

@@ -1,0 +1,8 @@
+:root {
+    --HeGalley: 88.6vh;
+}
+
+#contedorInicio {
+    height: var(--HeGalley);
+    padding-top: 15px;
+}
