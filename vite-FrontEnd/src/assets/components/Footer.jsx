@@ -88,7 +88,7 @@ export const Footer = () => {
           </section>
         </div>
         <div className="text-center p-3 ">
-          © 2023 Copyright:
+          © 2023 Copyright:{" "}
           <a className="text-white " href="https://SatunarioMiyazaki.com/ ">
             Santuario Miyazaki
           </a>

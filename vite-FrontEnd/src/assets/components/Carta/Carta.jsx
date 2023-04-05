@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import VistaAdmin from "../Carta/VistaAdminAdd";
+import VistaAdmin from "./VistaAdminAddPlatos";
 import VistaAdminOptionsPlatos from "./VistaAdminOptionsPlatos";
 
 const URL = "https://localhost:3000/api/v1/menu";
@@ -31,7 +31,7 @@ export default class PlatosList extends React.Component {
           <div className="container pt-5">
             <section className="py-2">
               <VistaAdmin usuario></VistaAdmin>
-              <div id="mainCarta">
+              <div id="mainCarta" className="container pt-5">
                 {this.state.platos.map((plato) => (
                   <div className="card m-4" key={plato._id}>
                     <div className='bg-image hover-overlay ripple data-mdb-ripple-color="light"'>

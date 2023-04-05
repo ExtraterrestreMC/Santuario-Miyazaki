@@ -1,35 +1,33 @@
 import React, { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import axios from "axios";
-
 const usuario = JSON.parse(sessionStorage.getItem("usuario"));
-let edit_borrar = "https://localhost:3000/api/v1/menu/";
 
-const VistaAdminOptionsPlatos = (prop_plato) => {
-  //console.log(prop_plato.prop_plato);
+const Add_plato = "https://localhost:3000/api/v1/menu";
+
+const VistaAdmin = () => {
   const formRef = React.useRef();
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
-
-  function platoEditSubmit() {
+  function platoAddSubmit(evt) {
+    evt.preventDefault();
+    /*
+        1. Usamos FormData para obtener la información
+        2. FormData requiere la referencia del DOM,
+           gracias al REF API podemos pasar esa referencia
+        3. Finalmente obtenemos los datos serializados
+      */
     const formData = new FormData(formRef.current);
-    console.log(formData);
+    //console.log(formData);
     const plato = Object.fromEntries(formData);
-    console.log(plato);
-    let urlModficada = edit_borrar + `${prop_plato.prop_plato._id}`;
-    actulizarPlato(urlModficada, plato);
+    registrar(Add_plato, plato);
   }
 
-  async function actulizarPlato(urlModficada, plato) {
-    console.log(urlModficada);
+  async function registrar(Add_plato, plato) {
     await axios
-      .put(urlModficada, plato, {
-        "Content-Type": "application/json;charset=UTF-8",
-        withCredentials: true,
-        mode: "cors",
-      })
+      .post(Add_plato, plato, { withCredentials: true, mode: "cors" })
       .then(async (responseData) => {
-        console.log(responseData.data.info);
+        alert(responseData.data.info);
         location.reload();
       })
       .catch((err) =>
@@ -38,45 +36,32 @@ const VistaAdminOptionsPlatos = (prop_plato) => {
       );
   }
   const handleShow = () => setShow(true);
-
-  function eliminarPlato() {
-    if (
-      confirm(
-        "¿Estás seguro de que quieras borrar tu cuenta? \nTen encuenta que se perderan todos tus datos"
-      ) == true
-    ) {
-      let urlModficada = edit_borrar + `${prop_plato.prop_plato._id}`;
-      axios
-        .delete(urlModficada, { withCredentials: true, mode: "cors" })
-        .then((datosRespuesta) => {
-          alert(datosRespuesta.data.info);
-          location.reload();
-        })
-        .catch((err) => console.log(err));
-    }
-  }
-
-  function comprobarAdmin() {
+  function comrobarADMINAdd() {
+    //console.log("comprobando");
+    console.log(usuario);
     if (usuario != null) {
       if (usuario.id_perfiles == 1) {
         return (
           <div>
-            <hr />
-            <button
-              className=" btn btn-warning btn-rounded mx-4"
-              onClick={handleShow}
-            >
-              Editar
-            </button>
+            <div className="container">
+              <div className="col-md-12 text-center">
+                <button
+                  className="btn btn-success btn-rounded btn-lg"
+                  onClick={handleShow}
+                >
+                  Crear plato
+                </button>
+              </div>
+            </div>
             <Modal show={show} onHide={handleClose} animation={false}>
               <Modal.Header closeButton>
                 <Modal.Title>Añadir Plato</Modal.Title>
               </Modal.Header>
               <form
-                id="update_plato"
-                method="PUT"
+                id="add_plato"
+                method="POST"
                 action=""
-                onSubmit={platoEditSubmit}
+                onSubmit={platoAddSubmit}
                 ref={formRef}
               >
                 <div className="modal-body">
@@ -90,7 +75,6 @@ const VistaAdminOptionsPlatos = (prop_plato) => {
                       id="nombre"
                       name="nombre"
                       placeholder="Introduce el nombre del plato"
-                      defaultValue={prop_plato.prop_plato.nombre}
                       required
                     ></input>
                   </div>
@@ -104,7 +88,6 @@ const VistaAdminOptionsPlatos = (prop_plato) => {
                       id="precio"
                       name="precio"
                       placeholder="Introduce su precio"
-                      defaultValue={prop_plato.prop_plato.precio}
                       required
                     ></input>
                   </div>
@@ -118,7 +101,6 @@ const VistaAdminOptionsPlatos = (prop_plato) => {
                       id="descripcion"
                       name="descripcion"
                       placeholder="Introduce la descripcion"
-                      defaultValue={prop_plato.prop_plato.descripcion}
                       required
                     ></input>
                   </div>
@@ -134,7 +116,6 @@ const VistaAdminOptionsPlatos = (prop_plato) => {
                       id="imagen"
                       name="imagen"
                       placeholder="URL sin la extesion"
-                      defaultValue={prop_plato.prop_plato.imagen}
                       required
                     ></input>
                   </div>
@@ -171,19 +152,15 @@ const VistaAdminOptionsPlatos = (prop_plato) => {
                 </div>
               </form>
             </Modal>
-            <button
-              className="btn btn-danger btn-rounded text-black mx-5"
-              onClick={eliminarPlato}
-            >
-              Borrar
-            </button>
           </div>
         );
       }
+    } else {
+      return <></>;
     }
   }
 
-  return comprobarAdmin();
+  return comrobarADMINAdd();
 };
 
-export default VistaAdminOptionsPlatos;
+export default VistaAdmin;

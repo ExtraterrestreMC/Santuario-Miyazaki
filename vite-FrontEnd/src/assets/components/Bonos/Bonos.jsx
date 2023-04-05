@@ -1,5 +1,9 @@
 import React from "react";
 import axios from "axios";
+
+import VistaAdmin from "./VistaAdminAddBonos";
+import VistaAdminOptionsPlatos from "./VistaAdminOptionsBonos";
+
 const URL = "https://localhost:3000/api/v1/bonos";
 
 export default class BonosList extends React.Component {
@@ -26,17 +30,21 @@ export default class BonosList extends React.Component {
         <section id="gallery" className="pt-5">
           <div className="container pt-5">
             <section className="py-2">
+              <VistaAdmin usuario></VistaAdmin>
               <div id="mainBonos">
                 {this.state.bonos.map((bono) => (
-                  <div className="card m-4" key={bono._id}>
+                  <div className="card m-4 h-25" key={bono._id}>
+                    <h5 className="card-title font-weight-bold mx">
+                      {bono.nombre}
+                    </h5>
                     <div className="card-body">
-                      <h5 className="card-title font-weight-bold mx">
-                        {bono.nombre}
-                      </h5>
                       <p className="mb-2">• {bono.precio}€</p>
-                      <hr></hr>
                       <p>{bono.descripcion}</p>
                     </div>
+
+                    <VistaAdminOptionsPlatos
+                      prop_bono={bono}
+                    ></VistaAdminOptionsPlatos>
                   </div>
                 ))}
               </div>

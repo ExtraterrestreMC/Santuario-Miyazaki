@@ -5,6 +5,7 @@ import axios from "axios";
 const usuario = JSON.parse(sessionStorage.getItem("usuario"));
 const URL_cerrarSesion = "https://localhost:3000/api/v1/usuarios/cerrarSesion";
 let URL_delete = "https://localhost:3000/api/v1/usuarios/";
+
 const borrarCuenta = (e) => {
   e.preventDefault();
   if (
