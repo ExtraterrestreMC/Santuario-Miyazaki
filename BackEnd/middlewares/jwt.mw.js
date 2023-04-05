@@ -42,7 +42,10 @@ exports.requireJWT = (req, res, next) => {
             (req.method === "GET" && req._parsedOriginalUrl.path == "/api/v1/usuarios/cerrarSesion")) {
             next()
         } else {
+
             res.status(401).json({ codError: 401, desc: "No existe el token. Debes autenticarte primero" })
+
+
         }
     }
 }

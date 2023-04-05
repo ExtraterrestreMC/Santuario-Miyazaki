@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import axios from "axios";
+import { read } from "@popperjs/core";
 
 const usuario = JSON.parse(sessionStorage.getItem("usuario"));
 const URL_cerrarSesion = "https://localhost:3000/api/v1/usuarios/cerrarSesion";
-let URL_delete = "https://localhost:3000/api/v1/usuarios/";
+let edit_borrar = "https://localhost:3000/api/v1/usuarios/";
 
 const borrarCuenta = (e) => {
   e.preventDefault();
@@ -13,9 +14,9 @@ const borrarCuenta = (e) => {
       "¿Estás seguro de que quieras borrar tu cuenta? \nTen encuenta que se perderan todos tus datos"
     ) == true
   ) {
-    URL_delete += usuario.id_usuario;
+    let urlBorrar = edit_borrar + `${usuario.id_usuario}`;
     axios
-      .delete(URL_delete, { withCredentials: true, mode: "cors" })
+      .delete(urlBorrar, { withCredentials: true, mode: "cors" })
       .then((datosRespuesta) => {
         //console.log(datosRespuesta);
         sessionStorage.removeItem("usuario");
@@ -45,7 +46,7 @@ const cerrarSesion = (e) => {
 
 export const NavHeader = () => {
   //console.log(usuario);
-
+  const formRef = React.useRef();
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -98,7 +99,12 @@ export const NavHeader = () => {
             <Modal.Header closeButton>
               <Modal.Title>Edita un usuario</Modal.Title>
             </Modal.Header>
-            <form id="update_usuario" method="POST" action="">
+            <form
+              id="update_usuario"
+              method="PUT"
+              onSubmit={usuarioEditSubmit}
+              ref={formRef}
+            >
               <div className="modal-body">
                 <div className="form-group mb-2">
                   <strong>
@@ -108,7 +114,7 @@ export const NavHeader = () => {
                     type="text"
                     className="form-control"
                     id="nombre_user"
-                    name="nombre_user"
+                    name="Nombre"
                     placeholder="Introduce su nombre"
                     defaultValue={usuario.Nombre}
                     required
@@ -122,7 +128,7 @@ export const NavHeader = () => {
                     type="text"
                     className="form-control"
                     id="apellido_user"
-                    name="apellido_user"
+                    name="Apellidos"
                     placeholder="Introduce su apellido"
                     defaultValue={usuario.Apellidos}
                     required
@@ -136,7 +142,7 @@ export const NavHeader = () => {
                     type="email"
                     className="form-control"
                     id="correo_user"
-                    name="correo_user"
+                    name="Correo"
                     placeholder="Introduce su correo electronico"
                     defaultValue={usuario.Correo}
                     required
@@ -150,9 +156,9 @@ export const NavHeader = () => {
                     type="password"
                     className="form-control"
                     id="contraseña_user"
-                    name="contraseña_user"
+                    name="Contraseña"
                     placeholder="Introduce su contraseña"
-                    defaultValue="****************"
+                    defaultValue="*******"
                     required
                   ></input>
                 </div>
@@ -164,7 +170,7 @@ export const NavHeader = () => {
                     type="text"
                     className="form-control"
                     id="DNI_user"
-                    name="DNI_user"
+                    name="DNI"
                     placeholder="Introduce su DNI"
                     required
                     defaultValue={usuario.DNI}
@@ -219,6 +225,53 @@ export const NavHeader = () => {
       );
     }
   }
+
+  function comproAdmin() {
+    if (usuario) {
+      if (usuario.id_perfiles == 1) {
+        return (
+          <li className="nav-item">
+            <a className="nav-link" href="usuarios.html">
+              Usuarios
+            </a>
+          </li>
+        );
+      } else {
+        return null;
+      }
+    }
+  }
+  function usuarioEditSubmit() {
+    const formData = new FormData(formRef.current);
+    console.log(formData);
+    const usuarioForm = Object.fromEntries(formData);
+    if (usuarioForm.Contraseña == "*******") {
+      usuarioForm.Contraseña = usuario.Contraseña;
+    }
+    usuarioForm.id_perfiles = usuario.id_perfiles;
+
+    //console.log(usuario);
+    let urlModficada = edit_borrar + `${usuario.id_usuario}`;
+    actulizarusuario(urlModficada, usuarioForm);
+  }
+
+  async function actulizarusuario(urlModficada, usuario) {
+    console.log(urlModficada);
+    await axios
+      .put(urlModficada, usuario, {
+        "Content-Type": "application/json;charset=UTF-8",
+        withCredentials: true,
+        mode: "cors",
+      })
+      .then(async (responseData) => {
+        sessionStorage.setItem("usuario", JSON.stringify(usuario));
+      })
+      .catch((err) =>
+        //alert(err.response.data.desc)
+        console.log(err)
+      );
+  }
+
   return (
     <div>
       <nav className="navbar navbar-expand-sm navbar-dark bg-dark fixed-top">
@@ -256,6 +309,7 @@ export const NavHeader = () => {
                   Sobre Nosotros
                 </a>
               </li>
+              {comproAdmin()}
             </ul>
             <ul className="navbar-nav">
               <li className="nav-item dropdown">{comprobarInicioSession()}</li>

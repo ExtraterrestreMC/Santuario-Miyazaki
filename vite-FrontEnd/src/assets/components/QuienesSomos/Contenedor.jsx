@@ -6,9 +6,7 @@ export class Contenedor extends Component {
   render() {
     return (
       <div id="conocenos">
-        <div id="map" className="m-5">
-          <Mapa> </Mapa>
-        </div>
+        <Mapa> </Mapa>
 
         <FormularioContactanos></FormularioContactanos>
         <Informacion></Informacion>

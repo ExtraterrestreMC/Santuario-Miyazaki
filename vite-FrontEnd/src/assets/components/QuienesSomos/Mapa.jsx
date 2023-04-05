@@ -15,23 +15,25 @@ export class DeviceMap extends React.Component {
   render() {
     const position = [this.state.lat, this.state.lng];
     return (
-      <MapContainer
-        center={position}
-        zoom={this.state.zoom}
-        scrollWheelZoom={false}
-      >
-        <TileLayer
-          attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-          url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
-        />
-        <Marker position={position}>
-          <Popup>
-            <span>
-              A pretty CSS3 popup. <br /> Easily customizable.
-            </span>
-          </Popup>
-        </Marker>
-      </MapContainer>
+      <div id="map">
+        <MapContainer
+          center={position}
+          zoom={this.state.zoom}
+          scrollWheelZoom={false}
+        >
+          <TileLayer
+            attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+            url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
+          />
+          <Marker position={position}>
+            <Popup>
+              <span>
+                A pretty CSS3 popup. <br /> Easily customizable.
+              </span>
+            </Popup>
+          </Marker>
+        </MapContainer>
+      </div>
     );
   }
 }

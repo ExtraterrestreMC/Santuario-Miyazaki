@@ -19,8 +19,8 @@ const Registro = () => {
     registrar(URL, usuario);
   }
 
-  async function registrar(url_registro, usuario) {
-    await axios
+  function registrar(url_registro, usuario) {
+    axios
       .post(url_registro, usuario, { withCredentials: true, mode: "cors" })
       .then(async (responseData) => {
         alert(
