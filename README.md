@@ -99,7 +99,9 @@
 > ***NOTES***
 >#### Usuarios
 >const URL_Usuarios_Basica = "*https://IP_BACKEND*/api/v1/usuarios";
+>
 >const URL_InicioSesion = "*https://IP_BACKEND*/api/v1/usuarios/autenticar";
+>
 >const URL_CerrarSesion = "*https://IP_BACKEND*/api/v1/usuarios/cerrarSesion";
 >
 >#### Platos
