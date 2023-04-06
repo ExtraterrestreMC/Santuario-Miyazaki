@@ -1,0 +1,20 @@
+:root {
+    --HGalerry: 88.6vh;
+}
+
+#gallery {
+    min-height: var(--HGalerry);
+    background-color: #3f3f3f;
+}
+
+#mainBonos {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.card {
+    margin: 0 5%;
+    height: 15vh;
+}

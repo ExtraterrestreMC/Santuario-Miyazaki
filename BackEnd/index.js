@@ -24,7 +24,7 @@ const sessionOptions = {
 app.use(session(sessionOptions));
 
 //CORS
-const whitelist = ["http://127.0.0.1:5500", "http://127.0.0.1:5501", "http://127.0.0.1:5502", "http://127.0.0.1:5503", "http://127.0.0.1:5504", "http://127.0.0.1:5505", "http://127.0.0.1:5506"]
+const whitelist = ["http://localhost:5173", "http://127.0.0.1:5500", "http://127.0.0.1:5501", "http://127.0.0.1:5502", "http://127.0.0.1:5503", "http://127.0.0.1:5504", "http://127.0.0.1:5505", "http://127.0.0.1:5506"]
 const corsOptions = {
     origin: (origin, callback) => {
         //console.log(origin);

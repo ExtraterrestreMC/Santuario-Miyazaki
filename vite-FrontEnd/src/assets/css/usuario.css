@@ -1,0 +1,13 @@
+:root {
+    --MHusario: 89.7vh;
+    --MHnoAuth: 80vh
+}
+
+#adminContendor {
+    min-height: var(--MHusario);
+    padding: 5%;
+}
+
+#adminContendorNoUT {
+    min-height: var(--MHnoAuth);
+}

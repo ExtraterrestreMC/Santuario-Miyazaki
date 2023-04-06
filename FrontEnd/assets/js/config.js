@@ -1,1 +1,0 @@
-var url_base = "https://localhost:3000/api/v1/";
