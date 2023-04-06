@@ -3,7 +3,7 @@ import Modal from "react-bootstrap/Modal";
 import axios from "axios";
 const usuario = JSON.parse(sessionStorage.getItem("usuario"));
 
-const Add_plato = "https://localhost:3000/api/v1/menu";
+const URL_Platos_Basica = "https://localhost:3000/api/v1/menu";
 
 const VistaAdmin = () => {
   const formRef = React.useRef();
@@ -20,12 +20,12 @@ const VistaAdmin = () => {
     const formData = new FormData(formRef.current);
     //console.log(formData);
     const plato = Object.fromEntries(formData);
-    registrar(Add_plato, plato);
+    registrar(URL_Platos_Basica, plato);
   }
 
-  async function registrar(Add_plato, plato) {
+  async function registrar(URL_Platos_Basica, plato) {
     await axios
-      .post(Add_plato, plato, { withCredentials: true, mode: "cors" })
+      .post(URL_Platos_Basica, plato, { withCredentials: true, mode: "cors" })
       .then(async (responseData) => {
         alert(responseData.data.info);
         location.reload();
@@ -58,7 +58,7 @@ const VistaAdmin = () => {
                 <Modal.Title>Añadir Plato</Modal.Title>
               </Modal.Header>
               <form
-                id="add_plato"
+                id="URL_Platos_Basica"
                 method="POST"
                 action=""
                 onSubmit={platoAddSubmit}

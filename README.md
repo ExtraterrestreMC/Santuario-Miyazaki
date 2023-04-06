@@ -1,12 +1,16 @@
-# TFG
+# Trabajo Final Grado Superior
 
-Trabajo final de grado ciclo superior DAW
-
-Realizado por Alejandro Montero Cerdan
-Curso: 2 DAW
+## ***Santuario de Miyazli***
+>
+>
+> #### **Descripcion** ####
+>El proyecto que se realizará será la creación de un sitio web para una ciber-cafeteria gaming, donde se podrán dar de alta los usuarios y podrán ver la carta de los platos  y los bonos para ver el precio de lo que costaría las horas de uso de los ordenadores del local además de información del establecimiento.
+>
+>Realizado por: *Alejandro Montero Cerdan* 
+>
+> **Desarrollo Aplicaciones Web**
 
 ### Figma
-
     Enlace a figma:
     https://www.figma.com/file/2upejTr3AUhaT3ie5Hm6Jz/TFG?node-id=0%3A1&t=NwBo2qCJcyuBqzAy-1
 
@@ -38,7 +42,7 @@ Curso: 2 DAW
 
 ### Configuracion MySQL
 
->*Note* :
+>***NOTES*** :
 >
 > const { connect } = require("http2")
 > const mysql = require("mysql")
@@ -65,7 +69,7 @@ Curso: 2 DAW
 >
 
 ### Configuracion MONGODB
->***Notes*** : 
+>***NOTES*** : 
 >
 >const mongoose = require("mongoose"); //por instalar
 >
@@ -79,3 +83,23 @@ Curso: 2 DAW
 >}
 >
 >module.exports = dbConn
+
+### WHITELIST (Index backend)
+> ***NOTES***
+>
+>const whitelist = [" *IP_CLIENTE* " ]
+>
+>
+
+### URL Axios (archivos FrontEnd)
+> ***NOTES***
+>#### Usuarios
+>const URL_Usuarios_Basica = "*https://IP_BACKEND*/api/v1/usuarios";
+>const URL_InicioSesion = "*https://IP_BACKEND*/api/v1/usuarios/autenticar";
+>const URL_CerrarSesion = "*https://IP_BACKEND*/api/v1/usuarios/cerrarSesion";
+>
+>#### Platos
+>const URL_Platos_Basica = "*https://IP_BACKEND*/api/v1/menu";
+>
+>#### Bonos
+>const URL_Bonos_Basica = "*https://IP_BACKEND*/api/v1/bonos";

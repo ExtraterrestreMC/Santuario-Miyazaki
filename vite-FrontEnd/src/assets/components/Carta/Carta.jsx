@@ -3,7 +3,7 @@ import axios from "axios";
 import VistaAdmin from "./VistaAdminAddPlatos";
 import VistaAdminOptionsPlatos from "./VistaAdminOptionsPlatos";
 
-const URL = "https://localhost:3000/api/v1/menu";
+const URL_Platos_Basica = "https://localhost:3000/api/v1/menu";
 const usuario = JSON.parse(sessionStorage.getItem("usuario"));
 export default class PlatosList extends React.Component {
   state = {
@@ -12,7 +12,7 @@ export default class PlatosList extends React.Component {
   };
 
   componentDidMount() {
-    axios.get(URL).then((response) => {
+    axios.get(URL_Platos_Basica).then((response) => {
       //console.log(response);
       let platos = response.data;
       platos.map((plato) => {

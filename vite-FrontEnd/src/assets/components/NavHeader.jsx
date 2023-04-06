@@ -5,7 +5,7 @@ import { read } from "@popperjs/core";
 
 const usuario = JSON.parse(sessionStorage.getItem("usuario"));
 const URL_cerrarSesion = "https://localhost:3000/api/v1/usuarios/cerrarSesion";
-let edit_borrar = "https://localhost:3000/api/v1/usuarios/";
+const URL_Usuarios_Basica = "https://localhost:3000/api/v1/usuarios";
 
 const borrarCuenta = (e) => {
   e.preventDefault();
@@ -14,7 +14,7 @@ const borrarCuenta = (e) => {
       "¿Estás seguro de que quieras borrar tu cuenta? \nTen encuenta que se perderan todos tus datos"
     ) == true
   ) {
-    let urlBorrar = edit_borrar + `${usuario.id_usuario}`;
+    let urlBorrar = URL_Usuarios_Basica + `${usuario.id_usuario}`;
     axios
       .delete(urlBorrar, { withCredentials: true, mode: "cors" })
       .then((datosRespuesta) => {
@@ -251,7 +251,7 @@ export const NavHeader = () => {
     usuarioForm.id_perfiles = usuario.id_perfiles;
 
     //console.log(usuario);
-    let urlModficada = edit_borrar + `${usuario.id_usuario}`;
+    let urlModficada = URL_Usuarios_Basica + `${usuario.id_usuario}`;
     actulizarusuario(urlModficada, usuarioForm);
   }
 
