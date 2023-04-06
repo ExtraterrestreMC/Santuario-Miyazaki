@@ -1,6 +1,6 @@
 import React from "react";
 import axios from "axios";
-const URL = "https://localhost:3000/api/v1/usuarios";
+const URL_Creacion = "https://localhost:3000/api/v1/usuarios";
 
 const Registro = () => {
   const formRef = React.useRef();
@@ -16,7 +16,7 @@ const Registro = () => {
     const formData = new FormData(formRef.current);
     console.log(formData);
     const usuario = Object.fromEntries(formData);
-    registrar(URL, usuario);
+    registrar(URL_Creacion, usuario);
   }
 
   function registrar(url_registro, usuario) {

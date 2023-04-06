@@ -2,7 +2,7 @@ import React from "react";
 import axios from "axios";
 import VistaAdminOptionsusuarios from "./VistaAdminOptionsUsuario";
 const usuario = JSON.parse(sessionStorage.getItem("usuario"));
-const UrlUsarios = "https://localhost:3000/api/v1/usuarios";
+const URL_Usuarios_Basica = "https://localhost:3000/api/v1/usuarios";
 
 export default class AdminUser extends React.Component {
   state = {
@@ -11,7 +11,7 @@ export default class AdminUser extends React.Component {
 
   componentDidMount() {
     axios
-      .get(UrlUsarios, {
+      .get(URL_Usuarios_Basica, {
         "Content-Type": "application/json;charset=UTF-8",
         withCredentials: true,
         mode: "cors",
