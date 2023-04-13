@@ -62,12 +62,21 @@ const VistaAdminOptionsbonos = (prop_bono) => {
         return (
           <div className="mb-3">
             <hr />
-            <button
-              className=" btn btn-warning btn-rounded mx-4"
-              onClick={handleShow}
-            >
-              Editar
-            </button>
+            <div className="d-flex justify-content-around">
+              <button
+                className="btn btn-warning btn-rounded w-25"
+                onClick={handleShow}
+              >
+                Editar
+              </button>
+              <button
+                className="btn btn-danger btn-rounded text-black w-25"
+                onClick={eliminarbono}
+              >
+                Borrar
+              </button>
+            </div>
+
             <Modal show={show} onHide={handleClose} animation={false}>
               <Modal.Header closeButton>
                 <Modal.Title>Añadir bono</Modal.Title>
@@ -142,12 +151,6 @@ const VistaAdminOptionsbonos = (prop_bono) => {
                 </div>
               </form>
             </Modal>
-            <button
-              className="btn btn-danger btn-rounded text-black mx-4"
-              onClick={eliminarbono}
-            >
-              Borrar
-            </button>
           </div>
         );
       }

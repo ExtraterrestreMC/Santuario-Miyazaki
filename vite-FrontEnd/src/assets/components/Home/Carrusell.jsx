@@ -10,8 +10,11 @@ export const Carousell = () => {
         src="pexels-ron-lach-7849510.jpg"
         alt="..."
       >
-        <h5>First slide label</h5>
-        <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+        <div className="textoCarrusel">
+          <h5>Te estamos esperando</h5>
+          <p>Nuestros servicios son los mejores y el ambiente agradable.</p>
+          <hr />
+        </div>
       </MDBCarouselItem>
 
       <MDBCarouselItem
@@ -20,8 +23,11 @@ export const Carousell = () => {
         src="pexels-yan-krukau-9072379.jpg"
         alt="..."
       >
-        <h5>Second slide label</h5>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        <div className="textoCarrusel">
+          <h5>Ordenador de ultima generación</h5>
+          <p>Con lo cuales podras jugar a alta calidad y alta velocidad.</p>
+          <hr />
+        </div>
       </MDBCarouselItem>
 
       <MDBCarouselItem
@@ -31,8 +37,13 @@ export const Carousell = () => {
         src="pexels-rodnae-productions-7914786.mp4"
         alt="..."
       >
-        <h5>Third slide label</h5>
-        <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
+        <div className="textoCarrusel">
+          <h5>Crea y aumento tu amistades</h5>
+          <p>
+            Ademas de poder crear tu equipo con amigo o con usuarios de aqui.
+          </p>
+          <hr />
+        </div>
       </MDBCarouselItem>
     </MDBCarousel>
   );

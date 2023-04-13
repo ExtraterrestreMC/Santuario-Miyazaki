@@ -1,0 +1,70 @@
+#conocenos {
+    display: flex;
+    align-items: center;
+    align-content: center;
+    height: $HConocenos;
+    margin: 30px 100px 0;
+}
+
+#map {
+    position: relative;
+    top: 25vh;
+}
+
+#map>div {
+    position: static !important;
+}
+
+#ContenidorForm {
+    margin: 5%;
+}
+
+#btnContacanos {
+    width: 25vw;
+}
+
+#textoInformacion {
+    z-index: 1;
+    margin: 10%;
+    position: relative;
+}
+
+.infomracion {
+    height: 200px;
+    width: 300px;
+    position: relative;
+    display: grid;
+    place-items: center;
+    background-color: transparent;
+    overflow: hidden;
+    border-radius: 10px;
+}
+
+.infomracion::before {
+    content: '';
+    width: 120px;
+    height: 450px;
+    left: 60px;
+    top: -120px;
+    background: linear-gradient($ColorInformacionBorde);
+    position: absolute;
+    animation: animate 5s linear infinite;
+}
+
+.infomracion::after {
+    content: '';
+    position: absolute;
+    background: #3f3f3f;
+    inset: 5px;
+    border-radius: 5px;
+}
+
+@keyframes animate {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}

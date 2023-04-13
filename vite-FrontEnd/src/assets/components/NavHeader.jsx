@@ -276,9 +276,12 @@ export const NavHeader = () => {
     <div>
       <nav className="navbar navbar-expand-sm navbar-dark bg-dark fixed-top">
         <div className="container-fluid">
-          <a className="navbar-brand" href="#">
-            Logo
-          </a>
+          <img
+            src="logo_transparent_blanco.png"
+            alt="imagen logo transparente"
+            className="navbar-brand"
+            id="logoTransparente"
+          />
           <button
             className="navbar-toggler"
             type="button"

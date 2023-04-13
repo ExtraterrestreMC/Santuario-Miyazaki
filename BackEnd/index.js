@@ -24,7 +24,7 @@ const sessionOptions = {
 app.use(session(sessionOptions));
 
 //CORS
-const whitelist = ["http://localhost:5173", "http://127.0.0.1:5500", "http://127.0.0.1:5501", "http://127.0.0.1:5502", "http://127.0.0.1:5503", "http://127.0.0.1:5504", "http://127.0.0.1:5505", "http://127.0.0.1:5506"]
+const whitelist = ["http://localhost:5173", "https://localhost:5173", "http://127.0.0.1:5500", "http://127.0.0.1:5501", "http://127.0.0.1:5502"]
 const corsOptions = {
     origin: (origin, callback) => {
         //console.log(origin);
@@ -121,8 +121,8 @@ app.use((req, res) => {
 
 
 const httpsOptions = {
-    cert: fs.readFileSync("certificadosSSL/mi_certificado.crt"),
-    key: fs.readFileSync("certificadosSSL/mi_certificado.key")
+    cert: fs.readFileSync("certificadosSSL/www.SatuarioMiyazaki.com+2.crt"),
+    key: fs.readFileSync("certificadosSSL/www.SatuarioMiyazaki.com+2-key.key")
 }
 
 // createServer requiere dos parámetros: un objeto (con los certificados) y express

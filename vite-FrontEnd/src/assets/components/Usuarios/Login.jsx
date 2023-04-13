@@ -29,7 +29,7 @@ const Login = () => {
   }
 
   return (
-    <div id="contedorInicio" className="p-5">
+    <div id="contedorInicioLogin" className="p-5">
       <section>
         <div className="container pt-5">
           <div className="row">

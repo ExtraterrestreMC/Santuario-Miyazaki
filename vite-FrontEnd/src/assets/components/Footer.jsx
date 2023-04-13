@@ -11,21 +11,21 @@ export const Footer = () => {
             {/* <!-- Twitter --> */}
             <a
               className="btn "
-              href="https://twitter.com/SatunarioMiyazaki "
+              href="https://twitter.com/SatunarioMiyazaki"
               role="button "
             >
               <i>
                 <svg
-                  xmlns="http://www.w3.org/2000/svg "
-                  className="icon icon-tabler icon-tabler-brand-twitter "
-                  width="20 "
-                  height="20 "
-                  viewBox="0 0 24 24 "
-                  strokeWidth="1.5 "
-                  stroke="#FFF "
-                  fill="none "
-                  strokeLinecap="round "
-                  strokeLinejoin="round "
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="icon icon-tabler icon-tabler-brand-twitter"
+                  width="30"
+                  height="30"
+                  viewBox="0 0 24 24"
+                  strokeWidth="1.5"
+                  stroke="#FFF"
+                  fill="none"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                 >
                   <path stroke="none " d="M0 0h24v24H0z " fill="none " />
                   <path
@@ -45,8 +45,8 @@ export const Footer = () => {
                 <svg
                   xmlns="http://www.w3.org/2000/svg "
                   className="icon icon-tabler icon-tabler-brand-instagram "
-                  width="20 "
-                  height="20 "
+                  width="30"
+                  height="30"
                   viewBox="0 0 24 24 "
                   strokeWidth="1.5 "
                   stroke="#ffffff "
@@ -71,8 +71,8 @@ export const Footer = () => {
                 <svg
                   xmlns="http://www.w3.org/2000/svg "
                   className="icon icon-tabler icon-tabler-brand-facebook "
-                  width="20 "
-                  height="20 "
+                  width="30"
+                  height="30"
                   viewBox="0 0 24 24 "
                   strokeWidth="1.5 "
                   stroke="#ffffff "

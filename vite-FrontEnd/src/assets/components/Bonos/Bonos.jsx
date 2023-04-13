@@ -27,24 +27,26 @@ export default class BonosList extends React.Component {
   render() {
     return (
       <div>
-        <section id="gallery" className="pt-5">
+        <section id="galleryBonos" className="pt-5">
           <div className="container pt-5">
             <section className="py-2">
               <VistaAdmin usuario></VistaAdmin>
-              <div id="mainBonos">
+              <div id="mainBonos" className="container pt-5">
                 {this.state.bonos.map((bono) => (
-                  <div className="card m-4 h-25" key={bono._id}>
-                    <h5 className="card-title font-weight-bold mx">
-                      {bono.nombre}
-                    </h5>
-                    <div className="card-body">
-                      <p className="mb-2">• {bono.precio}€</p>
-                      <p>{bono.descripcion}</p>
-                    </div>
+                  <div className="card_Bonos m-4" key={bono._id}>
+                    <div className="carta_Bono">
+                      <h5 className="card-title font-weight-bold px-5 py-4">
+                        {bono.nombre}
+                      </h5>
+                      <div className="card-body px-5 py-4">
+                        <p className="mb-2">• {bono.precio}€</p>
+                        <p>{bono.descripcion}</p>
+                      </div>
 
-                    <VistaAdminOptionsPlatos
-                      prop_bono={bono}
-                    ></VistaAdminOptionsPlatos>
+                      <VistaAdminOptionsPlatos
+                        prop_bono={bono}
+                      ></VistaAdminOptionsPlatos>
+                    </div>
                   </div>
                 ))}
               </div>

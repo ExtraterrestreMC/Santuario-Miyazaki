@@ -24,7 +24,7 @@ export const FormularioContactanos = () => {
   };
 
   return (
-    <section id="ContenidorForm" className="mb-4 text-white">
+    <section id="ContenidorForm" className="mb-2 text-white">
       <h2 className="h1-responsive font-weight-bold text-center my-4">
         Contactanos
       </h2>
@@ -65,33 +65,17 @@ export const FormularioContactanos = () => {
                 />
               </div>
             </div>
-            <div className="text-center text-md-left">
-              <input type="submit" value="Send" className="btn btn-primary" />
+            <div className="text-center text-md-left mt-5">
+              <input
+                type="submit"
+                value="Enviar"
+                className="btn btn-primary"
+                id="btnContacanos"
+              />
             </div>
           </div>
         </form>
       </div>
-      {/* <div className="row">
-        <div className="col-md-3 text-center">
-          <ul className="list-unstyled mb-0">
-            <li>
-              <i className="fas fa-map-marker-alt fa-2x"></i>
-              <p>IES Hermanos Amoros, Villena, CP 03400, ESP</p>
-            </li>
-
-            <li>
-              <i className="fas fa-phone mt-4 fa-2x"></i>
-              <p>+ 34 965 82 30 80</p>
-            </li>
-
-            <li>
-              <i className="fas fa-envelope mt-4 fa-2x"></i>
-              <p>santuarioMiyazaki@gmail.com</p>
-            </li>
-          </ul>
-        </div>
-      </div> */}
-      {/* <!--Grid column--> */}
     </section>
   );
 };

@@ -60,14 +60,23 @@ const VistaAdminOptionsPlatos = (prop_plato) => {
     if (usuario != null) {
       if (usuario.id_perfiles == 1) {
         return (
-          <div>
+          <div className="mb-3">
             <hr />
-            <button
-              className=" btn btn-warning btn-rounded mx-4"
-              onClick={handleShow}
-            >
-              Editar
-            </button>
+            <div className="d-flex justify-content-around">
+              <button
+                className="btn btn-warning btn-rounded w-25"
+                onClick={handleShow}
+              >
+                Editar
+              </button>
+
+              <button
+                className="btn btn-danger btn-rounded text-black w-25"
+                onClick={eliminarPlato}
+              >
+                Borrar
+              </button>
+            </div>
             <Modal show={show} onHide={handleClose} animation={false}>
               <Modal.Header closeButton>
                 <Modal.Title>Añadir Plato</Modal.Title>
@@ -171,12 +180,6 @@ const VistaAdminOptionsPlatos = (prop_plato) => {
                 </div>
               </form>
             </Modal>
-            <button
-              className="btn btn-danger btn-rounded text-black mx-5"
-              onClick={eliminarPlato}
-            >
-              Borrar
-            </button>
           </div>
         );
       }

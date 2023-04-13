@@ -2,8 +2,8 @@ import React from "react";
 
 export const Informacion = () => {
   return (
-    <div className="">
-      <div className=" text-center text-white">
+    <div className="infomracion">
+      <div className=" text-center text-white" id="textoInformacion">
         <ul className="list-unstyled mb-0">
           <li>
             <i className="fas fa-map-marker-alt fa-2x"></i>

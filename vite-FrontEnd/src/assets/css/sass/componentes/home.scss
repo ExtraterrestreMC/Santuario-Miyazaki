@@ -1,0 +1,25 @@
+.imgCarusel {
+    max-height: $HGalerryCarruselIMG;
+    object-fit: cover;
+}
+
+.videoCarusel {
+    height: $HGalerryCarruselVideo;
+    object-fit: cover;
+}
+
+.textoCarrusel {
+    margin: 0 auto;
+    max-width: 30vw;
+    padding: 1%;
+    background-color: rgba(0, 0, 0, 0.411);
+    border-radius: 15px;
+}
+
+.textoCarrusel h5 {
+    text-decoration: overline;
+}
+
+.textoCarrusel hr {
+    color: white;
+}
