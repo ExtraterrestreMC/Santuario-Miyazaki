@@ -1,6 +1,6 @@
 import React from "react";
 import axios from "axios";
-const URL = "https://localhost:3000/api/v1/usuarios/autenticar";
+const URL_InicioSesion = "https://localhost:3000/api/v1/usuarios/autenticar";
 
 const Login = () => {
   const formRef = React.useRef();
@@ -16,7 +16,7 @@ const Login = () => {
     const formData = new FormData(formRef.current);
     console.log(formData);
     const usuario = Object.fromEntries(formData);
-    inciarSesion(URL, usuario);
+    inciarSesion(URL_InicioSesion, usuario);
   }
   async function inciarSesion(url_inicioSesion, usuario) {
     await axios

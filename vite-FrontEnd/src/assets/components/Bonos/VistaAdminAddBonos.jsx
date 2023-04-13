@@ -3,7 +3,7 @@ import Modal from "react-bootstrap/Modal";
 import axios from "axios";
 const usuario = JSON.parse(sessionStorage.getItem("usuario"));
 
-const Add_bono = "https://localhost:3000/api/v1/bonos";
+const URL_Bonos_Basica = "https://localhost:3000/api/v1/bonos";
 
 const VistaAdmin = () => {
   const formRef = React.useRef();
@@ -20,12 +20,12 @@ const VistaAdmin = () => {
     const formData = new FormData(formRef.current);
     //console.log(formData);
     const bono = Object.fromEntries(formData);
-    registrar(Add_bono, bono);
+    registrar(URL_Bonos_Basica, bono);
   }
 
-  async function registrar(Add_bono, bono) {
+  async function registrar(URL_Bonos_Basica, bono) {
     await axios
-      .post(Add_bono, bono, { withCredentials: true, mode: "cors" })
+      .post(URL_Bonos_Basica, bono, { withCredentials: true, mode: "cors" })
       .then(async (responseData) => {
         alert(responseData.data.info);
         location.reload();
@@ -58,7 +58,7 @@ const VistaAdmin = () => {
                 <Modal.Title>Añadir bono</Modal.Title>
               </Modal.Header>
               <form
-                id="add_bono"
+                id="URL_Bonos_Basica"
                 method="POST"
                 action=""
                 onSubmit={bonoAddSubmit}

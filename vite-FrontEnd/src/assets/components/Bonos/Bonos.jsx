@@ -4,7 +4,7 @@ import axios from "axios";
 import VistaAdmin from "./VistaAdminAddBonos";
 import VistaAdminOptionsPlatos from "./VistaAdminOptionsBonos";
 
-const URL = "https://localhost:3000/api/v1/bonos";
+const URL_Bonos_Basica = "https://localhost:3000/api/v1/bonos";
 
 export default class BonosList extends React.Component {
   state = {
@@ -12,7 +12,7 @@ export default class BonosList extends React.Component {
   };
 
   componentDidMount() {
-    axios.get(URL).then((response) => {
+    axios.get(URL_Bonos_Basica).then((response) => {
       //console.log(response);
       let bonos = response.data;
       //   bonos.map((bono) => {

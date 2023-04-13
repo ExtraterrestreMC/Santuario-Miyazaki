@@ -3,7 +3,7 @@ import Modal from "react-bootstrap/Modal";
 import axios from "axios";
 
 const usuario = JSON.parse(sessionStorage.getItem("usuario"));
-let edit_borrar = "https://localhost:3000/api/v1/bonos/";
+const URL_Bonos_Basica = "https://localhost:3000/api/v1/bonos";
 
 const VistaAdminOptionsbonos = (prop_bono) => {
   //console.log(prop_bono.prop_bono);
@@ -16,7 +16,7 @@ const VistaAdminOptionsbonos = (prop_bono) => {
     console.log(formData);
     const bono = Object.fromEntries(formData);
     console.log(bono);
-    let urlModficada = edit_borrar + `${prop_bono.prop_bono._id}`;
+    let urlModficada = URL_Bonos_Basica + `${prop_bono.prop_bono._id}`;
     actulizarBono(urlModficada, bono);
   }
 
@@ -45,7 +45,7 @@ const VistaAdminOptionsbonos = (prop_bono) => {
         "¿Estás seguro de que quieras borrar tu cuenta? \nTen encuenta que se perderan todos tus datos"
       ) == true
     ) {
-      let urlModficada = edit_borrar + `${prop_bono.prop_bono._id}`;
+      let urlModficada = URL_Bonos_Basica + `${prop_bono.prop_bono._id}`;
       axios
         .delete(urlModficada, { withCredentials: true, mode: "cors" })
         .then((datosRespuesta) => {

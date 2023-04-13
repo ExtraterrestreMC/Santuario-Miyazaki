@@ -3,7 +3,7 @@ import Modal from "react-bootstrap/Modal";
 import axios from "axios";
 
 const usuarioJSON = JSON.parse(sessionStorage.getItem("usuario"));
-let edit_borrar = "https://localhost:3000/api/v1/usuarios/";
+let URL_Usuarios_Basica = "https://localhost:3000/api/v1/usuarios";
 
 const VistaAdminOptionsusuarios = (prop_Usuario) => {
   //console.log(prop_Usuario);
@@ -20,7 +20,8 @@ const VistaAdminOptionsusuarios = (prop_Usuario) => {
     }
 
     //console.log(usuario);
-    let urlModficada = edit_borrar + `${prop_Usuario.prop_usuario.id_usuario}`;
+    let urlModficada =
+      URL_Usuarios_Basica + `${prop_Usuario.prop_usuario.id_usuario}`;
     actulizarusuario(urlModficada, usuario);
   }
 
@@ -50,7 +51,7 @@ const VistaAdminOptionsusuarios = (prop_Usuario) => {
       ) == true
     ) {
       let urlModficada =
-        edit_borrar + `${prop_Usuario.prop_usuario.id_usuario}`;
+        URL_Usuarios_Basica + `${prop_Usuario.prop_usuario.id_usuario}`;
       axios
         .delete(urlModficada, {
           "Content-Type": "application/json;charset=UTF-8",
