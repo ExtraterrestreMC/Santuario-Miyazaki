@@ -63,6 +63,7 @@ const Login = () => {
                       className="form-control my-4 py-2"
                       placeholder="Introduce correo electrónico"
                       required
+                      tabIndex={0}
                     />
                     <input
                       autoComplete="current-password"
@@ -72,12 +73,14 @@ const Login = () => {
                       name="password"
                       placeholder="Introduce tu contraseña"
                       required
+                      abIndex={1}
                     />
                     <div className="text-center mt-3 mb-3">
                       <input
                         type="submit"
                         className="btn btn-primary"
                         value={"Inicio Sesion"}
+                        tabIndex={3}
                       ></input>
                     </div>
                   </form>
@@ -85,7 +88,9 @@ const Login = () => {
                 <div className="card-footer d-flex justify-content-center">
                   <p>
                     ¿No tienes una cuenta?{" "}
-                    <a href="./registro.html">¡Regístrate!</a>
+                    <a href="./registro.html" abIndex={4}>
+                      ¡Regístrate!
+                    </a>
                   </p>
                 </div>
               </div>

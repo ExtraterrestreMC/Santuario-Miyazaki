@@ -10,16 +10,16 @@
 }
 
 .carta_Bono {
-    min-height: $WHCard_Bono - 100px;
-    min-width: $WHCard_Bono;
+    height: 200px;
+    width: 300px;
     margin: 5px 0 0 5px;
     position: relative;
-    background-color: $ColorBonos;
+    background-color: #f0f8ff;
 }
 
 .card_Bonos {
-    min-height: $WHCard_Bono - 100px;
-    min-width: $WHCard_Bono;
+    // min-height: $WHCard_Bono - 100px;
+    // min-width: $WHCard_Bono;
     position: relative;
     display: grid;
     place-items: center;
@@ -30,8 +30,8 @@
 
 .card_Bonos::before {
     content: "";
-    width: 150px;
-    height: 420px;
+    min-width: 200px;
+    min-height: 500px;
     /* left: 60px; */
     /* top: -120px; */
     background: linear-gradient($ColorBonosBorde);
@@ -53,7 +53,6 @@
     0% {
         transform: rotate(0deg);
     }
-
     100% {
         transform: rotate(360deg);
     }

@@ -18,8 +18,8 @@
 }
 
 .cartaAbajo {
-    height: $WHCard_Plato;
-    width: $WHCard_Plato;
+    height: $WHCard_Plato - 10vh;
+    width: $WHCard_Plato - 10vh;
     z-index: 1;
     position: relative;
     bottom: $WHCard_Plato + 5px;
@@ -27,7 +27,8 @@
     background-color: $ColorPlatos;
 }
 
-.cartaAbajo:hover {
+.cartaAbajo:hover,
+.cartaAbajo:active {
     opacity: 0.9;
     transition: opacity 500ms;
 }
@@ -57,13 +58,13 @@
 .card_plato_titulo {
     text-transform: capitalize;
     padding: 0 5%;
-    font-size: 1.875em;
+    font-size: 1.575em;
     text-decoration: underline;
 }
 
 .card_plato_ctn {
-    padding: 5px;
-    font-size: 1.475em
+    padding: 0 5px;
+    font-size: 1.275em
 }
 
 .plato_descripcion {
@@ -74,7 +75,6 @@
     0% {
         transform: rotate(0deg);
     }
-
     100% {
         transform: rotate(360deg);
     }

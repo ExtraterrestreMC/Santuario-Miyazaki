@@ -46,7 +46,7 @@ export default class PlatosList extends React.Component {
                         <h5 className="card_plato_titulo">{plato.nombre}</h5>
                       </div>
                       <hr></hr>
-                      <div className="pt-5 px-4 card_plato_ctn">
+                      <div className="pt-1 px-4 card_plato_ctn">
                         <p>Precio: {plato.precio}€</p>
                         <p className="px-4 plato_descripcion">
                           Descripcion: {plato.descripcion}
