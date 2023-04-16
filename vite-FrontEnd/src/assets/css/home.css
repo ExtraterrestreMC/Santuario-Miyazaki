@@ -1,5 +1,5 @@
 :root {
-    --tmoCarusel: 83.7vh;
+    --tmoCarusel: 85.3vh;
 }
 
 .imgCarusel {
@@ -8,6 +8,6 @@
 }
 
 .videoCarusel {
-    height: var(--tmoCarusel);
+    height: calc(var(--tmoCarusel) - 0.7vh);
     object-fit: cover;
 }

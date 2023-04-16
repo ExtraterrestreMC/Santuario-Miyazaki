@@ -5,12 +5,14 @@ import { Informacion } from "./Informacion";
 export class Contenedor extends Component {
   render() {
     return (
-      <div id="conocenos">
+      <>
         <Mapa> </Mapa>
 
-        <FormularioContactanos></FormularioContactanos>
-        <Informacion></Informacion>
-      </div>
+        <div id="conocenos">
+          <FormularioContactanos></FormularioContactanos>
+          <Informacion></Informacion>
+        </div>
+      </>
     );
   }
 }

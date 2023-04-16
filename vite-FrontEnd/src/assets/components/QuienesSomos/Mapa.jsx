@@ -1,5 +1,11 @@
 import React, { Component } from "react";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import {
+  MapContainer,
+  TileLayer,
+  Marker,
+  Popup,
+  LayersControl,
+} from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 
 export class DeviceMap extends React.Component {
@@ -21,6 +27,7 @@ export class DeviceMap extends React.Component {
           zoom={this.state.zoom}
           scrollWheelZoom={false}
         >
+          <LayersControl></LayersControl>
           <TileLayer
             attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"

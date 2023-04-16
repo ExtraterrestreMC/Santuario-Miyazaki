@@ -63,6 +63,7 @@ export const NavHeader = () => {
             role="button"
             data-bs-toggle="dropdown"
             id="nombreUser"
+            tabIndex={6}
           >
             {usuario.Nombre}
           </a>
@@ -72,6 +73,7 @@ export const NavHeader = () => {
                 className="btn btn-lg nav-link bg-dark w-100  "
                 id="editarUser"
                 onClick={handleShow}
+                tabIndex={7}
               >
                 Editar
               </button>
@@ -81,6 +83,7 @@ export const NavHeader = () => {
                 className="btn btn-lg nav-link bg-dark w-100"
                 id="borrarCuenta"
                 onClick={borrarCuenta}
+                tabIndex={8}
               >
                 Borrar Cuenta
               </button>
@@ -90,13 +93,14 @@ export const NavHeader = () => {
                 className="btn btn-lg nav-link bg-dark w-100"
                 id="cerrarSesion"
                 onClick={cerrarSesion}
+                tabIndex={9}
               >
                 Cerrar Sesion
               </button>
             </li>
           </ul>
           <Modal show={show} onHide={handleClose} animation={false}>
-            <Modal.Header closeButton>
+            <Modal.Header closeButton tabIndex={10}>
               <Modal.Title>Edita un usuario</Modal.Title>
             </Modal.Header>
             <form
@@ -118,6 +122,7 @@ export const NavHeader = () => {
                     placeholder="Introduce su nombre"
                     defaultValue={usuario.Nombre}
                     required
+                    tabIndex={11}
                   ></input>
                 </div>
                 <div className="form-group mb-2">
@@ -132,6 +137,7 @@ export const NavHeader = () => {
                     placeholder="Introduce su apellido"
                     defaultValue={usuario.Apellidos}
                     required
+                    tabIndex={12}
                   ></input>
                 </div>
                 <div className="form-group mb-2">
@@ -146,6 +152,7 @@ export const NavHeader = () => {
                     placeholder="Introduce su correo electronico"
                     defaultValue={usuario.Correo}
                     required
+                    tabIndex={13}
                   ></input>
                 </div>
                 <div className="form-group mb-2">
@@ -160,6 +167,7 @@ export const NavHeader = () => {
                     placeholder="Introduce su contraseña"
                     defaultValue="*******"
                     required
+                    tabIndex={14}
                   ></input>
                 </div>
                 <div className="form-group mb-2">
@@ -174,6 +182,7 @@ export const NavHeader = () => {
                     placeholder="Introduce su DNI"
                     required
                     defaultValue={usuario.DNI}
+                    tabIndex={15}
                   ></input>
                 </div>
               </div>
@@ -183,6 +192,7 @@ export const NavHeader = () => {
                   className="btn btn-secondary text-white"
                   id="cancelar"
                   onClick={handleClose}
+                  tabIndex={16}
                 >
                   Cancelar
                 </button>
@@ -190,6 +200,7 @@ export const NavHeader = () => {
                   type="submit"
                   className="btn btn-primary text-white"
                   id="actualizar_usuario"
+                  tabIndex={17}
                 >
                   Actualizar Usuario
                 </button>
@@ -206,17 +217,18 @@ export const NavHeader = () => {
             href="#"
             role="button"
             data-bs-toggle="dropdown"
+            ttabIndex={6}
           >
             Registro/Inicio Sesion
           </a>
           <ul className="dropdown-menu">
             <li>
-              <a className="dropdown-item" href="registro.html">
+              <a className="dropdown-item" href="registro.html" tabIndex={7}>
                 Registro
               </a>
             </li>
             <li>
-              <a className="dropdown-item" href="login.html">
+              <a className="dropdown-item" href="login.html" tabIndex={8}>
                 Inicio Sesion
               </a>
             </li>
@@ -231,7 +243,7 @@ export const NavHeader = () => {
       if (usuario.id_perfiles == 1) {
         return (
           <li className="nav-item">
-            <a className="nav-link" href="usuarios.html">
+            <a className="nav-link" href="usuarios.html" tabIndex={5}>
               Usuarios
             </a>
           </li>
@@ -276,9 +288,12 @@ export const NavHeader = () => {
     <div>
       <nav className="navbar navbar-expand-sm navbar-dark bg-dark fixed-top">
         <div className="container-fluid">
-          <a className="navbar-brand" href="#">
-            Logo
-          </a>
+          <img
+            src="logo_transparent_blanco.png"
+            alt="imagen logo transparente"
+            className="navbar-brand"
+            id="logoTransparente"
+          />
           <button
             className="navbar-toggler"
             type="button"
@@ -290,22 +305,22 @@ export const NavHeader = () => {
           <div className="collapse navbar-collapse" id="mynavbar">
             <ul className="navbar-nav me-auto">
               <li className="nav-item">
-                <a className="nav-link" href="index.html">
+                <a className="nav-link" href="index.html" tabIndex={1}>
                   Home
                 </a>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="Carta.html">
+                <a className="nav-link" href="Carta.html" tabIndex={2}>
                   Carta
                 </a>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="bonos.html">
+                <a className="nav-link" href="bonos.html" tabIndex={3}>
                   Bonos
                 </a>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="quienesSomos.html">
+                <a className="nav-link" href="quienesSomos.html" tabIndex={4}>
                   Sobre Nosotros
                 </a>
               </li>
