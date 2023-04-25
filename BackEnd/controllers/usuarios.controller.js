@@ -9,9 +9,9 @@ const jwt = require("jsonwebtoken");
  * Funciones para la gestion de controladores  
  */
 
-exports.find_usuarios = async function (req, res) {
+exports.find_usuarios = async function(req, res) {
     try {
-        await Usuario.findAll(function (err, usuarios) {
+        await Usuario.findAll(function(err, usuarios) {
             if (err) {
                 res.status(500).json((utils.errInterno(err))),
                     logger.error.err(utilsLogs.errInterno(err));
@@ -27,11 +27,11 @@ exports.find_usuarios = async function (req, res) {
 
 }
 
-exports.findById = utils.wrapAsync(async function (req, res, next) {
+exports.findById = utils.wrapAsync(async function(req, res, next) {
     const { id } = req.params
-    //console.log(id);
+        //console.log(id);
     try {
-        await Usuario.findById(id, function (err, usuario) {
+        await Usuario.findById(id, function(err, usuario) {
             if (err) {
                 res.status(406).json(utils.parametrosIncorrectos()),
                     logger.warning.warn(utilsLogs.parametrosIncorrectos())
@@ -40,7 +40,7 @@ exports.findById = utils.wrapAsync(async function (req, res, next) {
                     res.status(404).json(utils.noExiste("usuario")),
                         logger.warning.warn(utilsLogs.noExiste("usuario con id: " + id));
                 } else {
-                    delete usuario[0].Contraseña
+
                     res.status(200).json((usuario)),
                         logger.access.info(utilsLogs.accesoCorrecto(`usuario ${id}`))
                 }
@@ -53,12 +53,12 @@ exports.findById = utils.wrapAsync(async function (req, res, next) {
     }
 })
 
-exports.findInicioSesion = async function (req, res, next) {
+exports.findInicioSesion = async function(req, res, next) {
     const emailycontraseña = req.body
     console.log(emailycontraseña);
     try {
         try {
-            await Usuario.findByemail(emailycontraseña.username, async function (err, usuario) {
+            await Usuario.findByemail(emailycontraseña.username, async function(err, usuario) {
                 if (err) {
                     res.status(404).json((utils.noExiste("El email"))),
                         logger.warning.warn(utilsLogs.noExiste("usuario con el correo: " + emailycontraseña.username + " y con la contraseña: " + emailycontraseña.password));
@@ -95,7 +95,7 @@ exports.findInicioSesion = async function (req, res, next) {
     }
 }
 
-exports.cerrarSesion_usuario = function (req, res, next) {
+exports.cerrarSesion_usuario = function(req, res, next) {
     console.log("Controler");
     console.log(req.session);
     const token = jwtMiddleware.extractToken(req);
@@ -118,7 +118,7 @@ exports.cerrarSesion_usuario = function (req, res, next) {
 
 
 
-exports.add_usuario = async function (req, res) {
+exports.add_usuario = async function(req, res) {
     const newUser = new Usuario(req.body)
     newUser.id_perfiles = 2
     console.log(newUser);
@@ -128,7 +128,7 @@ exports.add_usuario = async function (req, res) {
         try {
             try {
                 //console.log(newUser);
-                await Usuario.create(newUser, function (err, usuario) {
+                await Usuario.create(newUser, function(err, usuario) {
                     if (err) {
                         res.status(406).json((utils.parametroDucplicado()));
                         logger.warning.warn(utilsLogs.parametroDucplicado(newUser));
@@ -151,7 +151,7 @@ exports.add_usuario = async function (req, res) {
     }
 }
 
-exports.edit_usuario = async function (req, res) {
+exports.edit_usuario = async function(req, res) {
     const editUser = new Usuario(req.body);
     console.log(editUser);
     const { id } = req.params
@@ -159,7 +159,7 @@ exports.edit_usuario = async function (req, res) {
 
     if (editUser.DNI && editUser.Nombre && editUser.Apellidos && editUser.Correo && editUser.Contraseña && editUser.id_perfiles) {
 
-        await Usuario.findByemail(editUser.Correo, async function (err, usuario) {
+        await Usuario.findByemail(editUser.Correo, async function(err, usuario) {
             if (err) {
                 res.status(404).json((utils.noExiste("El email"))),
                     logger.warning.warn(utilsLogs.noExiste("usuario con el correo: " + emailycontraseña.username + " y con la contraseña: " + emailycontraseña.password));
@@ -174,7 +174,7 @@ exports.edit_usuario = async function (req, res) {
                         try {
                             try {
                                 console.log(editUser);
-                                await Usuario.update(id, editUser, function (err, usuario) {
+                                await Usuario.update(id, editUser, function(err, usuario) {
                                     if (err) {
                                         res.status(406).json((utils.missingDatos())),
                                             logger.warning.warn(utilsLogs.faltanDatos("al usuario"));;
@@ -197,7 +197,7 @@ exports.edit_usuario = async function (req, res) {
                             try {
                                 editUser.Contraseña = await bcrypt.hash(editUser.Contraseña, 12)
                                 console.log(editUser);
-                                await Usuario.update(id, editUser, function (err, usuario) {
+                                await Usuario.update(id, editUser, function(err, usuario) {
                                     if (err) {
                                         res.status(406).json((utils.missingDatos())),
                                             logger.warning.warn(utilsLogs.faltanDatos("al usuario"));;
@@ -222,12 +222,55 @@ exports.edit_usuario = async function (req, res) {
 
     }
 }
+exports.edit_password = async function(req, res) {
+    const password = req.body;
+    const { id } = req.params
+    console.log(password.Contraseña);
+    console.log(id);
+    if (password) {
+        try {
+            Usuario.findById(id, function(err, usuario) {
+                if (err) {
+                    res.status(406).json(utils.parametrosIncorrectos()),
+                        logger.warning.warn(utilsLogs.parametrosIncorrectos())
+                } else {
+                    if (usuario == 0) {
+                        res.status(404).json(utils.noExiste("usuario")),
+                            logger.warning.warn(utilsLogs.noExiste("usuario con id: " + id));
+                    } else {
+                        /*7hJ#e2kM*/
+                        console.log(password);
+                        let newContraseña = bcrypt.hashSync(password.Contraseña, 12)
+                        try {
+                            Usuario.updatePassword(id, newContraseña, function(err, usuario) {
+                                if (err) {
+                                    res.status(406).json((utils.missingDatos())),
+                                        logger.warning.warn(utilsLogs.faltanDatos("al usuario"));;
+                                } else {
+                                    res.status(200).json((utils.editadoCorrectamente("usuario"))),
+                                        logger.access.info(utilsLogs.actualizadoCorrectamente("usuario", usuario
+                                            .id_usuario));
+                                }
+                            })
+                        } catch {
 
-exports.delete_usuario = async function (req, res) {
+                        }
+                    }
+                }
+            })
+        } catch {
+
+        }
+    } else {
+        res.status(406).json(utils.parametrosIncorrectos()),
+            logger.warning.warn(utilsLogs.parametrosIncorrectos())
+    }
+}
+exports.delete_usuario = async function(req, res) {
     const { id } = req.params
     try {
         try {
-            await Usuario.delete(id, function (err, usuari) {
+            await Usuario.delete(id, function(err, usuari) {
                 if (err) {
                     res.status(404).json((utils.noExiste("usuario"))),
                         logger.warning.warn(utilsLogs.noExiste("usuario"));;

@@ -1,5 +1,11 @@
 import React from "react";
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {} from "@fortawesome/free-solid-svg-icons";
+import {
+  faTwitter,
+  faInstagram,
+  faFacebook,
+} from "@fortawesome/free-brands-svg-icons";
 export const Footer = () => {
   return (
     <>
@@ -14,7 +20,8 @@ export const Footer = () => {
               href="https://twitter.com/SatunarioMiyazaki"
               role="button "
             >
-              <i>
+              <FontAwesomeIcon icon={faTwitter} style={{ color: "#ffffff" }} />
+              {/* <i>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="icon icon-tabler icon-tabler-brand-twitter"
@@ -33,7 +40,7 @@ export const Footer = () => {
                                       -1.04 6.522 -3.723 7.651 -7.742a13.84 13.84 0 0 0 .497 -3.753c-.002 -.249 1.51 -2.772 1.818 -4.013z "
                   />
                 </svg>
-              </i>
+              </i> */}
             </a>
             {/* <!-- Instagram --> */}
             <a
@@ -41,25 +48,10 @@ export const Footer = () => {
               href="https://www.instagram.com/santuarioMiyazaki/ "
               role="button "
             >
-              <i>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg "
-                  className="icon icon-tabler icon-tabler-brand-instagram "
-                  width="30"
-                  height="30"
-                  viewBox="0 0 24 24 "
-                  strokeWidth="1.5 "
-                  stroke="#ffffff "
-                  fill="none "
-                  strokeLinecap="round "
-                  strokeLinejoin="round "
-                >
-                  <path stroke="none " d="M0 0h24v24H0z " fill="none " />
-                  <rect x="4 " y="4 " width="16 " height="16 " rx="4 " />
-                  <circle cx="12 " cy="12 " r="3 " />
-                  <line x1="16.5 " y1="7.5 " x2="16.5 " y2="7.501 " />
-                </svg>
-              </i>
+              <FontAwesomeIcon
+                icon={faInstagram}
+                style={{ color: "#ffffff" }}
+              />
             </a>
             {/* <!-- Facebook --> */}
             <a
@@ -67,23 +59,7 @@ export const Footer = () => {
               href="https://www.facebook.com/santuarioMiyazaki "
               role="button "
             >
-              <i>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg "
-                  className="icon icon-tabler icon-tabler-brand-facebook "
-                  width="30"
-                  height="30"
-                  viewBox="0 0 24 24 "
-                  strokeWidth="1.5 "
-                  stroke="#ffffff "
-                  fill="none "
-                  strokeLinecap="round "
-                  strokeLinejoin="round "
-                >
-                  <path stroke="none " d="M0 0h24v24H0z " fill="none " />
-                  <path d="M7 10v4h3v7h4v-7h3l1 -4h-4v-2a1 1 0 0 1 1 -1h3v-4h-3a5 5 0 0 0 -5 5v2h-3 " />
-                </svg>
-              </i>
+              <FontAwesomeIcon icon={faFacebook} style={{ color: "#ffffff" }} />
             </a>
           </section>
         </div>

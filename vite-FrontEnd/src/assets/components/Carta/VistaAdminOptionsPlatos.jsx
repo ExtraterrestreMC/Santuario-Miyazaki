@@ -3,7 +3,7 @@ import Modal from "react-bootstrap/Modal";
 import axios from "axios";
 
 const usuario = JSON.parse(sessionStorage.getItem("usuario"));
-const URL_Platos_Basica = "https://localhost:3000/api/v1/menu";
+const URL_Platos_Basica = "https://localhost:3000/api/v1/menu/";
 
 const VistaAdminOptionsPlatos = (prop_plato) => {
   //console.log(prop_plato.prop_plato);

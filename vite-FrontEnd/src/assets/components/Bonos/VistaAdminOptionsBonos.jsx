@@ -3,7 +3,7 @@ import Modal from "react-bootstrap/Modal";
 import axios from "axios";
 
 const usuario = JSON.parse(sessionStorage.getItem("usuario"));
-const URL_Bonos_Basica = "https://localhost:3000/api/v1/bonos";
+const URL_Bonos_Basica = "https://localhost:3000/api/v1/bonos/";
 
 const VistaAdminOptionsbonos = (prop_bono) => {
   //console.log(prop_bono.prop_bono);

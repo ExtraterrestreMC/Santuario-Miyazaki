@@ -48,47 +48,31 @@ app.use(cookieParser("passwordforcookies"))
 
 //Token
 const jwtMW = require("./middlewares/jwt.mw");
-const authorization = require("./middlewares/auth.mw");
 
 
 
-app.use((req, res, next) => {
-    console.log("-------use1---------");
-    // console.log(req.session.token);
-    // console.log(req.url);
-    console.log(req.session);
-    if (
 
-        (req.url != "/api/v1/usuarios/autenticar" && req.url != "/api/v1/usuarios/autenticar/") &&
-        ((req.url != "/api/v1/usuarios" && req.url != "/api/v1/usuarios/")) &&
-        ((req.url != "/api/v1/cerrarSesion" && req.url != "/api/v1/cerrarSesion/"))
-    ) {
-        jwtMW.requireJWT(req, res, next)
-    } else {
-        if (req.method == "POST") {
-            next();
-        } else {
-            jwtMW.requireJWT(req, res, next);
-        }
-    }
-});
-app.use((req, res, next) => {
-    console.log("----------use2-------------");
-    console.log(req.session);
-    if (
-        (req.url != "/api/v1/usuarios/autenticar" && req.url != "/api/v1/usuarios/autenticar/") &&
-        ((req.url != "/api/v1/usuarios" && req.url != "/api/v1/usuarios/")) &&
-        ((req.url != "/api/v1/cerrarSesion" && req.url != "/api/v1/cerrarSesion/"))
-    ) {
-        authorization(req, res, next)
-    } else {
-        if (req.method == "POST") {
-            next();
-        } else {
-            authorization(req, res, next);
-        }
-    }
-});
+// app.use((req, res, next) => {
+//     console.log("-------use1---------");
+//     // console.log(req.session.token);
+//     // console.log(req.url);
+//     console.log(req.session);
+//     if (
+
+//         (req.url != "/api/v1/usuarios/autenticar" && req.url != "/api/v1/usuarios/autenticar/") &&
+//         ((req.url != "/api/v1/usuarios" && req.url != "/api/v1/usuarios/")) &&
+//         ((req.url != "/api/v1/cerrarSesion" && req.url != "/api/v1/cerrarSesion/"))
+//     ) {
+//         jwtMW.requireJWT(req, res, next)
+//     } else {
+//         if (req.method == "POST") {
+//             next();
+//         } else {
+//             jwtMW.requireJWT(req, res, next);
+//         }
+//     }
+// });
+
 
 //const basicRoutes = require("./routers/X.routes")
 const usuarioRoutes = require("./routers/usuario.routes")

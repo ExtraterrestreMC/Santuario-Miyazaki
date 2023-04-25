@@ -21,7 +21,7 @@ const VistaAdminOptionsusuarios = (prop_Usuario) => {
 
     //console.log(usuario);
     let urlModficada =
-      URL_Usuarios_Basica + `${prop_Usuario.prop_usuario.id_usuario}`;
+      URL_Usuarios_Basica + `/${prop_Usuario.prop_usuario.id_usuario}`;
     actulizarusuario(urlModficada, usuario);
   }
 
@@ -35,7 +35,7 @@ const VistaAdminOptionsusuarios = (prop_Usuario) => {
       })
       .then(async (responseData) => {
         console.log(responseData.data.info);
-        //location.reload();
+        location.reload();
       })
       .catch((err) =>
         //alert(err.response.data.desc)

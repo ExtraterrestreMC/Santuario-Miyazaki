@@ -15,14 +15,8 @@ const platosSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    imagen: {
-        type: String,
-        required: true,
-    },
-    extension: {
-        type: String,
-        required: true,
-    }
+    data: Buffer,
+    contentType: String
 });
 
 /**

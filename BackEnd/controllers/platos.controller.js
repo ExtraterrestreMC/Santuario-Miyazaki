@@ -8,6 +8,9 @@ const ParametrosIncorrectosError = require("./errors/ParametrosIncorrectosError"
 const ErrInterno = require("./errors/ErrInterno");
 const logger = require("../logs/logger")
 const utilsLogs = require("./utilsLogs")
+const fs = require("fs")
+const path = require("path")
+const carpeta = "/vite-FrontEnd/public"
 
 exports.find_platos = utils.wrapAsync(async function (req, res, next) {
     try {
@@ -76,10 +79,17 @@ exports.get_plato_id = utils.wrapAsync(async function (req, res, next) {
 
 exports.add_plato = utils.wrapAsync(async function (req, res, next) {
     let plato = req.body;
-    if (plato.nombre && plato.precio && plato.descripcion && plato.imagen && plato.extension) {
+    console.log(plato);
+    console.log(plato.imagen);
+    if (plato.nombre && plato.precio && plato.descripcion && plato.imagen) {
         try {
             await dbConn.conectar;
             try {
+                // const img = path.join(__dirname, carpeta, plato.imagen[0].nombre)
+                // console.log(img);
+                plato.data = fs.readFileSync(`${carpeta}/${plato}`)
+                plato.contentType = 'image/jpeg'
+                delete plato.imagen
                 await Platos.add_plato(plato)
                     .then((result) => {
                         console.log(result);
@@ -119,10 +129,13 @@ exports.edit_plato = utils.wrapAsync(async function (req, res, next) {
     let id = req.params.id
     let plato = req.body;
 
-    if (plato.nombre && plato.precio && plato.descripcion && plato.imagen && plato.extension) {
+    if (plato.nombre && plato.precio && plato.descripcion && plato.imagen) {
         try {
             await dbConn.conectar;
             try {
+                plato.data = fs.readFileSync(plato.imagen)
+                plato.contentType = 'image/jpeg'
+                delete plato.imagen
                 await Platos.edit_plato(id, plato)
                     .then((resultado) => {
                         if (resultado.value === null) {

@@ -1,31 +1,50 @@
 import React from "react";
-import axios from "axios";
+import axios, { formToJSON } from "axios";
+import toast, { Toaster } from "react-hot-toast";
+import { useForm } from "react-hook-form";
 const URL_InicioSesion = "https://localhost:3000/api/v1/usuarios/autenticar";
-
-const Login = () => {
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
+export default function Login() {
   const formRef = React.useRef();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
-  function handleSubmit(evt) {
-    evt.preventDefault();
+  const onSubmit = (evento) => {
+    console.log(evento);
+
     /*
         1. Usamos FormData para obtener la información
         2. FormData requiere la referencia del DOM,
            gracias al REF API podemos pasar esa referencia
         3. Finalmente obtenemos los datos serializados
       */
-    const formData = new FormData(formRef.current);
-    console.log(formData);
-    const usuario = Object.fromEntries(formData);
+    // const formData = new FormData(formRef.current);
+    // console.log(formData);
+    const usuario = evento;
+    console.log(usuario);
     inciarSesion(URL_InicioSesion, usuario);
-  }
+  };
   async function inciarSesion(url_inicioSesion, usuario) {
     await axios
       .post(url_inicioSesion, usuario, { withCredentials: true, mode: "cors" })
       .then((responseData) => {
+        toast.success("Se iniciara session");
         sessionStorage.setItem("usuario", JSON.stringify(responseData.data[0]));
-        document.location.href = "index.html";
+
+        setTimeout(() => {
+          document.location.href = "index.html";
+        }, 2500);
       })
-      .catch((err) => alert(err.response.data.desc) /* console.log(err) */);
+      .catch(
+        (err) =>
+          toast.error(
+            err.response.data.desc
+          ) /* console.log(err.response.data.desc) */
+      );
   }
 
   return (
@@ -36,23 +55,13 @@ const Login = () => {
             <div className="col-12 col-sm-7 col-md-6 m-auto">
               <div className="card border-0 shadow">
                 <div className="card-header d-flex justify-content-center">
-                  <svg
-                    className="mx-auto my-3 bi bi-person-circle"
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="50"
-                    height="50"
-                    fill="currentColor"
-                    viewBox="0 0 16 16"
-                  >
-                    <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
-                    <path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
-                  </svg>
+                  <FontAwesomeIcon icon={faUser} />
                 </div>
                 <div className="card-body">
                   <form
                     id="login"
                     method="post"
-                    onSubmit={handleSubmit}
+                    onSubmit={handleSubmit(onSubmit)}
                     ref={formRef}
                   >
                     <input
@@ -64,7 +73,22 @@ const Login = () => {
                       placeholder="Introduce correo electrónico"
                       required
                       tabIndex={0}
+                      {...register("username", {
+                        required: {
+                          value: true,
+                          message: "Necesitas este campo",
+                        },
+                        pattern: {
+                          value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                          message: "El formato no es correcto3333",
+                        },
+                      })}
                     />
+                    {errors.username && (
+                      <span className={errors.username && "mensajeError"}>
+                        {errors.username.message}
+                      </span>
+                    )}
                     <input
                       autoComplete="current-password"
                       type="password"
@@ -73,14 +97,30 @@ const Login = () => {
                       name="password"
                       placeholder="Introduce tu contraseña"
                       required
-                      abIndex={1}
+                      tabIndex={1}
+                      {...register("password", {
+                        required: {
+                          value: true,
+                          message: "Necesitas este campo",
+                        },
+                        pattern: {
+                          value:
+                            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\s]).{8,}$/i,
+                          message: "El formato no es correcto",
+                        },
+                      })}
                     />
+                    {errors.password && (
+                      <span className={errors.password && "mensajeError"}>
+                        {errors.password.message}
+                      </span>
+                    )}
                     <div className="text-center mt-3 mb-3">
                       <input
                         type="submit"
                         className="btn btn-primary"
                         value={"Inicio Sesion"}
-                        tabIndex={3}
+                        tabIndex={2}
                       ></input>
                     </div>
                   </form>
@@ -88,7 +128,7 @@ const Login = () => {
                 <div className="card-footer d-flex justify-content-center">
                   <p>
                     ¿No tienes una cuenta?{" "}
-                    <a href="./registro.html" abIndex={4}>
+                    <a href="./registro.html" tabIndex={3}>
                       ¡Regístrate!
                     </a>
                   </p>
@@ -97,9 +137,8 @@ const Login = () => {
             </div>
           </div>
         </div>
+        <Toaster></Toaster>
       </section>
     </div>
   );
-};
-
-export default Login;
+}

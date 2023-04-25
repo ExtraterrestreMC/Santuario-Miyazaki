@@ -39,7 +39,12 @@ export const FormularioContactanos = () => {
             <div className="col-md-6">
               <div className="md-form mb-0">
                 <label>Name</label>
-                <input type="text" name="user_name" className="form-control" />
+                <input
+                  tabIndex={0}
+                  type="text"
+                  name="user_name"
+                  className="form-control"
+                />
               </div>
             </div>
 
@@ -47,6 +52,7 @@ export const FormularioContactanos = () => {
               <div className="md-form mb-0">
                 <label>Email</label>
                 <input
+                  tabIndex={1}
                   type="email"
                   name="user_email"
                   className="form-control"
@@ -59,6 +65,7 @@ export const FormularioContactanos = () => {
               <div className="md-form">
                 <label>Message</label>
                 <textarea
+                  tabIndex={2}
                   name="message"
                   rows="2"
                   className="form-control md-textarea"

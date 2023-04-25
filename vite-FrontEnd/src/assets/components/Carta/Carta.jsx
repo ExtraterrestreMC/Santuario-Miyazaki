@@ -15,6 +15,7 @@ export default class PlatosList extends React.Component {
     axios.get(URL_Platos_Basica).then((response) => {
       //console.log(response);
       let platos = response.data;
+      console.log(platos);
       platos.map((plato) => {
         plato.imagen = plato.imagen + "." + plato.extension;
         delete plato.extension;
