@@ -15,11 +15,6 @@ export default class BonosList extends React.Component {
     axios.get(URL_Bonos_Basica).then((response) => {
       //console.log(response);
       let bonos = response.data;
-      //   bonos.map((bono) => {
-      //     bono.imagen = bono.imagen + "." + bono.extension;
-      //     delete bono.extension;
-      //   });
-      //   console.log(bonos);
       this.setState({ bonos });
     });
   }

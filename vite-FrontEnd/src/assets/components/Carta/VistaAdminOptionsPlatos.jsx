@@ -1,22 +1,34 @@
 import React, { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import axios from "axios";
-
+import { useForm } from "react-hook-form";
+import toast, { Toaster } from "react-hot-toast";
 const usuario = JSON.parse(sessionStorage.getItem("usuario"));
 const URL_Platos_Basica = "https://localhost:3000/api/v1/menu/";
 
 const VistaAdminOptionsPlatos = (prop_plato) => {
-  //console.log(prop_plato.prop_plato);
+  //console.log(prop_plato.prop_plato._id);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
   const formRef = React.useRef();
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
 
+  const [showDelPlato, setShowdelPlato] = useState(false);
+  const handleCloseDelPlato = () => setShowdelPlato(false);
+  const handleShowDelPlato = () => setShowdelPlato(true);
+
   function platoEditSubmit() {
     const formData = new FormData(formRef.current);
-    console.log(formData);
+    //console.log(formData);
     const plato = Object.fromEntries(formData);
-    console.log(plato);
+    //console.log(plato);
+    plato.imagen = plato.imagen.name;
     let urlModficada = URL_Platos_Basica + `${prop_plato.prop_plato._id}`;
+    console.log(urlModficada);
     actulizarPlato(urlModficada, plato);
   }
 
@@ -29,31 +41,27 @@ const VistaAdminOptionsPlatos = (prop_plato) => {
         mode: "cors",
       })
       .then(async (responseData) => {
-        console.log(responseData.data.info);
-        location.reload();
+        console.log(responseData);
+        toast.success(responseData.data.info);
+        setTimeout(() => {
+          location.reload();
+        }, 2500);
       })
-      .catch((err) =>
-        //alert(err.response.data.desc)
-        console.log(err)
-      );
+      .catch((err) => console.log(err), location.reload()); //toast.error("Se a producido un error"));
   }
   const handleShow = () => setShow(true);
 
   function eliminarPlato() {
-    if (
-      confirm(
-        "¿Estás seguro de que quieras borrar tu cuenta? \nTen encuenta que se perderan todos tus datos"
-      ) == true
-    ) {
-      let urlModficada = URL_Platos_Basica + `${prop_plato.prop_plato._id}`;
-      axios
-        .delete(urlModficada, { withCredentials: true, mode: "cors" })
-        .then((datosRespuesta) => {
-          alert(datosRespuesta.data.info);
+    let urlModficada = URL_Platos_Basica + `${prop_plato.prop_plato._id}`;
+    axios
+      .delete(urlModficada, { withCredentials: true, mode: "cors" })
+      .then((datosRespuesta) => {
+        toast.success(datosRespuesta.data.info);
+        setTimeout(() => {
           location.reload();
-        })
-        .catch((err) => console.log(err));
-    }
+        }, 2500);
+      })
+      .catch((err) => toast.error("Se a producido un error"), console.log(err));
   }
 
   function comprobarAdmin() {
@@ -72,11 +80,41 @@ const VistaAdminOptionsPlatos = (prop_plato) => {
 
               <button
                 className="btn btn-danger btn-rounded text-black w-25"
-                onClick={eliminarPlato}
+                onClick={handleShowDelPlato}
               >
                 Borrar
               </button>
+              <Modal
+                show={showDelPlato}
+                onHide={handleCloseDelPlato}
+                animation={false}
+                className="ModalEditUsuarioPassword"
+              >
+                <Modal.Header closeButton>
+                  <Modal.Title> Eliminar Bono</Modal.Title>
+                </Modal.Header>
+                <Modal.Body className="ModaBodyEditPassword">
+                  <button
+                    type="button"
+                    className="btn btn-secondary text-white mx-2"
+                    id="cancelar"
+                    onClick={handleCloseDelPlato}
+                  >
+                    Cancelar
+                  </button>
+                  <button
+                    type="submit"
+                    className="btn btn-primary text-white  mx-2"
+                    id="eliminar"
+                    onClick={eliminarPlato}
+                  >
+                    Eliminar Plato
+                  </button>
+                </Modal.Body>
+                <Toaster></Toaster>
+              </Modal>
             </div>
+
             <Modal show={show} onHide={handleClose} animation={false}>
               <Modal.Header closeButton>
                 <Modal.Title>Añadir Plato</Modal.Title>
@@ -85,7 +123,7 @@ const VistaAdminOptionsPlatos = (prop_plato) => {
                 id="update_plato"
                 method="PUT"
                 action=""
-                onSubmit={platoEditSubmit}
+                onSubmit={handleSubmit(platoEditSubmit)}
                 ref={formRef}
               >
                 <div className="modal-body">
@@ -101,7 +139,18 @@ const VistaAdminOptionsPlatos = (prop_plato) => {
                       placeholder="Introduce el nombre del plato"
                       defaultValue={prop_plato.prop_plato.nombre}
                       required
-                    ></input>
+                      {...register("nombre", {
+                        required: {
+                          value: true,
+                          message: "Necesitas este campo",
+                        },
+                      })}
+                    />
+                    {errors.nombre && (
+                      <span className={errors.nombre && "mensajeError"}>
+                        {errors.nombre.message}
+                      </span>
+                    )}
                   </div>
                   <div className="form-group mb-2">
                     <strong>
@@ -115,7 +164,18 @@ const VistaAdminOptionsPlatos = (prop_plato) => {
                       placeholder="Introduce su precio"
                       defaultValue={prop_plato.prop_plato.precio}
                       required
-                    ></input>
+                      {...register("precio", {
+                        required: {
+                          value: true,
+                          message: "Necesitas este campo",
+                        },
+                      })}
+                    />
+                    {errors.precio && (
+                      <span className={errors.precio && "mensajeError"}>
+                        {errors.precio.message}
+                      </span>
+                    )}
                   </div>
                   <div className="form-group mb-2">
                     <strong>
@@ -129,36 +189,41 @@ const VistaAdminOptionsPlatos = (prop_plato) => {
                       placeholder="Introduce la descripcion"
                       defaultValue={prop_plato.prop_plato.descripcion}
                       required
-                    ></input>
+                      {...register("descripcion", {
+                        required: {
+                          value: true,
+                          message: "Necesitas este campo",
+                        },
+                      })}
+                    />
+                    {errors.descripcion && (
+                      <span className={errors.descripcion && "mensajeError"}>
+                        {errors.descripcion.message}
+                      </span>
+                    )}
                   </div>
                   <div className="form-group mb-2">
                     <strong>
-                      <label className="mb-2">
-                        URL de la imagen(sin extension):
-                      </label>
+                      <label className="mb-2">imagen:</label>
                     </strong>
                     <input
-                      type="text"
+                      type="file"
                       className="form-control"
                       id="imagen"
                       name="imagen"
-                      placeholder="URL sin la extesion"
-                      defaultValue={prop_plato.prop_plato.imagen}
-                      required
-                    ></input>
-                  </div>
-                  <div className="form-group mb-2">
-                    <strong>
-                      <label className="mb-2">Extension de la imagen:</label>
-                    </strong>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="extension"
-                      name="extension"
-                      placeholder="Introduce su las extension de la imagen"
-                      required
-                    ></input>
+                      accept="image/*"
+                      {...register("imagen", {
+                        required: {
+                          value: true,
+                          message: "Necesitas este campo",
+                        },
+                      })}
+                    />
+                    {errors.imagen && (
+                      <span className={errors.imagen && "mensajeError"}>
+                        {errors.imagen.message}
+                      </span>
+                    )}
                   </div>
                 </div>
                 <div className="modal-footer">
@@ -175,10 +240,11 @@ const VistaAdminOptionsPlatos = (prop_plato) => {
                     className="btn btn-primary text-white"
                     id="añadir_plato"
                   >
-                    Añadir plato
+                    Editar plato
                   </button>
                 </div>
               </form>
+              <Toaster></Toaster>
             </Modal>
           </div>
         );

@@ -329,7 +329,8 @@ export const NavHeader = () => {
                         pattern: {
                           value:
                             /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\s]).{8,}$/i,
-                          message: "El formato no es correcto",
+                          message:
+                            "El formato no es correcto, Necesitas 8 numeros y una Letra",
                         },
                       })}
                     />
@@ -389,6 +390,7 @@ export const NavHeader = () => {
               </Modal.Body>
               <Toaster></Toaster>
             </Modal>
+            <Toaster></Toaster>
           </Modal>
         </div>
       );

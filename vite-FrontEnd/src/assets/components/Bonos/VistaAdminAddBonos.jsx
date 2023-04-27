@@ -1,25 +1,38 @@
 import React, { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import axios from "axios";
+import { useForm } from "react-hook-form";
+
+import toast, { Toaster } from "react-hot-toast";
 const usuario = JSON.parse(sessionStorage.getItem("usuario"));
 
 const URL_Bonos_Basica = "https://localhost:3000/api/v1/bonos";
 
 const VistaAdmin = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
   const formRef = React.useRef();
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
+
   function bonoAddSubmit(evt) {
-    evt.preventDefault();
+    const formData = new FormData(formRef.current);
+    //console.log(formData);
+    const bono = Object.fromEntries(formData);
+    console.log(bono);
     /*
         1. Usamos FormData para obtener la información
         2. FormData requiere la referencia del DOM,
            gracias al REF API podemos pasar esa referencia
         3. Finalmente obtenemos los datos serializados
       */
-    const formData = new FormData(formRef.current);
-    //console.log(formData);
-    const bono = Object.fromEntries(formData);
+    // const formData = new FormData(formRef.current);
+    // //console.log(formData);
+    // const bono = Object.fromEntries(formData);
     registrar(URL_Bonos_Basica, bono);
   }
 
@@ -27,18 +40,17 @@ const VistaAdmin = () => {
     await axios
       .post(URL_Bonos_Basica, bono, { withCredentials: true, mode: "cors" })
       .then(async (responseData) => {
-        alert(responseData.data.info);
-        location.reload();
+        toast.success(responseData.data.info);
+        setTimeout(() => {
+          location.reload();
+        }, 2500);
       })
-      .catch((err) =>
-        //alert(err.response.data.desc)
-        console.log(err)
-      );
+      .catch((err) => toast.error("Se a producido un error"), console.log(err));
   }
   const handleShow = () => setShow(true);
   function comrobarADMINAdd() {
     //console.log("comprobando");
-    console.log(usuario);
+    //console.log(usuario);
     if (usuario != null) {
       if (usuario.id_perfiles == 1) {
         return (
@@ -61,7 +73,7 @@ const VistaAdmin = () => {
                 id="URL_Bonos_Basica"
                 method="POST"
                 action=""
-                onSubmit={bonoAddSubmit}
+                onSubmit={handleSubmit(bonoAddSubmit)}
                 ref={formRef}
               >
                 <div className="modal-body">
@@ -76,7 +88,18 @@ const VistaAdmin = () => {
                       name="nombre"
                       placeholder="Introduce el nombre del bono"
                       required
-                    ></input>
+                      {...register("nombre", {
+                        required: {
+                          value: true,
+                          message: "Necesitas este campo",
+                        },
+                      })}
+                    />
+                    {errors.nombre && (
+                      <span className={errors.nombre && "mensajeError"}>
+                        {errors.nombre.message}
+                      </span>
+                    )}
                   </div>
                   <div className="form-group mb-2">
                     <strong>
@@ -89,20 +112,44 @@ const VistaAdmin = () => {
                       name="precio"
                       placeholder="Introduce su precio"
                       required
-                    ></input>
+                      // Para que solo acepte entre 2 decimales
+                      step="0.01"
+                      {...register("precio", {
+                        required: {
+                          value: true,
+                          message: "Necesitas este campo",
+                        },
+                      })}
+                    />
+                    {errors.precio && (
+                      <span className={errors.precio && "mensajeError"}>
+                        {errors.precio.message}
+                      </span>
+                    )}
                   </div>
                   <div className="form-group mb-2">
                     <strong>
                       <label className="mb-2">Descripcion:</label>
                     </strong>
-                    <input
+                    <textarea
                       type="text"
                       className="form-control"
                       id="descripcion"
                       name="descripcion"
                       placeholder="Introduce la descripcion"
                       required
-                    ></input>
+                      {...register("descripcion", {
+                        required: {
+                          value: true,
+                          message: "Necesitas este campo",
+                        },
+                      })}
+                    />
+                    {errors.descripcion && (
+                      <span className={errors.descripcion && "mensajeError"}>
+                        {errors.descripcion.message}
+                      </span>
+                    )}
                   </div>
                 </div>
                 <div className="modal-footer">
@@ -123,6 +170,7 @@ const VistaAdmin = () => {
                   </button>
                 </div>
               </form>
+              <Toaster></Toaster>
             </Modal>
           </div>
         );

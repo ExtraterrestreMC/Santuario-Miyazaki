@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import axios from "axios";
 const usuario = JSON.parse(sessionStorage.getItem("usuario"));
+import toast, { Toaster } from "react-hot-toast";
 import { useForm } from "react-hook-form";
 const URL_Platos_Basica = "https://localhost:3000/api/v1/menu";
 
@@ -25,13 +26,13 @@ const VistaAdmin = () => {
         3. Finalmente obtenemos los datos serializados
       */
     const plato = evento;
-    console.log(plato.imagen[0]);
-    plato.imagen = plato.imagen[0];
-    console.log(plato);
+    //console.log(plato.imagen[0]);
+    plato.imagen = plato.imagen[0].name;
+    //console.log(plato.imagen);
     // const formData = new FormData(formRef.current);
     // console.log(formData);
     // const plato = Object.fromEntries(formData);
-    // console.log(plato);
+    //console.log(plato);
     registrar(URL_Platos_Basica, plato);
   }
 
@@ -39,13 +40,12 @@ const VistaAdmin = () => {
     await axios
       .post(URL_Platos_Basica, plato, { withCredentials: true, mode: "cors" })
       .then(async (responseData) => {
-        alert(responseData.data.info);
-        location.reload();
+        toast.success(responseData.data.info);
+        setTimeout(() => {
+          location.reload();
+        }, 2500);
       })
-      .catch((err) =>
-        //alert(err.response.data.desc)
-        console.log(err)
-      );
+      .catch((err) => toast.error("Se a producido un error"), console.log(err));
   }
   const handleShow = () => setShow(true);
   function comrobarADMINAdd() {
@@ -74,7 +74,7 @@ const VistaAdmin = () => {
                 action=""
                 onSubmit={handleSubmit(platoAddSubmit)}
                 ref={formRef}
-                enctype="multipart/form-data"
+                // enctype="multipart/form-data"
               >
                 <div className="modal-body">
                   <div className="form-group mb-2">
@@ -129,7 +129,7 @@ const VistaAdmin = () => {
                     <strong>
                       <label className="mb-2">Descripcion:</label>
                     </strong>
-                    <input
+                    <textarea
                       type="text"
                       className="form-control"
                       id="descripcion"
@@ -191,6 +191,7 @@ const VistaAdmin = () => {
                   </button>
                 </div>
               </form>
+              <Toaster></Toaster>
             </Modal>
           </div>
         );

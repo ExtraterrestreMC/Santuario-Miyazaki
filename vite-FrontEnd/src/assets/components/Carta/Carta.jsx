@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import VistaAdmin from "./VistaAdminAddPlatos";
 import VistaAdminOptionsPlatos from "./VistaAdminOptionsPlatos";
+const IPServidor = `https://localhost:3000/imagen/`;
 
 const URL_Platos_Basica = "https://localhost:3000/api/v1/menu";
 const usuario = JSON.parse(sessionStorage.getItem("usuario"));
@@ -15,10 +16,10 @@ export default class PlatosList extends React.Component {
     axios.get(URL_Platos_Basica).then((response) => {
       //console.log(response);
       let platos = response.data;
-      console.log(platos);
+      //console.log(platos);
       platos.map((plato) => {
-        plato.imagen = plato.imagen + "." + plato.extension;
-        delete plato.extension;
+        plato.imagen = `${IPServidor}${plato._id}.jpg`;
+        // console.log(plato.imagen);
       });
       //console.log(platos);
       this.setState({ platos });

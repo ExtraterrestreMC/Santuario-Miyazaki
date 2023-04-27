@@ -39,7 +39,7 @@ export default class AdminUser extends React.Component {
                     <th>ID Usuario</th>
                     <th>Nombre</th>
                     <th>Apellidos</th>
-                    <th>Email</th>
+
                     <th>DNI</th>
                     <th>ID Perfil</th>
                     <th>Opciones</th>
@@ -47,13 +47,15 @@ export default class AdminUser extends React.Component {
                 </thead>
                 <tbody>
                   {this.state.usuarios.map((usuario) => (
-                    <tr key={usuario.id_usuario} className="">
+                    <tr key={usuario.id_usuario}>
                       <th>{usuario.id_usuario}</th>
                       <th>{usuario.Nombre}</th>
                       <th>{usuario.Apellidos}</th>
-                      <th>{usuario.Correo}</th>
+
                       <th>{usuario.DNI}</th>
-                      <th>{usuario.id_perfiles}</th>
+                      <th>
+                        {usuario.id_perfiles == 1 ? "Administrador" : "Usuario"}
+                      </th>
                       <th>
                         <VistaAdminOptionsusuarios
                           prop_usuario={usuario}

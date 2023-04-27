@@ -1,25 +1,45 @@
 import React, { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import axios from "axios";
-
+import toast, { Toaster } from "react-hot-toast";
+import { useForm } from "react-hook-form";
 const usuarioJSON = JSON.parse(sessionStorage.getItem("usuario"));
 let URL_Usuarios_Basica = "https://localhost:3000/api/v1/usuarios";
 
 const VistaAdminOptionsusuarios = (prop_Usuario) => {
-  //console.log(prop_Usuario);
   const formRef = React.useRef();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const [selectedOption, setSelectedOption] = useState(
+    prop_Usuario.prop_usuario.id_perfiles
+  );
+
+  const handleSelectChange = (event) => {
+    setSelectedOption(event.target.defaultValue);
+  };
+
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
+
+  const [showPass, setShowPass] = useState(false);
+
+  const handleClosePass = () => setShowPass(false);
+  const handleShowPass = () => setShowPass(true);
+
+  const [showDelCuen, setShowDelCuen] = useState(false);
+
+  const handleCloseDelCuen = () => setShowDelCuen(false);
+  const handleShowDelCuen = () => setShowDelCuen(true);
 
   function usuarioEditSubmit() {
     const formData = new FormData(formRef.current);
     console.log(formData);
     const usuario = Object.fromEntries(formData);
-    if (usuario.Contraseña == "*******") {
-      usuario.Contraseña = usuarioJSON.Contraseña;
-    }
 
-    //console.log(usuario);
     let urlModficada =
       URL_Usuarios_Basica + `/${prop_Usuario.prop_usuario.id_usuario}`;
     actulizarusuario(urlModficada, usuario);
@@ -42,28 +62,56 @@ const VistaAdminOptionsusuarios = (prop_Usuario) => {
         console.log(err)
       );
   }
+  function usuarioPassEditSubmit(evento) {
+    console.log(evento);
+    //console.log(constraseña);
+
+    if (evento.Contraseña === evento.Contraseña_re) {
+      let urlModficada =
+        URL_Usuarios_Basica +
+        `/${prop_Usuario.prop_usuario.id_usuario}}/password`;
+      let constraseña = { Contraseña: evento.Contraseña };
+      //console.log(constraseña);
+      actulizarusuarioPassword(urlModficada, constraseña);
+    } else {
+      toast.error("La contraseña no cuincide");
+    }
+  }
+  async function actulizarusuarioPassword(urlModficada, constraseña) {
+    console.log(urlModficada);
+    await axios
+      .put(urlModficada, constraseña, {
+        "Content-Type": "application/json;charset=UTF-8",
+        withCredentials: true,
+        mode: "cors",
+      })
+      .then(async (responseData) => {
+        toast.success("Se cambiado la contraseña correctamente");
+      })
+      .catch((err) =>
+        //alert(err.response.data.desc)
+        console.log(err)
+      );
+  }
+
   const handleShow = () => setShow(true);
 
   function eliminarusuario() {
-    if (
-      confirm(
-        "¿Estás seguro de que quieras borrar tu cuenta? \nTen encuenta que se perderan todos tus datos"
-      ) == true
-    ) {
-      let urlModficada =
-        URL_Usuarios_Basica + `${prop_Usuario.prop_usuario.id_usuario}`;
-      axios
-        .delete(urlModficada, {
-          "Content-Type": "application/json;charset=UTF-8",
-          withCredentials: true,
-          mode: "cors",
-        })
-        .then((datosRespuesta) => {
-          alert(datosRespuesta.data.info);
-          location.reload();
-        })
-        .catch((err) => console.log(err));
-    }
+    let urlModficada =
+      URL_Usuarios_Basica + `/${prop_Usuario.prop_usuario.id_usuario}`;
+    axios
+      .delete(urlModficada, {
+        "Content-Type": "application/json;charset=UTF-8",
+        withCredentials: true,
+        mode: "cors",
+      })
+      .then((datosRespuesta) => {
+        toast.success("Se ha borrado la cuenta correctamente");
+        setTimeout(() => {
+          document.location.href = `${window.location.pathname}`;
+        }, 2500);
+      })
+      .catch((err) => console.log(err));
   }
 
   function comprobarAdmin() {
@@ -75,10 +123,39 @@ const VistaAdminOptionsusuarios = (prop_Usuario) => {
 
         <button
           className="btn btn-danger btn-rounded text-black mx-2"
-          onClick={eliminarusuario}
+          onClick={handleShowDelCuen}
         >
           Borrar
         </button>
+        <Modal
+          show={showDelCuen}
+          onHide={handleCloseDelCuen}
+          animation={false}
+          className="ModalEditUsuarioPassword"
+        >
+          <Modal.Header closeButton>
+            <Modal.Title>Borrar Cuenta</Modal.Title>
+          </Modal.Header>
+          <Modal.Body className="ModaBodyEditPassword">
+            <button
+              type="button"
+              className="btn btn-secondary text-white mx-2"
+              id="cancelar"
+              onClick={handleCloseDelCuen}
+            >
+              Cancelar
+            </button>
+            <button
+              type="submit"
+              className="btn btn-primary text-white  mx-2"
+              id="eliminar"
+              onClick={eliminarusuario}
+            >
+              Borrar Cuenta
+            </button>
+          </Modal.Body>
+          <Toaster></Toaster>
+        </Modal>
         <Modal show={show} onHide={handleClose} animation={false}>
           <Modal.Header closeButton>
             <Modal.Title>Añadir usuario</Modal.Title>
@@ -87,7 +164,7 @@ const VistaAdminOptionsusuarios = (prop_Usuario) => {
             id="update_usuario"
             method="PUT"
             action=""
-            onSubmit={usuarioEditSubmit}
+            onSubmit={handleSubmit(usuarioEditSubmit)}
             ref={formRef}
           >
             <div className="modal-body">
@@ -103,7 +180,18 @@ const VistaAdminOptionsusuarios = (prop_Usuario) => {
                   placeholder="Introduce el nombre del usuario"
                   defaultValue={prop_Usuario.prop_usuario.Nombre}
                   required
-                ></input>
+                  {...register("Nombre", {
+                    required: {
+                      value: true,
+                      message: "Necesitas este campo",
+                    },
+                  })}
+                />
+                {errors.Nombre && (
+                  <span className={errors.Nombre && "mensajeError"}>
+                    {errors.Nombre.message}
+                  </span>
+                )}
               </div>
               <div className="form-group mb-2">
                 <strong>
@@ -117,7 +205,18 @@ const VistaAdminOptionsusuarios = (prop_Usuario) => {
                   placeholder="Introduce tus apellidos"
                   defaultValue={prop_Usuario.prop_usuario.Apellidos}
                   required
-                ></input>
+                  {...register("Apellidos", {
+                    required: {
+                      value: true,
+                      message: "Necesitas este campo",
+                    },
+                  })}
+                />
+                {errors.Apellidos && (
+                  <span className={errors.Apellidos && "mensajeError"}>
+                    {errors.Apellidos.message}
+                  </span>
+                )}
               </div>
               <div className="form-group mb-2">
                 <strong>
@@ -131,22 +230,24 @@ const VistaAdminOptionsusuarios = (prop_Usuario) => {
                   placeholder="Introduce la correo"
                   defaultValue={prop_Usuario.prop_usuario.Correo}
                   required
-                ></input>
+                  {...register("Correo", {
+                    required: {
+                      value: true,
+                      message: "Necesitas este campo",
+                    },
+                    pattern: {
+                      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                      message: "El formato no es correcto",
+                    },
+                  })}
+                />
+                {errors.Correo && (
+                  <span className={errors.Correo && "mensajeError"}>
+                    {errors.Correo.message}
+                  </span>
+                )}
               </div>
-              <div className="form-group mb-2">
-                <strong>
-                  <label className="mb-2">Contraseña:</label>
-                </strong>
-                <input
-                  type="password"
-                  className="form-control"
-                  id="constraseña"
-                  name="Contraseña"
-                  placeholder="Introduce la constraseña"
-                  defaultValue={"*******"}
-                  required
-                ></input>
-              </div>
+
               <div className="form-group mb-2">
                 <strong>
                   <label className="mb-2">DNI:</label>
@@ -159,22 +260,51 @@ const VistaAdminOptionsusuarios = (prop_Usuario) => {
                   placeholder="Introduce el DNI"
                   defaultValue={prop_Usuario.prop_usuario.DNI}
                   required
-                ></input>
+                  {...register("DNI", {
+                    required: {
+                      value: true,
+                      message: "Necesitas este campo",
+                    },
+                    pattern: {
+                      value: /^\d{8}[a-zA-Z]$/,
+                      message:
+                        "El formato no es correcto, Necesitas 8 numeros y una Letra",
+                    },
+                  })}
+                />
+                {errors.DNI && (
+                  <span className={errors.DNI && "mensajeError"}>
+                    {errors.DNI.message}
+                  </span>
+                )}
               </div>
               <div className="form-group mb-2">
                 <strong>
                   <label className="mb-2">ID Perfil:</label>
                 </strong>
-                <input
+                <select
                   type="number"
                   className="form-control"
                   id="ID_Perfil"
                   name="id_perfiles"
-                  placeholder="Introduce el ID Perfil"
-                  defaultValue={prop_Usuario.prop_usuario.id_perfiles}
+                  defaultValue={selectedOption}
                   required
-                ></input>
+                  onChange={handleSelectChange}
+                >
+                  <option value={1}>Administrador</option>
+                  <option value={2}>Usuario</option>
+                </select>
               </div>
+            </div>
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn btn-secondary text-white"
+                id="editContr"
+                onClick={handleShowPass}
+              >
+                Editar Contraseña
+              </button>
             </div>
             <div className="modal-footer">
               <button
@@ -194,6 +324,103 @@ const VistaAdminOptionsusuarios = (prop_Usuario) => {
               </button>
             </div>
           </form>
+          <Modal
+            show={showPass}
+            onHide={handleClosePass}
+            animation={false}
+            className="ModalEditUsuarioPassword"
+          >
+            <Modal.Header closeButton>
+              <Modal.Title>Editar Contraseña</Modal.Title>
+            </Modal.Header>
+            <Modal.Body className="ModaBodyEditPassword">
+              <form
+                id="update_usuario_password"
+                method="PUT"
+                onSubmit={handleSubmit(usuarioPassEditSubmit)}
+                ref={formRef}
+              >
+                <div className="form-group mb-2">
+                  <strong>
+                    <label className="mb-2">Nueva contraseña:</label>
+                  </strong>
+                  <input
+                    type="password"
+                    className="form-control"
+                    id="new-password"
+                    name="Contraseña"
+                    placeholder="Nueva contraseña..."
+                    required
+                    {...register("Contraseña", {
+                      required: {
+                        value: true,
+                        message: "Necesitas este campo",
+                      },
+                      pattern: {
+                        value:
+                          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\s]).{8,}$/i,
+                        message:
+                          "El formato no es correcto, Necesitas 8 numeros y una Letra",
+                      },
+                    })}
+                  />
+                  {errors.Contraseña && (
+                    <span className={errors.Contraseña && "mensajeError"}>
+                      {errors.Contraseña.message}
+                    </span>
+                  )}
+                </div>
+                <div className="form-group mb-2">
+                  <strong>
+                    <label className="mb-2">Repite la contraseña:</label>
+                  </strong>
+                  <input
+                    type="password"
+                    className="form-control"
+                    id="new-password_re"
+                    name="Contraseña_re"
+                    placeholder="Repite contraseña..."
+                    required
+                    {...register("Contraseña_re", {
+                      required: {
+                        value: true,
+                        message: "Necesitas este campo",
+                      },
+                      pattern: {
+                        value:
+                          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\s]).{8,}$/i,
+                        message: "El formato no es correcto",
+                      },
+                    })}
+                  />
+                  {errors.Contraseña_re && (
+                    <span className={errors.Contraseña_re && "mensajeError"}>
+                      {errors.Contraseña_re.message}
+                    </span>
+                  )}
+                </div>
+                <div className="modal-footer">
+                  <button
+                    type="button"
+                    className="btn btn-secondary text-white"
+                    id="cancelar"
+                    onClick={handleClosePass}
+                  >
+                    Cancelar
+                  </button>
+                  <button
+                    type="submit"
+                    className="btn btn-primary text-white"
+                    id="actualizar_contraseña"
+                  >
+                    Actualizar constraseña
+                  </button>
+                </div>
+              </form>
+            </Modal.Body>
+            <Toaster></Toaster>
+          </Modal>
+          <Toaster></Toaster>
         </Modal>
       </div>
     );

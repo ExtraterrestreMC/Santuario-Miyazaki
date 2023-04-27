@@ -11,6 +11,9 @@ const logger = require("./Logs/logger");
 const cookieParser = require("cookie-parser")
 const https = require("https");
 const fs = require("fs")
+
+
+
 //Para las sessiones
 const session = require("express-session");
 const sessionOptions = {
@@ -46,32 +49,6 @@ app.use(cors(corsOptions));
 app.use(cookieParser("passwordforcookies"))
 
 
-//Token
-const jwtMW = require("./middlewares/jwt.mw");
-
-
-
-
-// app.use((req, res, next) => {
-//     console.log("-------use1---------");
-//     // console.log(req.session.token);
-//     // console.log(req.url);
-//     console.log(req.session);
-//     if (
-
-//         (req.url != "/api/v1/usuarios/autenticar" && req.url != "/api/v1/usuarios/autenticar/") &&
-//         ((req.url != "/api/v1/usuarios" && req.url != "/api/v1/usuarios/")) &&
-//         ((req.url != "/api/v1/cerrarSesion" && req.url != "/api/v1/cerrarSesion/"))
-//     ) {
-//         jwtMW.requireJWT(req, res, next)
-//     } else {
-//         if (req.method == "POST") {
-//             next();
-//         } else {
-//             jwtMW.requireJWT(req, res, next);
-//         }
-//     }
-// });
 
 
 //const basicRoutes = require("./routers/X.routes")
@@ -83,11 +60,24 @@ app.use(`/api/${version}/usuarios`, usuarioRoutes);
 app.use(`/api/${version}/bonos`, bonosRoutes);
 app.use(`/api/${version}/menu`, platosRoutes);
 
+//Para imagenes del servidor
+app.use(express.static('public', {
+    dotfiles: 'allow',
+    etag: true,
+    extensions: ['htm', 'html'],
+    index: false,
+    maxAge: '1d',
+    redirect: false,
+    setHeaders: function (res, path, stat) {
+        res.set('x-timestamp', Date.now());
+        res.set('x-sent', true);
+    }
+}));
 
-//Para las vistas
-// app.set("views", path.join(__dirname, "views"))
-// app.set("view engine", "ejs")
-
+app.get('/imagen/:id', (req, res) => {
+    const rutaImagen = `img/${req.params.id}`;
+    res.sendFile(rutaImagen, { root: __dirname + '/public' });
+});
 
 
 
