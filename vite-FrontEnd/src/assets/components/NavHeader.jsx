@@ -23,7 +23,7 @@ const borrarCuenta = (e) => {
         document.location.href = `${window.location.pathname}`;
       }, 2500);
     })
-    .catch((err) => alert(err.response.data.desc));
+    .catch((err) => toast.error(err.response.data.desc));
 };
 const cerrarSesion = (e) => {
   e.preventDefault();
@@ -31,21 +31,18 @@ const cerrarSesion = (e) => {
     .get(URL_cerrarSesion, { withCredentials: true, mode: "cors" })
     .then((datosRespuesta) => {
       //console.log(datosRespuesta);
-      //console.log(sessionStorage);
+
       sessionStorage.removeItem("usuario");
       document.location.href = `${window.location.pathname}`;
     })
-    .catch((err) => {
-      //console.log(err.response.data);
-      alert(err.response.data.desc);
-      //No has iniciado Sesion para poder salir de ella
-    });
+    .catch((err) => toast.error(err.response.data.desc));
 };
 
 export const NavHeader = () => {
   //console.log(usuario);
 
   const formRef = React.useRef();
+  const formRefPas = React.useRef();
   const {
     register,
     handleSubmit,
@@ -125,6 +122,7 @@ export const NavHeader = () => {
                     Borrar Cuenta
                   </button>
                 </Modal.Body>
+                <Toaster></Toaster>
               </Modal>
             </li>
             <li className="nav-item  px-2 mb-1">
@@ -137,6 +135,7 @@ export const NavHeader = () => {
               </button>
             </li>
           </ul>
+
           <Modal
             show={show}
             onHide={handleClose}
@@ -144,7 +143,7 @@ export const NavHeader = () => {
             className="ModalEditUsuario"
           >
             <Modal.Header closeButton>
-              <Modal.Title>Edita un usuario</Modal.Title>
+              <Modal.Title>Editar un usuario</Modal.Title>
             </Modal.Header>
             <form
               id="update_usuario"
@@ -255,7 +254,8 @@ export const NavHeader = () => {
                       },
                       pattern: {
                         value: /^\d{8}[a-zA-Z]$/,
-                        message: "El formato no es correcto",
+                        message:
+                          "El formato no es correcto, 8 numero y una letra",
                       },
                     })}
                   />
@@ -294,102 +294,101 @@ export const NavHeader = () => {
                 </button>
               </div>
             </form>
-            <Modal
-              show={showPass}
-              onHide={handleClosePass}
-              animation={false}
-              className="ModalEditUsuarioPassword"
-            >
-              <Modal.Header closeButton>
-                <Modal.Title>Editar Contraseña</Modal.Title>
-              </Modal.Header>
-              <Modal.Body className="ModaBodyEditPassword">
-                <form
-                  id="update_usuario_password"
-                  method="PUT"
-                  onSubmit={handleSubmit(usuarioPassEditSubmit)}
-                  ref={formRef}
-                >
-                  <div className="form-group mb-2">
-                    <strong>
-                      <label className="mb-2">Nueva contraseña:</label>
-                    </strong>
-                    <input
-                      type="password"
-                      className="form-control"
-                      id="new-password"
-                      name="Contraseña"
-                      placeholder="Nueva contraseña..."
-                      required
-                      {...register("Contraseña", {
-                        required: {
-                          value: true,
-                          message: "Necesitas este campo",
-                        },
-                        pattern: {
-                          value:
-                            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\s]).{8,}$/i,
-                          message:
-                            "El formato no es correcto, Necesitas 8 numeros y una Letra",
-                        },
-                      })}
-                    />
-                    {errors.Contraseña && (
-                      <span className={errors.Contraseña && "mensajeError"}>
-                        {errors.Contraseña.message}
-                      </span>
-                    )}
-                  </div>
-                  <div className="form-group mb-2">
-                    <strong>
-                      <label className="mb-2">Repite la contraseña:</label>
-                    </strong>
-                    <input
-                      type="password"
-                      className="form-control"
-                      id="new-password_re"
-                      name="Contraseña_re"
-                      placeholder="Repite contraseña..."
-                      required
-                      {...register("Contraseña_re", {
-                        required: {
-                          value: true,
-                          message: "Necesitas este campo",
-                        },
-                        pattern: {
-                          value:
-                            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\s]).{8,}$/i,
-                          message: "El formato no es correcto",
-                        },
-                      })}
-                    />
-                    {errors.Contraseña_re && (
-                      <span className={errors.Contraseña_re && "mensajeError"}>
-                        {errors.Contraseña_re.message}
-                      </span>
-                    )}
-                  </div>
-                  <div className="modal-footer">
-                    <button
-                      type="button"
-                      className="btn btn-secondary text-white"
-                      id="cancelar"
-                      onClick={handleClosePass}
-                    >
-                      Cancelar
-                    </button>
-                    <button
-                      type="submit"
-                      className="btn btn-primary text-white"
-                      id="actualizar_contraseña"
-                    >
-                      Actualizar constraseña
-                    </button>
-                  </div>
-                </form>
-              </Modal.Body>
-              <Toaster></Toaster>
-            </Modal>
+            <Toaster></Toaster>
+          </Modal>
+          <Modal
+            show={showPass}
+            onHide={handleClosePass}
+            animation={false}
+            className="ModalEditUsuarioPassword"
+          >
+            <Modal.Header closeButton>
+              <Modal.Title>Editar Contraseña</Modal.Title>
+            </Modal.Header>
+            <Modal.Body className="ModaBodyEditPassword">
+              <form
+                id="update_usuario_password"
+                method="PUT"
+                onSubmit={handleSubmit(usuarioPassEditSubmit)}
+                ref={formRefPas}
+              >
+                <div className="form-group mb-2">
+                  <strong>
+                    <label className="mb-2">Nueva constraseña:</label>
+                  </strong>
+                  <input
+                    type="password"
+                    className="form-control"
+                    id="new-password"
+                    name="Password"
+                    placeholder="Nueva constraseña..."
+                    {...register("Password", {
+                      required: {
+                        value: false,
+                        message: "Necesitas este campo",
+                      },
+                      pattern: {
+                        value:
+                          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\s]).{8,}$/i,
+                        message:
+                          "El formato no es correcto, Necesitas 8 numeros y una Letra",
+                      },
+                    })}
+                  />
+                  {errors.Password && (
+                    <span className={errors.Password && "mensajeError"}>
+                      {errors.Password.message}
+                    </span>
+                  )}
+                </div>
+                <div className="form-group mb-2">
+                  <strong>
+                    <label className="mb-2">Repite la constraseña:</label>
+                  </strong>
+                  <input
+                    type="password"
+                    className="form-control"
+                    id="newPassword"
+                    name="newPassword"
+                    placeholder="Repite Password..."
+                    {...register("newPassword", {
+                      required: {
+                        value: false,
+                        message: "Necesitas este campo",
+                      },
+                      pattern: {
+                        value:
+                          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\s]).{8,}$/i,
+                        message:
+                          "El formato no es correcto, Minimo 8 caracteres, algun numero y simbolos",
+                      },
+                    })}
+                  />
+                  {errors.newPassword && (
+                    <span className={errors.newPassword && "mensajeError"}>
+                      {errors.newPassword.message}
+                    </span>
+                  )}
+                </div>
+                <div className="modal-footer">
+                  <button
+                    type="button"
+                    className="btn btn-secondary text-white"
+                    id="cancelar"
+                    onClick={handleClosePass}
+                  >
+                    Cancelar
+                  </button>
+                  <button
+                    type="submit"
+                    className="btn btn-primary text-white"
+                    id="actualizar_Password"
+                  >
+                    Actualizar constraseña
+                  </button>
+                </div>
+              </form>
+            </Modal.Body>
             <Toaster></Toaster>
           </Modal>
         </div>
@@ -437,50 +436,59 @@ export const NavHeader = () => {
       }
     }
   }
-  function usuarioEditSubmit() {
-    const formData = new FormData(formRef.current);
-    console.log(formData);
-    const usuarioForm = Object.fromEntries(formData);
-    if (usuarioForm.Contraseña == "*******") {
-      usuarioForm.Contraseña = usuario.Contraseña;
-    }
-    usuarioForm.id_perfiles = usuario.id_perfiles;
+  function usuarioEditSubmit(evento) {
+    console.log(evento);
+    delete evento.Password;
+    delete evento.newPassword;
+    console.log(evento);
+    // const usuarioForm = Object.fromEntries(formData);
+    // if (usuarioForm.Contraseña == "*******") {
+    //   usuarioForm.Contraseña = usuario.Contraseña;
+    // }
+    evento.id_perfiles = usuario.id_perfiles;
 
-    //console.log(usuario);
+    // //console.log(usuario);
     let urlModficada = URL_Usuarios_Basica + `/${usuario.id_usuario}`;
-    actulizarusuario(urlModficada, usuarioForm);
+    actulizarusuario(urlModficada, evento);
   }
 
-  async function actulizarusuario(urlModficada, usuario) {
+  async function actulizarusuario(urlModficada, usuarioEdit) {
     console.log(urlModficada);
     await axios
-      .put(urlModficada, usuario, {
+      .put(urlModficada, usuarioEdit, {
         "Content-Type": "application/json;charset=UTF-8",
         withCredentials: true,
         mode: "cors",
       })
       .then(async (responseData) => {
-        sessionStorage.setItem("usuario", JSON.stringify(usuario));
+        console.log(responseData);
+        toast.success(responseData.data.info);
+        usuarioEdit.Contraseña = usuario.Contraseña;
+        usuarioEdit.id_usuario = usuario.id_usuario;
+        sessionStorage.setItem("usuario", JSON.stringify(usuarioEdit));
         console.log(sessionStorage.getItem("usuario"));
       })
       .catch((err) =>
         //alert(err.response.data.desc)
-        console.log(err)
+        toast.error(err.response.data.desc)
       );
   }
 
   function usuarioPassEditSubmit(evento) {
     console.log(evento);
     //console.log(constraseña);
-
-    if (evento.Contraseña === evento.Contraseña_re) {
-      let urlModficada =
-        URL_Usuarios_Basica + `/${usuario.id_usuario}/password`;
-      let constraseña = { Contraseña: evento.Contraseña };
-      //console.log(constraseña);
-      actulizarusuarioPassword(urlModficada, constraseña);
+    if (evento.Password != "" && evento.newPassword != "") {
+      if (evento.Password === evento.newPassword) {
+        let urlModficada =
+          URL_Usuarios_Basica + `/${usuario.id_usuario}/password`;
+        let constraseña = { Password: evento.Password };
+        //console.log(constraseña);
+        actulizarusuarioPassword(urlModficada, constraseña);
+      } else {
+        toast.error("No cuiciden las contraseñas");
+      }
     } else {
-      toast.error("La contraseña no cuincide");
+      toast.error("Son obligatorios los campos");
     }
   }
   async function actulizarusuarioPassword(urlModficada, constraseña) {
@@ -492,13 +500,11 @@ export const NavHeader = () => {
         mode: "cors",
       })
       .then(async (responseData) => {
-        toast.success("Se cambiado la contraseña correctamente");
+        console.log(responseData);
+        toast.success(responseData.data.info);
         sessionStorage.setItem("usuario", JSON.stringify(usuario));
       })
-      .catch((err) =>
-        //alert(err.response.data.desc)
-        console.log(err)
-      );
+      .catch((err) => console.log(err), toast.success(err.data.desc));
   }
 
   return (

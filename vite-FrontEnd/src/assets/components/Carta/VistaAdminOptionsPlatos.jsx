@@ -27,6 +27,7 @@ const VistaAdminOptionsPlatos = (prop_plato) => {
     const plato = Object.fromEntries(formData);
     //console.log(plato);
     plato.imagen = plato.imagen.name;
+    console.log(plato);
     let urlModficada = URL_Platos_Basica + `${prop_plato.prop_plato._id}`;
     console.log(urlModficada);
     actulizarPlato(urlModficada, plato);
@@ -47,7 +48,10 @@ const VistaAdminOptionsPlatos = (prop_plato) => {
           location.reload();
         }, 2500);
       })
-      .catch((err) => console.log(err), location.reload()); //toast.error("Se a producido un error"));
+      .catch((err) =>
+        //alert(err.response.data.desc)
+        toast.success(err.data.desc)
+      ); //location.reload()); //toast.error("Se a producido un error"));
   }
   const handleShow = () => setShow(true);
 
@@ -61,7 +65,7 @@ const VistaAdminOptionsPlatos = (prop_plato) => {
           location.reload();
         }, 2500);
       })
-      .catch((err) => toast.error("Se a producido un error"), console.log(err));
+      .catch((err) => console.log(err), toast.success(err.data.desc));
   }
 
   function comprobarAdmin() {

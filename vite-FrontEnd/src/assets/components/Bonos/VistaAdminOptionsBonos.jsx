@@ -47,7 +47,7 @@ const VistaAdminOptionsbonos = (prop_bono) => {
           location.reload();
         }, 2500);
       })
-      .catch((err) => toast.error("Se a producido un error"), console.log(err));
+      .catch((err) => toast.success(err.data.desc), console.log(err));
   }
   const handleShow = () => setShow(true);
 
@@ -64,7 +64,7 @@ const VistaAdminOptionsbonos = (prop_bono) => {
       })
       .catch(
         (err) => console.log(err),
-        toast.error("Se a producido un error")
+        toast.success(err.data.desc)
         // console.log(err)
       );
   }

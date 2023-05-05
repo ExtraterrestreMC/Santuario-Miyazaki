@@ -5,6 +5,7 @@ import toast, { Toaster } from "react-hot-toast";
 import { useForm } from "react-hook-form";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faUserPlus } from "@fortawesome/free-solid-svg-icons";
+
 //import { faUser } from "@fortawesome/free-brands-svg-icons";
 export default function Registro() {
   const formRef = React.useRef();
@@ -54,7 +55,7 @@ export default function Registro() {
               <div className="card border-0 shadow">
                 <div className="card-header d-flex justify-content-center">
                   <div id="icono">
-                    <FontAwesomeIcon icon={faUserPlus} />
+                    <FontAwesomeIcon icon={faUserPlus} className="iconos" />
                   </div>
                 </div>
                 <div className="card-body">

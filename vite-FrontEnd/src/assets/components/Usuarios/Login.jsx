@@ -55,7 +55,7 @@ export default function Login() {
             <div className="col-12 col-sm-7 col-md-6 m-auto">
               <div className="card border-0 shadow">
                 <div className="card-header d-flex justify-content-center">
-                  <FontAwesomeIcon icon={faUser} />
+                  <FontAwesomeIcon icon={faUser} className="iconos" />
                 </div>
                 <div className="card-body">
                   <form

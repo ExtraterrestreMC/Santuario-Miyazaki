@@ -129,40 +129,45 @@ exports.add_plato = utils.wrapAsync(async function (req, res, next) {
 exports.edit_plato = utils.wrapAsync(async function (req, res, next) {
     let id = req.params.id
     let plato = req.body;
+    console.log("principal");
     console.log(plato);
     const rutavieja = `${ruta}/${plato.imagen}`
     console.log(rutavieja);
     const rutanueva = `${ruta}/${id}.jpg`
     console.log(rutanueva);
     if (plato.nombre && plato.precio && plato.descripcion && plato.imagen) {
+        console.log("primer if");
+        console.log(plato);
         try {
             await dbConn.conectar;
+            console.log("dbconexion");
+            console.log(plato);
             try {
-                fs.renameSync(rutavieja, rutanueva, async (error) => {
+                console.log("try despues DBConexion");
+                console.log(plato);
+                fs.renameSync(rutavieja, rutanueva)
+                plato.imagen = id
+                console.log("en rename:");
+                console.log(plato);
+                await Platos.edit_plato(id, plato)
+                    .then((resultado) => {
+                        if (resultado.value === null) {
+                            res.status(404).json(utils.noExiste("plato"));
+                            logger.warning.warn(utilsLogs.noExiste("plato"));
+                        } else {
 
-                    if (!error) {
-                        plato.imagen = id
-                        await Platos.edit_plato(id, plato)
-                            .then((resultado) => {
-                                if (resultado.value === null) {
-                                    res.status(404).json(utils.noExiste("plato"));
-                                    logger.warning.warn(utilsLogs.noExiste("plato"));
-                                } else {
-
-                                    console.log(resultado);
-                                    res.status(200).json(utils.editadoCorrectamente("plato"))
-                                    logger.access.info(utilsLogs.actualizadoCorrectamente("plato", resultado.value._id));
+                            console.log(resultado);
+                            res.status(200).json(utils.editadoCorrectamente("plato"))
+                            logger.access.info(utilsLogs.actualizadoCorrectamente("plato", resultado.value._id));
 
 
 
-                                }
-                            }).catch((err) => {
-                                console.log(err);
-                                res.status(406).json(utils.parametrosIncorrectos())
-                                logger.warning.warn(utilsLogs.parametrosIncorrectos());
-                            })
-                    }
-                })
+                        }
+                    }).catch((err) => {
+                        console.log(err);
+                        res.status(406).json(utils.parametrosIncorrectos())
+                        logger.warning.warn(utilsLogs.parametrosIncorrectos());
+                    })
             } catch (err) {
                 //res.status(406).json(utils.parametrosIncorrectos());
                 logger.warning.warn(utilsLogs.parametrosIncorrectos());

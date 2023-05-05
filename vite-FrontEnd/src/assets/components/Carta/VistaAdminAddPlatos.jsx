@@ -45,7 +45,7 @@ const VistaAdmin = () => {
           location.reload();
         }, 2500);
       })
-      .catch((err) => toast.error("Se a producido un error"), console.log(err));
+      .catch((err) => toast.success(err.data.desc), console.log(err));
   }
   const handleShow = () => setShow(true);
   function comrobarADMINAdd() {

@@ -8,6 +8,7 @@ let URL_Usuarios_Basica = "https://localhost:3000/api/v1/usuarios";
 
 const VistaAdminOptionsusuarios = (prop_Usuario) => {
   const formRef = React.useRef();
+  const formRefPas = React.useRef();
   const {
     register,
     handleSubmit,
@@ -35,16 +36,19 @@ const VistaAdminOptionsusuarios = (prop_Usuario) => {
   const handleCloseDelCuen = () => setShowDelCuen(false);
   const handleShowDelCuen = () => setShowDelCuen(true);
 
-  function usuarioEditSubmit() {
-    const formData = new FormData(formRef.current);
-    console.log(formData);
-    const usuario = Object.fromEntries(formData);
+  function usuarioEditSubmit(evento) {
+    console.log(evento);
+    delete evento.Password;
+    delete evento.Password;
+    evento.id_perfiles = prop_Usuario.prop_usuario.id_perfiles;
+    //   const usuario = Object.fromEntries(formData);
 
     let urlModficada =
       URL_Usuarios_Basica + `/${prop_Usuario.prop_usuario.id_usuario}`;
-    actulizarusuario(urlModficada, usuario);
+    actulizarusuario(urlModficada, evento);
+    // }
+    console.log(evento);
   }
-
   async function actulizarusuario(urlModficada, usuario) {
     console.log(urlModficada);
     await axios
@@ -54,27 +58,30 @@ const VistaAdminOptionsusuarios = (prop_Usuario) => {
         mode: "cors",
       })
       .then(async (responseData) => {
-        console.log(responseData.data.info);
+        toast.success(responseData.data.info);
         location.reload();
       })
       .catch((err) =>
         //alert(err.response.data.desc)
-        console.log(err)
+        toast.success(err.data.desc)
       );
   }
   function usuarioPassEditSubmit(evento) {
     console.log(evento);
     //console.log(constraseña);
 
-    if (evento.Contraseña === evento.Contraseña_re) {
-      let urlModficada =
-        URL_Usuarios_Basica +
-        `/${prop_Usuario.prop_usuario.id_usuario}}/password`;
-      let constraseña = { Contraseña: evento.Contraseña };
-      //console.log(constraseña);
-      actulizarusuarioPassword(urlModficada, constraseña);
+    if (evento.Password != "" && evento.newPassword != "") {
+      if (evento.Password === evento.newPassword) {
+        let urlModficada =
+          URL_Usuarios_Basica + `/${usuario.id_usuario}/password`;
+        let constraseña = { Password: evento.Password };
+        //console.log(constraseña);
+        actulizarusuarioPassword(urlModficada, constraseña);
+      } else {
+        toast.error("No cuiciden las contraseñas");
+      }
     } else {
-      toast.error("La contraseña no cuincide");
+      toast.error("Son obligatorios los campos");
     }
   }
   async function actulizarusuarioPassword(urlModficada, constraseña) {
@@ -86,11 +93,14 @@ const VistaAdminOptionsusuarios = (prop_Usuario) => {
         mode: "cors",
       })
       .then(async (responseData) => {
-        toast.success("Se cambiado la contraseña correctamente");
+        toast.success(responseData.data.info);
+        setTimeout(() => {
+          document.location.href = `${window.location.pathname}`;
+        }, 2500);
       })
       .catch((err) =>
         //alert(err.response.data.desc)
-        console.log(err)
+        toast.success(err.data.desc)
       );
   }
 
@@ -131,16 +141,15 @@ const VistaAdminOptionsusuarios = (prop_Usuario) => {
           show={showDelCuen}
           onHide={handleCloseDelCuen}
           animation={false}
-          className="ModalEditUsuarioPassword"
+          className="ModaldeleteCuenta"
         >
           <Modal.Header closeButton>
             <Modal.Title>Borrar Cuenta</Modal.Title>
           </Modal.Header>
-          <Modal.Body className="ModaBodyEditPassword">
+          <Modal.Body className="ModaBodyDelCuenta">
             <button
               type="button"
               className="btn btn-secondary text-white mx-2"
-              id="cancelar"
               onClick={handleCloseDelCuen}
             >
               Cancelar
@@ -158,7 +167,7 @@ const VistaAdminOptionsusuarios = (prop_Usuario) => {
         </Modal>
         <Modal show={show} onHide={handleClose} animation={false}>
           <Modal.Header closeButton>
-            <Modal.Title>Añadir usuario</Modal.Title>
+            <Modal.Title>Editar usuario</Modal.Title>
           </Modal.Header>
           <form
             id="update_usuario"
@@ -303,14 +312,13 @@ const VistaAdminOptionsusuarios = (prop_Usuario) => {
                 id="editContr"
                 onClick={handleShowPass}
               >
-                Editar Contraseña
+                Editar Password
               </button>
             </div>
             <div className="modal-footer">
               <button
                 type="button"
                 className="btn btn-secondary text-white"
-                id="cancelar"
                 onClick={handleClose}
               >
                 Cancelar
@@ -324,102 +332,101 @@ const VistaAdminOptionsusuarios = (prop_Usuario) => {
               </button>
             </div>
           </form>
-          <Modal
-            show={showPass}
-            onHide={handleClosePass}
-            animation={false}
-            className="ModalEditUsuarioPassword"
-          >
-            <Modal.Header closeButton>
-              <Modal.Title>Editar Contraseña</Modal.Title>
-            </Modal.Header>
-            <Modal.Body className="ModaBodyEditPassword">
-              <form
-                id="update_usuario_password"
-                method="PUT"
-                onSubmit={handleSubmit(usuarioPassEditSubmit)}
-                ref={formRef}
-              >
-                <div className="form-group mb-2">
-                  <strong>
-                    <label className="mb-2">Nueva contraseña:</label>
-                  </strong>
-                  <input
-                    type="password"
-                    className="form-control"
-                    id="new-password"
-                    name="Contraseña"
-                    placeholder="Nueva contraseña..."
-                    required
-                    {...register("Contraseña", {
-                      required: {
-                        value: true,
-                        message: "Necesitas este campo",
-                      },
-                      pattern: {
-                        value:
-                          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\s]).{8,}$/i,
-                        message:
-                          "El formato no es correcto, Necesitas 8 numeros y una Letra",
-                      },
-                    })}
-                  />
-                  {errors.Contraseña && (
-                    <span className={errors.Contraseña && "mensajeError"}>
-                      {errors.Contraseña.message}
-                    </span>
-                  )}
-                </div>
-                <div className="form-group mb-2">
-                  <strong>
-                    <label className="mb-2">Repite la contraseña:</label>
-                  </strong>
-                  <input
-                    type="password"
-                    className="form-control"
-                    id="new-password_re"
-                    name="Contraseña_re"
-                    placeholder="Repite contraseña..."
-                    required
-                    {...register("Contraseña_re", {
-                      required: {
-                        value: true,
-                        message: "Necesitas este campo",
-                      },
-                      pattern: {
-                        value:
-                          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\s]).{8,}$/i,
-                        message: "El formato no es correcto",
-                      },
-                    })}
-                  />
-                  {errors.Contraseña_re && (
-                    <span className={errors.Contraseña_re && "mensajeError"}>
-                      {errors.Contraseña_re.message}
-                    </span>
-                  )}
-                </div>
-                <div className="modal-footer">
-                  <button
-                    type="button"
-                    className="btn btn-secondary text-white"
-                    id="cancelar"
-                    onClick={handleClosePass}
-                  >
-                    Cancelar
-                  </button>
-                  <button
-                    type="submit"
-                    className="btn btn-primary text-white"
-                    id="actualizar_contraseña"
-                  >
-                    Actualizar constraseña
-                  </button>
-                </div>
-              </form>
-            </Modal.Body>
-            <Toaster></Toaster>
-          </Modal>
+          <Toaster></Toaster>
+        </Modal>
+        <Modal
+          show={showPass}
+          onHide={handleClosePass}
+          animation={false}
+          className="ModalEditUsuarioPassword"
+        >
+          <Modal.Header closeButton>
+            <Modal.Title>Editar Contraseña</Modal.Title>
+          </Modal.Header>
+          <Modal.Body className="ModaBodyEditPassword">
+            <form
+              id="update_usuario_password"
+              method="PUT"
+              onSubmit={handleSubmit(usuarioPassEditSubmit)}
+              ref={formRefPas}
+            >
+              <div className="form-group mb-2">
+                <strong>
+                  <label className="mb-2">Nueva constraseña:</label>
+                </strong>
+                <input
+                  type="password"
+                  className="form-control"
+                  id="new-password"
+                  name="Password"
+                  placeholder="Nueva constraseña..."
+                  {...register("Password", {
+                    required: {
+                      value: false,
+                      message: "Necesitas este campo",
+                    },
+                    pattern: {
+                      value:
+                        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\s]).{8,}$/i,
+                      message:
+                        "El formato no es correcto, Necesitas 8 numeros y una Letra",
+                    },
+                  })}
+                />
+                {errors.Password && (
+                  <span className={errors.Password && "mensajeError"}>
+                    {errors.Password.message}
+                  </span>
+                )}
+              </div>
+              <div className="form-group mb-2">
+                <strong>
+                  <label className="mb-2">Repite la constraseña:</label>
+                </strong>
+                <input
+                  type="password"
+                  className="form-control"
+                  id="newPassword"
+                  name="newPassword"
+                  placeholder="Repite Password..."
+                  {...register("newPassword", {
+                    required: {
+                      value: false,
+                      message: "Necesitas este campo",
+                    },
+                    pattern: {
+                      value:
+                        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\s]).{8,}$/i,
+                      message:
+                        "El formato no es correcto, Minimo 8 caracteres, algun numero y simbolos",
+                    },
+                  })}
+                />
+                {errors.newPassword && (
+                  <span className={errors.newPassword && "mensajeError"}>
+                    {errors.newPassword.message}
+                  </span>
+                )}
+              </div>
+              <div className="modal-footer">
+                <button
+                  type="button"
+                  className="btn btn-secondary text-white"
+                  id="cancelar"
+                  onClick={handleClosePass}
+                >
+                  Cancelar
+                </button>
+                <button
+                  type="submit"
+                  className="btn btn-primary text-white"
+                  id="actualizar_Password"
+                >
+                  Actualizar constraseña
+                </button>
+              </div>
+            </form>
+          </Modal.Body>
           <Toaster></Toaster>
         </Modal>
       </div>

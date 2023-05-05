@@ -23,7 +23,7 @@ export default class AdminUser extends React.Component {
         this.setState({ usuarios });
       })
       .catch((err) => {
-        console.log(err);
+        toast.success(err.data.desc);
       });
   }
 
@@ -35,32 +35,32 @@ export default class AdminUser extends React.Component {
             <div className="card">
               <table className="table table-bordered table-striped">
                 <thead>
-                  <tr className="mw-25">
-                    <th>ID Usuario</th>
-                    <th>Nombre</th>
-                    <th>Apellidos</th>
+                  <tr>
+                    <th className="THeadID">ID Usuario</th>
+                    <th className="THeadName">Nombre</th>
+                    <th className="THeadApe">Apellidos</th>
 
-                    <th>DNI</th>
-                    <th>ID Perfil</th>
-                    <th>Opciones</th>
+                    <th className="THeadDNI">DNI</th>
+                    <th className="THeadIDPer">ID Perfil</th>
+                    <th className="THeadOption">Opciones</th>
                   </tr>
                 </thead>
                 <tbody>
                   {this.state.usuarios.map((usuario) => (
                     <tr key={usuario.id_usuario}>
-                      <th>{usuario.id_usuario}</th>
-                      <th>{usuario.Nombre}</th>
-                      <th>{usuario.Apellidos}</th>
+                      <td className="TDID">{usuario.id_usuario}</td>
+                      <td className="TDName">{usuario.Nombre}</td>
+                      <td className="TDApe">{usuario.Apellidos}</td>
 
-                      <th>{usuario.DNI}</th>
-                      <th>
+                      <td className="TDDNI">{usuario.DNI}</td>
+                      <td className="TDIDPerf">
                         {usuario.id_perfiles == 1 ? "Administrador" : "Usuario"}
-                      </th>
-                      <th>
+                      </td>
+                      <td className="TDOption">
                         <VistaAdminOptionsusuarios
                           prop_usuario={usuario}
                         ></VistaAdminOptionsusuarios>
-                      </th>
+                      </td>
                     </tr>
                   ))}
                 </tbody>

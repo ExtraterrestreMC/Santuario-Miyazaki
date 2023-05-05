@@ -24,15 +24,6 @@ const VistaAdmin = () => {
     //console.log(formData);
     const bono = Object.fromEntries(formData);
     console.log(bono);
-    /*
-        1. Usamos FormData para obtener la información
-        2. FormData requiere la referencia del DOM,
-           gracias al REF API podemos pasar esa referencia
-        3. Finalmente obtenemos los datos serializados
-      */
-    // const formData = new FormData(formRef.current);
-    // //console.log(formData);
-    // const bono = Object.fromEntries(formData);
     registrar(URL_Bonos_Basica, bono);
   }
 
@@ -45,7 +36,7 @@ const VistaAdmin = () => {
           location.reload();
         }, 2500);
       })
-      .catch((err) => toast.error("Se a producido un error"), console.log(err));
+      .catch((err) => toast.success(err.data.desc), console.log(err));
   }
   const handleShow = () => setShow(true);
   function comrobarADMINAdd() {

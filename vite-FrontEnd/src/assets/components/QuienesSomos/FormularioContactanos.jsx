@@ -1,11 +1,12 @@
 import React, { useRef } from "react";
 import emailjs from "@emailjs/browser";
-
+import toast, { Toaster } from "react-hot-toast";
 export const FormularioContactanos = () => {
   const form = useRef();
   const sendEmail = (e) => {
     console.log("asdasdassda");
-    e.preventDefault();
+    e.preventDefault(form.current);
+    console.log();
     emailjs
       .sendForm(
         "service_zeb9n8o",
@@ -15,10 +16,11 @@ export const FormularioContactanos = () => {
       )
       .then(
         (result) => {
-          console.log(result.text);
+          toast.success("Se a enviado correacmente");
         },
         (error) => {
-          console.log(error.text);
+          toast.console.error();
+          ("No se a podido enviar, intentelo mas tarde");
         }
       );
   };
@@ -44,6 +46,7 @@ export const FormularioContactanos = () => {
                   type="text"
                   name="user_name"
                   className="form-control"
+                  required
                 />
               </div>
             </div>
@@ -56,6 +59,7 @@ export const FormularioContactanos = () => {
                   type="email"
                   name="user_email"
                   className="form-control"
+                  required
                 />
               </div>
             </div>
@@ -83,6 +87,7 @@ export const FormularioContactanos = () => {
           </div>
         </form>
       </div>
+      <Toaster></Toaster>
     </section>
   );
 };
