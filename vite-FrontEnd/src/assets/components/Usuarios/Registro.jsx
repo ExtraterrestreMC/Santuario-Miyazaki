@@ -1,21 +1,31 @@
 import React from "react";
 import axios from "axios";
 const URL_Creacion = "https://localhost:3000/api/v1/usuarios";
+import toast, { Toaster } from "react-hot-toast";
+import { useForm } from "react-hook-form";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser, faUserPlus } from "@fortawesome/free-solid-svg-icons";
 
-const Registro = () => {
+//import { faUser } from "@fortawesome/free-brands-svg-icons";
+export default function Registro() {
   const formRef = React.useRef();
 
-  function handleSubmit(evt) {
-    evt.preventDefault();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+  function onSubmit(evento) {
+    console.log(evento);
     /*
         1. Usamos FormData para obtener la información
         2. FormData requiere la referencia del DOM,
            gracias al REF API podemos pasar esa referencia
         3. Finalmente obtenemos los datos serializados
       */
-    const formData = new FormData(formRef.current);
-    console.log(formData);
-    const usuario = Object.fromEntries(formData);
+    // const formData = new FormData(formRef.current);
+    // console.log(formData);
+    const usuario = evento;
     registrar(URL_Creacion, usuario);
   }
 
@@ -23,15 +33,17 @@ const Registro = () => {
     axios
       .post(url_registro, usuario, { withCredentials: true, mode: "cors" })
       .then(async (responseData) => {
-        alert(
+        toast.success(
           responseData.data.info +
-            ". Se dirigira al incio de sesion a continuación"
+            ". \n Se dirigira al incio de sesion a continuación"
         );
-        document.location.href = "/login.html";
+        setTimeout(() => {
+          document.location.href = "/login.html";
+        }, 2500);
       })
       .catch((err) =>
         //alert(err.response.data.desc)
-        console.log(err)
+        toast.error(err.response.data.desc)
       );
   }
   return (
@@ -43,23 +55,7 @@ const Registro = () => {
               <div className="card border-0 shadow">
                 <div className="card-header d-flex justify-content-center">
                   <div id="icono">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="icon icon-tabler icon-tabler-user-plus"
-                      width="44"
-                      height="44"
-                      viewBox="0 0 24 24"
-                      strokeWidth="1.5"
-                      stroke="#2c3e50"
-                      fill="none"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    >
-                      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                      <circle cx="9" cy="7" r="4" />
-                      <path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
-                      <path d="M16 11h6m-3 -3v6" />
-                    </svg>
+                    <FontAwesomeIcon icon={faUserPlus} className="iconos" />
                   </div>
                 </div>
                 <div className="card-body">
@@ -67,7 +63,7 @@ const Registro = () => {
                     id="registro"
                     action="/"
                     method="post"
-                    onSubmit={handleSubmit}
+                    onSubmit={handleSubmit(onSubmit)}
                     ref={formRef}
                   >
                     <input
@@ -77,7 +73,19 @@ const Registro = () => {
                       name="Nombre"
                       placeholder="Introduzca su nombre"
                       required
+                      tabIndex={0}
+                      {...register("Nombre", {
+                        required: {
+                          value: true,
+                          message: "Necesitas este campo",
+                        },
+                      })}
                     />
+                    {errors.Nombre && (
+                      <span className={errors.Nombre && "mensajeError"}>
+                        {errors.Nombre.message}
+                      </span>
+                    )}
                     <input
                       type="text"
                       id="Apellidos"
@@ -85,7 +93,19 @@ const Registro = () => {
                       name="Apellidos"
                       placeholder="Introduzca sus apellidos"
                       required
+                      tabIndex={1}
+                      {...register("Apellidos", {
+                        required: {
+                          value: true,
+                          message: "Necesitas este campo",
+                        },
+                      })}
                     />
+                    {errors.Apellidos && (
+                      <span className={errors.Apellidos && "mensajeError"}>
+                        {errors.Apellidos.message}
+                      </span>
+                    )}
                     <input
                       type="email"
                       id="Correo"
@@ -93,7 +113,23 @@ const Registro = () => {
                       name="Correo"
                       placeholder="Introduzca su Correo"
                       required
+                      tabIndex={2}
+                      {...register("Correo", {
+                        required: {
+                          value: true,
+                          message: "Necesitas este campo",
+                        },
+                        pattern: {
+                          value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                          message: "El formato no es correcto",
+                        },
+                      })}
                     />
+                    {errors.Correo && (
+                      <span className={errors.Correo && "mensajeError"}>
+                        {errors.Correo.message}
+                      </span>
+                    )}
                     <input
                       type="password"
                       id="Contraseña"
@@ -101,7 +137,24 @@ const Registro = () => {
                       name="Contraseña"
                       placeholder="Introduzca su Contraseña"
                       required
+                      tabIndex={3}
+                      {...register("Contraseña", {
+                        required: {
+                          value: true,
+                          message: "Necesitas este campo",
+                        },
+                        pattern: {
+                          value:
+                            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\w\s]).{8,}$/i,
+                          message: "El formato no es correcto",
+                        },
+                      })}
                     />
+                    {errors.Contraseña && (
+                      <span className={errors.Contraseña && "mensajeError"}>
+                        {errors.Contraseña.message}
+                      </span>
+                    )}
                     <input
                       type="text"
                       id="DNI"
@@ -109,7 +162,23 @@ const Registro = () => {
                       className="form-control my-4 py-2"
                       placeholder="Introduzca su DNI"
                       required
+                      tabIndex={4}
+                      {...register("DNI", {
+                        required: {
+                          value: true,
+                          message: "Necesitas este campo",
+                        },
+                        pattern: {
+                          value: /^\d{8}[a-zA-Z]$/,
+                          message: "El formato no es correcto",
+                        },
+                      })}
                     />
+                    {errors.DNI && (
+                      <span className={errors.DNI && "mensajeError"}>
+                        {errors.DNI.message}
+                      </span>
+                    )}
                     <div className="text-center mt-3 mb-3">
                       <input
                         type="submit"
@@ -122,15 +191,15 @@ const Registro = () => {
                 <div className="card-footer d-flex justify-content-center">
                   <p>
                     ¿Ya tienes una cuenta?{" "}
-                    <a href="./InicioSesion.html">¡Inicia Sesión!</a>
+                    <a href="login.html">¡Inicia Sesión!</a>
                   </p>
                 </div>
               </div>
             </div>
           </div>
         </div>
+        <Toaster></Toaster>
       </section>
     </div>
   );
-};
-export default Registro;
+}

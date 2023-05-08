@@ -40,7 +40,7 @@ exports.findById = utils.wrapAsync(async function (req, res, next) {
                     res.status(404).json(utils.noExiste("usuario")),
                         logger.warning.warn(utilsLogs.noExiste("usuario con id: " + id));
                 } else {
-                    delete usuario[0].Contraseña
+
                     res.status(200).json((usuario)),
                         logger.access.info(utilsLogs.accesoCorrecto(`usuario ${id}`))
                 }
@@ -112,7 +112,7 @@ exports.cerrarSesion_usuario = function (req, res, next) {
             }
         })
     } else {
-        res.status(404).json(mensajes.noExiste("toasdasdadken"));
+        res.status(404).json(utils.noExiste("toasdasdadken"));
     }
 }
 
@@ -152,77 +152,105 @@ exports.add_usuario = async function (req, res) {
 }
 
 exports.edit_usuario = async function (req, res) {
-    const editUser = new Usuario(req.body);
+    const editUser = (req.body);
     console.log(editUser);
     const { id } = req.params
 
 
-    if (editUser.DNI && editUser.Nombre && editUser.Apellidos && editUser.Correo && editUser.Contraseña && editUser.id_perfiles) {
+    if (editUser.DNI && editUser.Nombre && editUser.Apellidos && editUser.Correo && editUser.id_perfiles) {
 
-        await Usuario.findByemail(editUser.Correo, async function (err, usuario) {
+        await Usuario.findById(id, async function (err, usuario) {
             if (err) {
-                res.status(404).json((utils.noExiste("El email"))),
-                    logger.warning.warn(utilsLogs.noExiste("usuario con el correo: " + emailycontraseña.username + " y con la contraseña: " + emailycontraseña.password));
+                res.status(404).json((utils.noExiste("El usuario"))),
+                    logger.warning.warn(utilsLogs.noExiste("usuario con el id: " + id));
             } else {
                 if (usuario == 0) {
                     res.status(404).json(utils.noExiste("usuario")),
                         logger.warning.warn(utilsLogs.noExiste("usuario"));
                 } else {
-                    let val = bcrypt.compareSync(editUser.Contraseña, usuario[0].Contraseña)
-                    console.log("el valor es :" + val);
-                    if (val || editUser.Contraseña == usuario[0].Contraseña) {
+
+                    try {
                         try {
-                            try {
-                                console.log(editUser);
-                                await Usuario.update(id, editUser, function (err, usuario) {
-                                    if (err) {
-                                        res.status(406).json((utils.missingDatos())),
-                                            logger.warning.warn(utilsLogs.faltanDatos("al usuario"));;
-                                    } else {
-                                        res.status(200).json((utils.editadoCorrectamente("usuario"))),
-                                            logger.access.info(utilsLogs.actualizadoCorrectamente("usuario", usuario
-                                                .id_usuario));
-                                    }
-                                })
-                            } catch {
-                                res.status(406).json(utils.parametrosIncorrectos()),
-                                    logger.warning.warn(utilsLogs.parametrosIncorrectos());
-                            }
+                            console.log(editUser);
+                            await Usuario.update(id, editUser, function (err, usuario) {
+                                if (err) {
+                                    res.status(406).json((utils.missingDatos())),
+                                        logger.warning.warn(utilsLogs.faltanDatos("al usuario"));;
+                                } else {
+                                    console.log("se edito bien");
+                                    res.status(200).json((utils.editadoCorrectamente("usuario"))),
+                                        logger.access.info(utilsLogs.actualizadoCorrectamente("usuario", usuario
+                                            .id_usuario));
+                                }
+                            })
                         } catch {
-                            res.status(500).json((utils.baseDatosNoConectada())),
-                                logger.error.err(utilsLogs.baseDatosNoConectada())
+                            res.status(406).json(utils.parametrosIncorrectos()),
+                                logger.warning.warn(utilsLogs.parametrosIncorrectos());
                         }
-                    } else {
-                        try {
-                            try {
-                                editUser.Contraseña = await bcrypt.hash(editUser.Contraseña, 12)
-                                console.log(editUser);
-                                await Usuario.update(id, editUser, function (err, usuario) {
-                                    if (err) {
-                                        res.status(406).json((utils.missingDatos())),
-                                            logger.warning.warn(utilsLogs.faltanDatos("al usuario"));;
-                                    } else {
-                                        res.status(200).json((utils.editadoCorrectamente("usuario"))),
-                                            logger.access.info(utilsLogs.actualizadoCorrectamente("usuario", usuario
-                                                .id_usuario));
-                                    }
-                                })
-                            } catch {
-                                res.status(406).json(utils.parametrosIncorrectos()),
-                                    logger.warning.warn(utilsLogs.parametrosIncorrectos());
-                            }
-                        } catch {
-                            res.status(500).json((utils.baseDatosNoConectada())),
-                                logger.error.err(utilsLogs.baseDatosNoConectada())
-                        }
+                    } catch {
+                        res.status(500).json((utils.baseDatosNoConectada())),
+                            logger.error.err(utilsLogs.baseDatosNoConectada())
                     }
+
                 }
             }
         })
 
     }
 }
+exports.edit_password = async function (req, res) {
+    const password = req.body;
+    const { id } = req.params
+    console.log(password.Password);
+    console.log(id);
+    if (password.Password) {
+        try {
+            Usuario.findById(id, function (err, usuario) {
+                if (err) {
+                    res.status(406).json(utils.parametrosIncorrectos()),
+                        logger.warning.warn(utilsLogs.parametrosIncorrectos())
+                } else {
+                    if (usuario == 0) {
+                        res.status(404).json(utils.noExiste("usuario")),
+                            logger.warning.warn(utilsLogs.noExiste("usuario con id: " + id));
+                    } else {
+                        /*7hJ#e2kM*/
+                        console.log(password.Password);
+                        try {
+                            let newContraseña = bcrypt.hashSync(password.Password, 12)
+                            console.log(newContraseña);
+                            try {
+                                Usuario.updatePassword(id, newContraseña, function (err, usuario) {
+                                    if (err) {
+                                        res.status(406).json((utils.missingDatos())),
+                                            logger.warning.warn(utilsLogs.faltanDatos("al usuario"));;
+                                    } else {
+                                        res.status(200).json((utils.editadoCorrectamente("usuario"))),
+                                            logger.access.info(utilsLogs.actualizadoCorrectamente("usuario", usuario
+                                                .id_usuario));
+                                    }
+                                })
+                            } catch {
+                                res.status(500).json((utils.baseDatosNoConectada())),
+                                    logger.error.err(utilsLogs.baseDatosNoConectada())
+                            }
+                        } catch (error) {
+                            res.status(406).json((utils.missingDatos()))
+                        }
 
+
+                    }
+                }
+            })
+        } catch {
+            res.status(500).json((utils.baseDatosNoConectada())),
+                logger.error.err(utilsLogs.baseDatosNoConectada())
+        }
+    } else {
+        res.status(406).json(utils.parametrosIncorrectos()),
+            logger.warning.warn(utilsLogs.parametrosIncorrectos())
+    }
+}
 exports.delete_usuario = async function (req, res) {
     const { id } = req.params
     try {

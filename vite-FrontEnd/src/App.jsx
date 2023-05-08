@@ -10,10 +10,12 @@ import "bootstrap/dist/js/bootstrap.js";
 import { NavHeader } from "./assets/components/NavHeader";
 import { Carousell } from "./assets/components/Home/Carrusell";
 import { Footer } from "./assets/components/Footer";
+import CookiesPopUp from "./assets/components/CookiesPopUp";
 function App() {
   return (
     <div>
       <NavHeader></NavHeader>
+      <CookiesPopUp></CookiesPopUp>
       <Carousell></Carousell>
       <Footer></Footer>
     </div>

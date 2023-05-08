@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import VistaAdmin from "./VistaAdminAddPlatos";
 import VistaAdminOptionsPlatos from "./VistaAdminOptionsPlatos";
+const IPServidor = `https://localhost:3000/imagen/`;
 
 const URL_Platos_Basica = "https://localhost:3000/api/v1/menu";
 const usuario = JSON.parse(sessionStorage.getItem("usuario"));
@@ -15,9 +16,10 @@ export default class PlatosList extends React.Component {
     axios.get(URL_Platos_Basica).then((response) => {
       //console.log(response);
       let platos = response.data;
+      //console.log(platos);
       platos.map((plato) => {
-        plato.imagen = plato.imagen + "." + plato.extension;
-        delete plato.extension;
+        plato.imagen = `${IPServidor}${plato._id}.jpg`;
+        // console.log(plato.imagen);
       });
       //console.log(platos);
       this.setState({ platos });
@@ -40,17 +42,24 @@ export default class PlatosList extends React.Component {
                         alt="Imagen promocial de: Hamburguesa doble"
                         className="img-fluid"
                       ></img>
+
+                      <h5 className="card_plato_titulo">{plato.nombre}</h5>
+                      <div className="card_plato_precio">
+                        <h6>Precio: {plato.precio}€</h6>
+                        <h6>Descripcion {"->"} pasa por encima</h6>
+                      </div>
                     </div>
                     <div className="card-body cartaAbajo pt-4">
-                      <div className="card-title card-title_Plato  ">
-                        <h5 className="card_plato_titulo">{plato.nombre}</h5>
-                      </div>
-                      <hr></hr>
                       <div className="pt-1 px-4 card_plato_ctn">
-                        <p>Precio: {plato.precio}€</p>
-                        <p className="px-4 plato_descripcion">
-                          Descripcion: {plato.descripcion}
+                        <p className="plato_descripcion">
+                          <span className="spanDescripcionPlato">
+                            Descripcion:{" "}
+                          </span>{" "}
+                          {plato.descripcion}
                         </p>
+                        <hr></hr>
+                        <h5>{plato.nombre}</h5>
+                        <h6>Precio: {plato.precio}€</h6>
                       </div>
                       <VistaAdminOptionsPlatos
                         prop_plato={plato}

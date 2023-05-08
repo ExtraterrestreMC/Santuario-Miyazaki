@@ -2,24 +2,37 @@ import React, { useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import axios from "axios";
 const usuario = JSON.parse(sessionStorage.getItem("usuario"));
-
+import toast, { Toaster } from "react-hot-toast";
+import { useForm } from "react-hook-form";
 const URL_Platos_Basica = "https://localhost:3000/api/v1/menu";
 
 const VistaAdmin = () => {
   const formRef = React.useRef();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
-  function platoAddSubmit(evt) {
-    evt.preventDefault();
+
+  function platoAddSubmit(evento) {
+    //console.log(evento);
     /*
         1. Usamos FormData para obtener la información
         2. FormData requiere la referencia del DOM,
            gracias al REF API podemos pasar esa referencia
         3. Finalmente obtenemos los datos serializados
       */
-    const formData = new FormData(formRef.current);
-    //console.log(formData);
-    const plato = Object.fromEntries(formData);
+    const plato = evento;
+    //console.log(plato.imagen[0]);
+    plato.imagen = plato.imagen[0].name;
+    //console.log(plato.imagen);
+    // const formData = new FormData(formRef.current);
+    // console.log(formData);
+    // const plato = Object.fromEntries(formData);
+    //console.log(plato);
     registrar(URL_Platos_Basica, plato);
   }
 
@@ -27,18 +40,17 @@ const VistaAdmin = () => {
     await axios
       .post(URL_Platos_Basica, plato, { withCredentials: true, mode: "cors" })
       .then(async (responseData) => {
-        alert(responseData.data.info);
-        location.reload();
+        toast.success(responseData.data.info);
+        setTimeout(() => {
+          location.reload();
+        }, 2500);
       })
-      .catch((err) =>
-        //alert(err.response.data.desc)
-        console.log(err)
-      );
+      .catch((err) => toast.success(err.data.desc), console.log(err));
   }
   const handleShow = () => setShow(true);
   function comrobarADMINAdd() {
     //console.log("comprobando");
-    console.log(usuario);
+    //console.log(usuario);
     if (usuario != null) {
       if (usuario.id_perfiles == 1) {
         return (
@@ -58,11 +70,11 @@ const VistaAdmin = () => {
                 <Modal.Title>Añadir Plato</Modal.Title>
               </Modal.Header>
               <form
-                id="URL_Platos_Basica"
                 method="POST"
                 action=""
-                onSubmit={platoAddSubmit}
+                onSubmit={handleSubmit(platoAddSubmit)}
                 ref={formRef}
+                // enctype="multipart/form-data"
               >
                 <div className="modal-body">
                   <div className="form-group mb-2">
@@ -76,7 +88,18 @@ const VistaAdmin = () => {
                       name="nombre"
                       placeholder="Introduce el nombre del plato"
                       required
-                    ></input>
+                      {...register("nombre", {
+                        required: {
+                          value: true,
+                          message: "Necesitas este campo",
+                        },
+                      })}
+                    />
+                    {errors.nombre && (
+                      <span className={errors.nombre && "mensajeError"}>
+                        {errors.nombre.message}
+                      </span>
+                    )}
                   </div>
                   <div className="form-group mb-2">
                     <strong>
@@ -89,48 +112,65 @@ const VistaAdmin = () => {
                       name="precio"
                       placeholder="Introduce su precio"
                       required
-                    ></input>
+                      {...register("precio", {
+                        required: {
+                          value: true,
+                          message: "Necesitas este campo",
+                        },
+                      })}
+                    />
+                    {errors.precio && (
+                      <span className={errors.precio && "mensajeError"}>
+                        {errors.precio.message}
+                      </span>
+                    )}
                   </div>
                   <div className="form-group mb-2">
                     <strong>
                       <label className="mb-2">Descripcion:</label>
                     </strong>
-                    <input
+                    <textarea
                       type="text"
                       className="form-control"
                       id="descripcion"
                       name="descripcion"
                       placeholder="Introduce la descripcion"
                       required
-                    ></input>
+                      {...register("descripcion", {
+                        required: {
+                          value: true,
+                          message: "Necesitas este campo",
+                        },
+                      })}
+                    />
+                    {errors.descripcion && (
+                      <span className={errors.descripcion && "mensajeError"}>
+                        {errors.descripcion.message}
+                      </span>
+                    )}
                   </div>
                   <div className="form-group mb-2">
                     <strong>
-                      <label className="mb-2">
-                        URL de la imagen(sin extension):
-                      </label>
+                      <label className="mb-2">imagen:</label>
                     </strong>
                     <input
-                      type="text"
+                      type="file"
                       className="form-control"
                       id="imagen"
                       name="imagen"
-                      placeholder="URL sin la extesion"
-                      required
-                    ></input>
-                  </div>
-                  <div className="form-group mb-2">
-                    <strong>
-                      <label className="mb-2">Extension de la imagen:</label>
-                    </strong>
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="extension"
-                      name="extension"
-                      placeholder="Introduce su las extension de la imagen"
-                      required
-                    ></input>
+                      accept="image/*"
+                      {...register("imagen", {
+                        required: {
+                          value: true,
+                          message: "Necesitas este campo",
+                        },
+                      })}
+                    />
+                    {errors.imagen && (
+                      <span className={errors.imagen && "mensajeError"}>
+                        {errors.imagen.message}
+                      </span>
+                    )}
                   </div>
                 </div>
                 <div className="modal-footer">
@@ -151,6 +191,7 @@ const VistaAdmin = () => {
                   </button>
                 </div>
               </form>
+              <Toaster></Toaster>
             </Modal>
           </div>
         );

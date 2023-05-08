@@ -65,6 +65,18 @@ Usuario.update = async function (id, editUser, resultado) {
     })
 }
 
+
+Usuario.updatePassword = async function (id, password, resultado) {
+    const sql = "UPDATE usuarios SET Contraseña = ? WHERE id_usuario=?"
+    dbConn.query(sql, [password, id], function (err, res) {
+        if (err) {
+            resultado(err, null)
+        } else {
+            resultado(null, res)
+        }
+    })
+}
+
 Usuario.delete = async function (id, resultado) {
     const sql = "DELETE FROM usuarios where id_usuario = ?"
     dbConn.query(sql, parseInt(id), function (err, res) {

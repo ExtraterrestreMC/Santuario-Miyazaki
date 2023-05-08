@@ -23,7 +23,7 @@ export default class AdminUser extends React.Component {
         this.setState({ usuarios });
       })
       .catch((err) => {
-        console.log(err);
+        toast.success(err.data.desc);
       });
   }
 
@@ -35,30 +35,32 @@ export default class AdminUser extends React.Component {
             <div className="card">
               <table className="table table-bordered table-striped">
                 <thead>
-                  <tr className="mw-25">
-                    <th>ID Usuario</th>
-                    <th>Nombre</th>
-                    <th>Apellidos</th>
-                    <th>Email</th>
-                    <th>DNI</th>
-                    <th>ID Perfil</th>
-                    <th>Opciones</th>
+                  <tr>
+                    <th className="THeadID">ID Usuario</th>
+                    <th className="THeadName">Nombre</th>
+                    <th className="THeadApe">Apellidos</th>
+
+                    <th className="THeadDNI">DNI</th>
+                    <th className="THeadIDPer">ID Perfil</th>
+                    <th className="THeadOption">Opciones</th>
                   </tr>
                 </thead>
                 <tbody>
                   {this.state.usuarios.map((usuario) => (
-                    <tr key={usuario.id_usuario} className="">
-                      <th>{usuario.id_usuario}</th>
-                      <th>{usuario.Nombre}</th>
-                      <th>{usuario.Apellidos}</th>
-                      <th>{usuario.Correo}</th>
-                      <th>{usuario.DNI}</th>
-                      <th>{usuario.id_perfiles}</th>
-                      <th>
+                    <tr key={usuario.id_usuario}>
+                      <td className="TDID">{usuario.id_usuario}</td>
+                      <td className="TDName">{usuario.Nombre}</td>
+                      <td className="TDApe">{usuario.Apellidos}</td>
+
+                      <td className="TDDNI">{usuario.DNI}</td>
+                      <td className="TDIDPerf">
+                        {usuario.id_perfiles == 1 ? "Administrador" : "Usuario"}
+                      </td>
+                      <td className="TDOption">
                         <VistaAdminOptionsusuarios
                           prop_usuario={usuario}
                         ></VistaAdminOptionsusuarios>
-                      </th>
+                      </td>
                     </tr>
                   ))}
                 </tbody>
