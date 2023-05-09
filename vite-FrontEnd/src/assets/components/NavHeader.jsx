@@ -6,8 +6,12 @@ import { useForm } from "react-hook-form";
 import { read } from "@popperjs/core";
 
 const usuario = JSON.parse(sessionStorage.getItem("usuario"));
-const URL_cerrarSesion = "https://localhost:3000/api/v1/usuarios/cerrarSesion";
-const URL_Usuarios_Basica = "https://localhost:3000/api/v1/usuarios";
+const URL_cerrarSesion = `${import.meta.env.VITE_APP_BackEnd}${
+  import.meta.env.VITE_APP_Usuarios
+}cerrarSesion`;
+const URL_Usuarios_Basica = `${import.meta.env.VITE_APP_BackEnd}${
+  import.meta.env.VITE_APP_Usuarios
+}`;
 
 const borrarCuenta = (e) => {
   e.preventDefault();

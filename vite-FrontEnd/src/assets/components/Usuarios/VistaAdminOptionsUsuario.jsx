@@ -4,7 +4,9 @@ import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import { useForm } from "react-hook-form";
 const usuarioJSON = JSON.parse(sessionStorage.getItem("usuario"));
-let URL_Usuarios_Basica = "https://localhost:3000/api/v1/usuarios";
+let URL_Usuarios_Basica = `${import.meta.env.VITE_APP_BackEnd}${
+  import.meta.env.VITE_APP_Usuarios
+}`;
 
 const VistaAdminOptionsusuarios = (prop_Usuario) => {
   const formRef = React.useRef();

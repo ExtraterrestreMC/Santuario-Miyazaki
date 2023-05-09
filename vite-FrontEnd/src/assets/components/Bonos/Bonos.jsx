@@ -5,7 +5,9 @@ import VistaAdmin from "./VistaAdminAddBonos";
 
 import VistaAdminBono from "./VistaAdminBono";
 
-const URL_Bonos_Basica = "https://localhost:3000/api/v1/bonos";
+const URL_Bonos_Basica = `${import.meta.env.VITE_APP_BackEnd}${
+  import.meta.env.VITE_APP_Bonos
+}`; //,"https://localhost:3000/api/v1/bonos";
 
 export default class BonosList extends React.Component {
   state = {

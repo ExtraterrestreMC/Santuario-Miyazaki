@@ -4,7 +4,9 @@ import axios from "axios";
 const usuario = JSON.parse(sessionStorage.getItem("usuario"));
 import toast, { Toaster } from "react-hot-toast";
 import { useForm } from "react-hook-form";
-const URL_Platos_Basica = "https://localhost:3000/api/v1/menu";
+const URL_Platos_Basica = `${import.meta.env.VITE_APP_BackEnd}${
+  import.meta.env.VITE_APP_Platos
+}`;
 
 const VistaAdmin = () => {
   const formRef = React.useRef();

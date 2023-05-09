@@ -2,7 +2,9 @@ import React from "react";
 import axios from "axios";
 import VistaAdminOptionsusuarios from "./VistaAdminOptionsUsuario";
 const usuario = JSON.parse(sessionStorage.getItem("usuario"));
-const URL_Usuarios_Basica = "https://localhost:3000/api/v1/usuarios";
+const URL_Usuarios_Basica = `${import.meta.env.VITE_APP_BackEnd}${
+  import.meta.env.VITE_APP_Usuarios
+}`;
 
 export default class AdminUser extends React.Component {
   state = {

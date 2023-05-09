@@ -4,7 +4,9 @@ import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import { useForm } from "react-hook-form";
 const usuario = JSON.parse(sessionStorage.getItem("usuario"));
-const URL_Bonos_Basica = "https://localhost:3000/api/v1/bonos/";
+const URL_Bonos_Basica = `${import.meta.env.VITE_APP_BackEnd}${
+  import.meta.env.VITE_APP_Bonos
+}`;
 
 const VistaAdminOptionsbonos = (prop_bono) => {
   let bono = prop_bono.prop_bono.prop_bono;

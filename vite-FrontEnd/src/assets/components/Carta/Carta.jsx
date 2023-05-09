@@ -2,9 +2,13 @@ import React, { useState } from "react";
 import axios from "axios";
 import VistaAdmin from "./VistaAdminAddPlatos";
 import VistaAdminOptionsPlatos from "./VistaAdminOptionsPlatos";
-const IPServidor = `https://localhost:3000/imagen/`;
+const IPServidor = `${import.meta.env.VITE_APP_BackEnd}${
+  import.meta.env.VITE_APP_Imagenes
+}`;
 
-const URL_Platos_Basica = "https://localhost:3000/api/v1/menu";
+const URL_Platos_Basica = `${import.meta.env.VITE_APP_BackEnd}${
+  import.meta.env.VITE_APP_Platos
+}`;
 const usuario = JSON.parse(sessionStorage.getItem("usuario"));
 export default class PlatosList extends React.Component {
   state = {

@@ -1,6 +1,8 @@
 import React from "react";
 import axios from "axios";
-const URL_Creacion = "https://localhost:3000/api/v1/usuarios";
+const URL_Creacion = `${import.meta.env.VITE_APP_BackEnd}${
+  import.meta.env.VITE_APP_Usuarios
+}`;
 import toast, { Toaster } from "react-hot-toast";
 import { useForm } from "react-hook-form";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
