@@ -1,3 +1,39 @@
-{ 
-  "rutas": [{ "origen": "/[^.]+", "destino": "/", "estado": 200 }] 
+{
+    "routes": [
+        {
+            "src": "/home",
+            "dest": "../index.html",
+            "status": 200
+        },
+        {
+            "src": "/cartas",
+            "dest": "../carta.html",
+            "status": 200
+        },
+        {
+            "src": "/bonos",
+            "dest": "../bonos.html",
+            "status": 200
+        },
+        {
+            "src": "/login",
+            "dest": "../login.html",
+            "status": 200
+        },
+        {
+            "src": "/registro",
+            "dest": "../registro.html",
+            "status": 200
+        },
+        {
+            "src": "/quienesSomos",
+            "dest": "../quienesSomos.html",
+            "status": 200
+        },
+        {
+            "src": "/usuarios",
+            "dest": "../usuarios.html.html",
+            "status": 200
+        }
+    ]
 }
