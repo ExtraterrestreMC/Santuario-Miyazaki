@@ -1,16 +1,17 @@
 # Trabajo Final Grado Superior
 
-## ***Santuario de Miyazli***
+## **_Santuario de Miyazli_**
+
+> #### **Descripcion**
 >
+> El proyecto que se realizará será la creación de un sitio web para una ciber-cafeteria gaming, donde se podrán dar de alta los usuarios y podrán ver la carta de los platos y los bonos para ver el precio de lo que costaría las horas de uso de los ordenadores del local además de información del establecimiento.
 >
-> #### **Descripcion** ####
->El proyecto que se realizará será la creación de un sitio web para una ciber-cafeteria gaming, donde se podrán dar de alta los usuarios y podrán ver la carta de los platos  y los bonos para ver el precio de lo que costaría las horas de uso de los ordenadores del local además de información del establecimiento.
->
->Realizado por: *Alejandro Montero Cerdan* 
+> Realizado por: _Alejandro Montero Cerdan_
 >
 > **Desarrollo Aplicaciones Web**
 
 ### Figma
+
     Enlace a figma:
     https://www.figma.com/file/2upejTr3AUhaT3ie5Hm6Jz/TFG?node-id=0%3A1&t=NwBo2qCJcyuBqzAy-1
     
@@ -31,9 +32,8 @@
     Se a instalado Cookie-parse
     Se a instalado EJS
 
-
-
 ### NPM FrontEND
+
     Se a instalado @emailjs/browser
     Se a instalado axios
     Se a instalado bootstrap
@@ -46,66 +46,76 @@
 
 ### Configuracion MySQL
 
->***NOTES*** :
+> **_NOTES_** :
 >
 > const { connect } = require("http2")
 > const mysql = require("mysql")
-> 
+>
 > const dbConfig = mysql.createConnection({
->     host: "*IP_Base_Datos*",
->     user: "*Usuario_Base_Datos*",
->     password: "*Password_Usuario_Base_Datos*",
->     database: "*Nombre_Base_Datos*"
+> host: "_IP_Base_Datos_",
+> user: "_Usuario_Base_Datos_",
+> password: "_Password_Usuario_Base_Datos_",
+> database: "_Nombre_Base_Datos_"
 > })
-> 
+>
 > dbConfig.establishConexion = function () {
->     dbConfig.connect(function (err) {
->         if (err) {
->             console.log(err)
->             process.exit(0)
->         } else {
->             console.log("DB MySQL > Connected!")
->             console.log(dbConfig.state)
->         }
->     })
+> dbConfig.connect(function (err) {
+> if (err) {
+> console.log(err)
+> process.exit(0)
+> } else {
+> console.log("DB MySQL > Connected!")
+> console.log(dbConfig.state)
+> }
+> })
 > }
 > module.exports = dbConfig
->
 
 ### Configuracion MONGODB
->***NOTES*** : 
+
+> **_NOTES_** :
 >
->const mongoose = require("mongoose"); //por instalar
+> const mongoose = require("mongoose"); //por instalar
 >
->const dbConfig = {
->    host: "*IP_Base_Datos_MonogoBD*",
->    port: *27017/Puerto_Base_Datos_MonogoDB*,
->    database: "*Nombre_Base_Datos_MonogoDB*"
->}
->const dbConn = {
->conectar: mongoose.connect(`mongodb://${dbConfig.>host}:${dbConfig.port}/${dbConfig.database}`)
->}
+> const dbConfig = {
+> host: "_IP_Base_Datos_MonogoBD_",
+> port: _27017/Puerto_Base_Datos_MonogoDB_,
+> database: "_Nombre_Base_Datos_MonogoDB_"
+> }
+> const dbConn = {
+> conectar: mongoose.connect(`mongodb://${dbConfig.>host}:${dbConfig.port}/${dbConfig.database}`)
+> }
 >
->module.exports = dbConn
+> module.exports = dbConn
 
 ### WHITELIST (Index backend)
-> ***NOTES***
+
+> **_NOTES_**
 >
->const whitelist = [" *IP_CLIENTE* " ]
->
->
+> const whitelist = [" *IP_CLIENTE* " ]
 
 ### URL Axios (archivos FrontEnd)
-> ***NOTES***
->#### Usuarios
->const URL_Usuarios_Basica = "*https://IP_BACKEND*/api/v1/usuarios";
+
+> **_NOTES_**
 >
->const URL_InicioSesion = "*https://IP_BACKEND*/api/v1/usuarios/autenticar";
+> #### Usuarios
 >
->const URL_CerrarSesion = "*https://IP_BACKEND*/api/v1/usuarios/cerrarSesion";
+> const URL*Usuarios_Basica = "\_https://IP_BACKEND*/api/v1/usuarios";
 >
->#### Platos
->const URL_Platos_Basica = "*https://IP_BACKEND*/api/v1/menu";
+> const URL*InicioSesion = "\_https://IP_BACKEND*/api/v1/usuarios/autenticar";
 >
->#### Bonos
->const URL_Bonos_Basica = "*https://IP_BACKEND*/api/v1/bonos";
+> const URL*CerrarSesion = "\_https://IP_BACKEND*/api/v1/usuarios/cerrarSesion";
+>
+> #### Platos
+>
+> const URL*Platos_Basica = "\_https://IP_BACKEND*/api/v1/menu";
+>
+> #### Bonos
+>
+> const URL*Bonos_Basica = "\_https://IP_BACKEND*/api/v1/bonos";
+
+### Inicio Sesion
+
+> **_NOTES_** >
+> alejandroADM@gmail.com -> 7hJ#e2kM
+> alejandroUser@gmail.com -> 7hJ#e2kM

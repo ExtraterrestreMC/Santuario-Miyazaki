@@ -7,7 +7,9 @@ const usuario = JSON.parse(sessionStorage.getItem("usuario"));
 const URL_Bonos_Basica = "https://localhost:3000/api/v1/bonos/";
 
 const VistaAdminOptionsbonos = (prop_bono) => {
-  //console.log(prop_bono.prop_bono);
+  let bono = prop_bono.prop_bono.prop_bono;
+  // console.log("PROP");
+  // console.log(bono);
   const formRef = React.useRef();
   const [show, setShow] = useState(false);
 
@@ -27,10 +29,11 @@ const VistaAdminOptionsbonos = (prop_bono) => {
   function bonoEditSubmit() {
     const formData = new FormData(formRef.current);
     //console.log(formData);
-    const bono = Object.fromEntries(formData);
-    //console.log(bono);
-    let urlModficada = URL_Bonos_Basica + `${prop_bono.prop_bono._id}`;
-    actulizarBono(urlModficada, bono);
+    const bonoEdit = Object.fromEntries(formData);
+    console.log(bonoEdit);
+    let urlModficada = URL_Bonos_Basica + `${bono._id}`;
+    console.log(urlModficada);
+    actulizarBono(urlModficada, bonoEdit);
   }
 
   async function actulizarBono(urlModficada, bono) {
@@ -47,12 +50,13 @@ const VistaAdminOptionsbonos = (prop_bono) => {
           location.reload();
         }, 2500);
       })
-      .catch((err) => toast.success(err.data.desc), console.log(err));
+      .catch((err) => console.log(err)); //toast.success(err.data.desc)
   }
   const handleShow = () => setShow(true);
 
   function eliminarbono() {
-    let urlModficada = URL_Bonos_Basica + `${prop_bono.prop_bono._id}`;
+    console.log(bono._id);
+    let urlModficada = URL_Bonos_Basica + `${bono._id}`;
     axios
       .delete(urlModficada, { withCredentials: true, mode: "cors" })
       .then((datosRespuesta) => {
@@ -121,7 +125,7 @@ const VistaAdminOptionsbonos = (prop_bono) => {
 
             <Modal show={show} onHide={handleClose} animation={false}>
               <Modal.Header closeButton>
-                <Modal.Title>Añadir bono</Modal.Title>
+                <Modal.Title>Editar bono</Modal.Title>
               </Modal.Header>
               <form
                 id="update_bono"
@@ -141,7 +145,7 @@ const VistaAdminOptionsbonos = (prop_bono) => {
                       id="nombre"
                       name="nombre"
                       placeholder="Introduce el nombre del bono"
-                      defaultValue={prop_bono.prop_bono.nombre}
+                      defaultValue={bono.nombre}
                       required
                       {...register("nombre", {
                         required: {
@@ -166,7 +170,7 @@ const VistaAdminOptionsbonos = (prop_bono) => {
                       id="precio"
                       name="precio"
                       placeholder="Introduce su precio"
-                      defaultValue={prop_bono.prop_bono.precio}
+                      defaultValue={bono.precio}
                       required
                       // Para que solo acepte entre 2 decimales
                       step="0.01"
@@ -192,7 +196,7 @@ const VistaAdminOptionsbonos = (prop_bono) => {
                       id="descripcion"
                       name="descripcion"
                       placeholder="Introduce la descripcion"
-                      defaultValue={prop_bono.prop_bono.descripcion}
+                      defaultValue={bono.descripcion}
                       required
                       {...register("descripcion", {
                         required: {
@@ -222,7 +226,7 @@ const VistaAdminOptionsbonos = (prop_bono) => {
                     className="btn btn-primary text-white"
                     id="añadir_bono"
                   >
-                    Añadir bono
+                    Actualizar bono
                   </button>
                 </div>
               </form>

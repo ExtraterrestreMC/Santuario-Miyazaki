@@ -13,8 +13,11 @@ const CookiesPopUp = () => {
         overlay
         overlayClasses="overlayclass"
       >
-        Las cookies de nuestra pagina web solo seran para nosotros, y no daremos
-        informacion a ninugna pagina/expresa esterna
+        <h2 className="text-decoration-underline">Nuestras Cookies</h2>
+        <p className=" py-2">
+          Las cookies de nuestra página web serán únicamente para nosotros y no
+          proporcionaremos información a ninguna página o entidad externa.
+        </p>
       </CookieConsent>
     </div>
   );
