@@ -2,37 +2,37 @@
     "routes": [
         {
             "src": "/home",
-            "dest": "/index.html",
+            "dest": "../index.html",
             "status": 200
         },
         {
             "src": "/cartas",
-            "dest": "/cartas.html",
+            "dest": "../carta.html",
             "status": 200
         },
         {
             "src": "/bonos",
-            "dest": "/bonos.html",
+            "dest": "../bonos.html",
             "status": 200
         },
         {
             "src": "/login",
-            "dest": "/login.html",
+            "dest": "../login.html",
             "status": 200
         },
         {
             "src": "/registro",
-            "dest": "/registro.html",
+            "dest": "../registro.html",
             "status": 200
         },
         {
             "src": "/quienesSomos",
-            "dest": "/quienesSomos.html",
+            "dest": "../quienesSomos.html",
             "status": 200
         },
         {
             "src": "/usuarios",
-            "dest": "/usuarios.html",
+            "dest": "../usuarios.html.html",
             "status": 200
         }
     ]
