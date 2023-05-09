@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 26-03-2023 a las 20:32:30
+-- Tiempo de generación: 05-05-2023 a las 17:38:22
 -- Versión del servidor: 10.4.24-MariaDB
 -- Versión de PHP: 8.1.6
 
@@ -42,6 +42,10 @@ CREATE TABLE IF NOT EXISTS `perfiles` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
+-- RELACIONES PARA LA TABLA `perfiles`:
+--
+
+--
 -- Truncar tablas antes de insertar `perfiles`
 --
 
@@ -50,9 +54,10 @@ TRUNCATE TABLE `perfiles`;
 -- Volcado de datos para la tabla `perfiles`
 --
 
-INSERT INTO `perfiles` (`id`, `nombre`, `canRead`, `canWrite`, `canEdit`, `canDelete`, `special`) VALUES(1, 'ADMIN', b'1', b'1', b'1', b'1', b'1');
-INSERT INTO `perfiles` (`id`, `nombre`, `canRead`, `canWrite`, `canEdit`, `canDelete`, `special`) VALUES(2, 'USER', b'1', b'1', b'1', b'1', b'0');
-INSERT INTO `perfiles` (`id`, `nombre`, `canRead`, `canWrite`, `canEdit`, `canDelete`, `special`) VALUES(3, 'GUESS', b'1', b'0', b'0', b'0', b'0');
+INSERT INTO `perfiles` (`id`, `nombre`, `canRead`, `canWrite`, `canEdit`, `canDelete`, `special`) VALUES
+(1, 'ADMIN', b'1', b'1', b'1', b'1', b'1'),
+(2, 'USER', b'1', b'1', b'1', b'1', b'0'),
+(3, 'GUESS', b'1', b'0', b'0', b'0', b'0');
 
 -- --------------------------------------------------------
 
@@ -73,7 +78,13 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
   UNIQUE KEY `DNI` (`DNI`),
   UNIQUE KEY `Correo` (`Correo`) USING HASH,
   KEY `id_perfiles` (`id_perfiles`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
+
+--
+-- RELACIONES PARA LA TABLA `usuarios`:
+--   `id_perfiles`
+--       `perfiles` -> `id`
+--
 
 --
 -- Truncar tablas antes de insertar `usuarios`
@@ -84,8 +95,9 @@ TRUNCATE TABLE `usuarios`;
 -- Volcado de datos para la tabla `usuarios`
 --
 
-INSERT INTO `usuarios` (`id_usuario`, `DNI`, `Nombre`, `Apellidos`, `Correo`, `Contraseña`, `id_perfiles`) VALUES(2, '46085985B', 'Alex2', 'Montero5', 'alejandro.montero.cerdan@gmail.com', '$2b$12$rYCRlVI1ISAxrnV33hh7X.woFcyed8Gz7MBvU5LWWebPTQuWFAJWu', 1);
-INSERT INTO `usuarios` (`id_usuario`, `DNI`, `Nombre`, `Apellidos`, `Correo`, `Contraseña`, `id_perfiles`) VALUES(4, '46085985v', 'Alex2', 'Montero2', 'alejandro@gmail.com', '$2b$12$lzcE8cG/ONP0INsguwr2keLFbiZR6svjbSiAgL1n.eBqmeKe5PciW', 1);
+INSERT INTO `usuarios` (`id_usuario`, `DNI`, `Nombre`, `Apellidos`, `Correo`, `Contraseña`, `id_perfiles`) VALUES
+(1, '46085985B', 'Alejandro', 'ADM', 'alejandroADM@gmail.com', '$2b$12$S9EXfqf/o6XmTCZsKyhc.Ov5HQVgvBAX6Xn8YztBnqahXYC.tQjsi', 1),
+(2, '46085985V', 'Alejandro', 'USEr', 'alejandroUser@gmail.com', '$2b$12$5.ETYjB7nU8hmDBdBf/.cOjd4mRFrTDNTt7yZ3Ga0PZd4NM5syN.O', 2);
 
 --
 -- Restricciones para tablas volcadas
