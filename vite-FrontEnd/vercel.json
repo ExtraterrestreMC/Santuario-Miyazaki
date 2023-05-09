@@ -1,8 +1,38 @@
 {
     "routes": [
         {
-            "src": "/[^.]+",
-            "dest": "/",
+            "src": "/home",
+            "dest": "/index.html",
+            "status": 200
+        },
+        {
+            "src": "/cartas",
+            "dest": "/cartas.html",
+            "status": 200
+        },
+        {
+            "src": "/bonos",
+            "dest": "/bonos.html",
+            "status": 200
+        },
+        {
+            "src": "/login",
+            "dest": "/login.html",
+            "status": 200
+        },
+        {
+            "src": "/registro",
+            "dest": "/registro.html",
+            "status": 200
+        },
+        {
+            "src": "/quienesSomos",
+            "dest": "/quienesSomos.html",
+            "status": 200
+        },
+        {
+            "src": "/usuarios",
+            "dest": "/usuarios.html",
             "status": 200
         }
     ]
