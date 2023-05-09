@@ -14,8 +14,8 @@ import CookiesPopUp from "./assets/components/CookiesPopUp";
 function App() {
   return (
     <div>
-      <NavHeader></NavHeader>
       <CookiesPopUp></CookiesPopUp>
+      <NavHeader></NavHeader>
       <Carousell></Carousell>
       <Footer></Footer>
     </div>

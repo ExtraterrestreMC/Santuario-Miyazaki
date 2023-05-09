@@ -11,8 +11,8 @@ export const Carousell = () => {
         alt="..."
       >
         <div className="textoCarrusel">
-          <h5>Te estamos esperando</h5>
-          <p>Nuestros servicios son los mejores y el ambiente agradable.</p>
+          <h5>¡ Te esperamos !</h5>
+          <p>Nuestros servicios son los mejores y el ambiente es agradable.</p>
           <hr />
         </div>
       </MDBCarouselItem>
@@ -24,8 +24,8 @@ export const Carousell = () => {
         alt="..."
       >
         <div className="textoCarrusel">
-          <h5>Ordenador de ultima generación</h5>
-          <p>Con lo cuales podras jugar a alta calidad y alta velocidad.</p>
+          <h5>Ordenador de última generación</h5>
+          <p>Con ellos podrás jugar con alta calidad y velocidad</p>
           <hr />
         </div>
       </MDBCarouselItem>
@@ -38,9 +38,9 @@ export const Carousell = () => {
         alt="..."
       >
         <div className="textoCarrusel">
-          <h5>Crea y aumento tu amistades</h5>
+          <h5>Crea y aumenta tus amistades</h5>
           <p>
-            Ademas de poder crear tu equipo con amigo o con usuarios de aqui.
+            Además de poder crear tu equipo con amigos o con usuarios de aquí.
           </p>
           <hr />
         </div>

@@ -33,6 +33,7 @@ export default class PlatosList extends React.Component {
           <div className="container pt-5">
             <section className="py-2">
               <VistaAdmin usuario></VistaAdmin>
+              <h4>Para ver los ingredientes pase el puntero por encima</h4>
               <div id="mainCarta" className="container pt-5">
                 {this.state.platos.map((plato) => (
                   <div className="card_Platos m-4" key={plato._id}>
@@ -46,14 +47,14 @@ export default class PlatosList extends React.Component {
                       <h5 className="card_plato_titulo">{plato.nombre}</h5>
                       <div className="card_plato_precio">
                         <h6>Precio: {plato.precio}€</h6>
-                        <h6>Descripcion {"->"} pasa por encima</h6>
+                        <h6>Ingredientes</h6>
                       </div>
                     </div>
                     <div className="card-body cartaAbajo pt-4">
                       <div className="pt-1 px-4 card_plato_ctn">
                         <p className="plato_descripcion">
                           <span className="spanDescripcionPlato">
-                            Descripcion:{" "}
+                            Descripción:{" "}
                           </span>{" "}
                           {plato.descripcion}
                         </p>
