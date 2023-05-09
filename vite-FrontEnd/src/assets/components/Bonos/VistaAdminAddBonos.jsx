@@ -6,7 +6,9 @@ import { useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
 const usuario = JSON.parse(sessionStorage.getItem("usuario"));
 
-const URL_Bonos_Basica = "https://localhost:3000/api/v1/bonos";
+const URL_Bonos_Basica = `${import.meta.env.VITE_APP_BackEnd}${
+  import.meta.env.VITE_APP_Bonos
+}`;
 
 const VistaAdmin = () => {
   const {
