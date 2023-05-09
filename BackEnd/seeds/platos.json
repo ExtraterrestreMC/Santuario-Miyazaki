@@ -1,0 +1,28 @@
+[{
+  "_id": {
+    "$oid": "64493806a949d4d60d37036c"
+  },
+  "nombre": "Pizza Peperoni",
+  "precio": 12,
+  "descripcion": "Una pizza hecha con nuestras mejores salsas",
+  "imagen": "64493806a949d4d60d37036c",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "644941cc94f48ea49196d9ce"
+  },
+  "nombre": "Hamburguesa triple",
+  "precio": 12,
+  "descripcion": "esto es una prueb",
+  "imagen": "644941cc94f48ea49196d9ce.jpg",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "644a375955fc22d2d37a83bf"
+  },
+  "nombre": "Alitas de Pollo (6)",
+  "precio": 5,
+  "descripcion": "Las mejores alitas de pollo con miel y mostaza al horno",
+  "imagen": "644a375955fc22d2d37a83bf",
+  "__v": 0
+}]

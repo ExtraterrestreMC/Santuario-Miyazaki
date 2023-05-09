@@ -5,11 +5,20 @@ const dbConn = require("../config/db.config.mongo_Ciber");
  * Seed de tareas para la base de datos
  */
 const platos = [{
-    nombre: "Hamburguesa",
-    precio: 1.4,
-    descripcion: "Hamburguesa normal",
-    imagen: "https://imagenes.elpais.com/resizer/ytGV08J5knZcBHJ0xRZI5i20V0E=/1960x1470/cloudfront-eu-central-1.images.arcpublishing.com/prisa/BPOVHCK5BFH4HG6VTKZ55W6SXI",
-    extension: "jpeg",
+    nombre: "Pizza Peperoni",
+    precio: 12,
+    descripcion: "Una pizza hecha con nuestras mejores salsas",
+    imagen: "64493806a949d4d60d37036c",
+}, {
+    nombre: "Hamburguesa triple",
+    precio: 12,
+    descripcion: "La mejoeres hamburguesas de toda Alicante",
+    imagen: "644941cc94f48ea49196d9ce",
+}, {
+    nombre: "Alitas de Pollo (6)",
+    precio: 5,
+    descripcion: "Las mejores alitas de pollo con miel y mostaza al horno",
+    imagen: "644a375955fc22d2d37a83bf",
 }]
 
 /**

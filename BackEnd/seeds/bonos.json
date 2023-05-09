@@ -1,0 +1,25 @@
+[{
+  "_id": {
+    "$oid": "6422a52a7af05a441f9eaa52"
+  },
+  "nombre": "Bono Estandar",
+  "precio": 5,
+  "descripcion": "Bono de 2 horas recomendado para probar nuestros dispositivos. ",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "642d336d9eb1478a30abea55"
+  },
+  "nombre": "Bono Experto",
+  "precio": 10,
+  "descripcion": "Bono de 6 Horas, se nota que te gustamos",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "644a370c55fc22d2d37a83b5"
+  },
+  "nombre": "Bono Premiun",
+  "precio": 20,
+  "descripcion": "Bono de 12 horas  con un refresco",
+  "__v": 0
+}]
