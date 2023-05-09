@@ -11,6 +11,7 @@ const dbConfig = mysql.createConnection({
     // password: "",
     // database: "ciber_cafeteria"
     host: process.env.DB_HOST,
+    root: process.env.BD_Port,
     user: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME

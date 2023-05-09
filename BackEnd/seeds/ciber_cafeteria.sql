@@ -71,7 +71,7 @@ CREATE TABLE IF NOT EXISTS `usuarios` (
   `DNI` varchar(9) NOT NULL,
   `Nombre` varchar(255) NOT NULL,
   `Apellidos` varchar(255) NOT NULL,
-  `Correo` text NOT NULL,
+  `Correo` VARCHAR(255) NOT NULL,
   `Contraseña` varchar(255) NOT NULL,
   `id_perfiles` int(9) DEFAULT NULL,
   PRIMARY KEY (`id_usuario`),
