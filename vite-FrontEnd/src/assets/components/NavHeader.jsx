@@ -537,7 +537,7 @@ export const NavHeader = () => {
                 </a>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="Carta.html">
+                <a className="nav-link" href="carta.html">
                   Carta
                 </a>
               </li>
