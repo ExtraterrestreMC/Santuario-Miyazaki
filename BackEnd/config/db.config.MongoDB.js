@@ -1,5 +1,5 @@
 const mongoose = require("mongoose"); //por instalar
-const MongoClient = require('mongodb').MongoClient
+//const MongoClient = require('mongodb').MongoClient
 require('dotenv').config()
 const dbConfig = {
     host: process.env.MONGODB_URL,
