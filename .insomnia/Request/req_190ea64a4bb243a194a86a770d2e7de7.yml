@@ -1,0 +1,30 @@
+_id: req_190ea64a4bb243a194a86a770d2e7de7
+type: Request
+parentId: fld_32c1fd46d1ae4ed8a842b715552596fb
+modified: 1679431157734
+created: 1679430475842
+url: http://localhost:3000/api/v1/bonos/641a15cecd8f11b597a6edf2
+name: updatebono
+description: ""
+method: PUT
+body:
+  mimeType: application/json
+  text: |-
+    	{
+    		"nombre": "Bono Secundario",
+    		"precio": "50",
+    		"descripcion": "Bono premium del ciber"
+    	}
+parameters: []
+headers:
+  - name: Content-Type
+    value: application/json
+authentication: {}
+metaSortKey: -1679424768911
+isPrivate: false
+settingStoreCookies: true
+settingSendCookies: true
+settingDisableRenderRequestBody: false
+settingEncodeUrl: true
+settingRebuildPath: true
+settingFollowRedirects: global

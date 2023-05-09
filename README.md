@@ -14,6 +14,10 @@
 
     Enlace a figma:
     https://www.figma.com/file/2upejTr3AUhaT3ie5Hm6Jz/TFG?node-id=0%3A1&t=NwBo2qCJcyuBqzAy-1
+    
+### Trello
+    Enlace a Trello:
+    https://trello.com/b/3ZxJJQkP/santuario-de-miyazaki
 
 ## NPM BACKEND
 
