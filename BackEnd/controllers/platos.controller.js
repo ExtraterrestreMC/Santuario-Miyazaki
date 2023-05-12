@@ -13,6 +13,25 @@ const path = require("path");
 const { log } = require("console");
 const ruta = "D:/dd/TFG/BackEnd/public/img"
 
+const multer = require('multer');
+
+/**
+ * PRueba imagnes
+ * 
+ * 
+ */
+
+
+// const storage = multer.diskStorage({
+//     destination: path.join(__dirname, "../public/img")
+// })
+// const uploadImge = multer({
+//     storage,
+//     limits: { fileSize: 4000000 }
+// }).single("image")
+
+
+
 exports.find_platos = utils.wrapAsync(async function (req, res, next) {
     try {
         await dbConn.conectar;
@@ -80,8 +99,16 @@ exports.get_plato_id = utils.wrapAsync(async function (req, res, next) {
 
 exports.add_plato = utils.wrapAsync(async function (req, res, next) {
     let plato = req.body;
-    console.log(plato);
-    console.log(plato.imagen);
+    //console.log(plato);
+    console.log(plato.imagen[0]);
+    // uploadImge(req, res, (err) => {
+    //     //console.log(req);
+    //     if (err) {
+    //         res.status(406).json(`{ "codError": ${err}}`)
+    //     }
+    // })
+
+
     const rutavieja = `${ruta}/${plato.imagen}`
     if (plato.nombre && plato.precio && plato.descripcion && plato.imagen) {
         try {

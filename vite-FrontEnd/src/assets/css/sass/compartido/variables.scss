@@ -2,22 +2,22 @@
 
 $ColorFondo: #3f3f3f;
 $ColorPlatosBorde: #00a4b6,
-#5d386b,
-#f1f1f1;
+    #5d386b,
+    #f1f1f1;
 $ColorPlatos: rgb(255, 255, 255);
 $ColorBonos: #f3f3f3;
 $ColorBonosTitulo: #386c6e;
 $ColorBonosBorde: #009e4f,
-#73049b,
-#f1f1f1;
+    #73049b,
+    #f1f1f1;
 $ColorInformacionBorde: #69e4a6,
-#73049b,
-#eb4d4d;
+    #73049b,
+    #eb4d4d;
 
 /*Tamaño height*/
 
 $HGalerryBonos: 88.5vh;
-$HGalerryPlatos: 89.2vh;
+$HGalerryPlatos: 88.5vh;
 $HGalerryCarruselIMG: 84.2vh;
 $HGalerryCarruselVideo: 83.6vh;
 $HContRegistro: 88.5vh;
@@ -30,3 +30,9 @@ $MHusario: 88.6vh;
 $WHCard_Plato: 300px;
 $WHCard_Bono: 250px;
 $MHnoAuth: 80vh;
+
+/*Tamaño breackpoint*/
+
+$breackpoint-mobile: 575px;
+$breackpoint-tablet: 768px;
+$breackpoint-desktop: 1024px;

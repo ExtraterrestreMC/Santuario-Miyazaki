@@ -6,3 +6,29 @@
 nav ul {
     font-size: 1.475em
 }
+
+#update_usuario_password {
+    height: 42.3vh;
+}
+
+nav {
+    width: 100%;
+}
+
+@include for-tablet-only {
+    nav ul {
+        font-size: 0.8em
+    }
+}
+
+@include for-phone-only {
+    #update_usuario_password {
+        height: 56.3vh;
+    }
+}
+
+@include for-tablet-only {
+    #update_usuario_password {
+        height: 56.3vh;
+    }
+}

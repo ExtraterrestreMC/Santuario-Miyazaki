@@ -28,6 +28,7 @@ const VistaAdmin = () => {
         3. Finalmente obtenemos los datos serializados
       */
     const plato = evento;
+    console.log(plato);
     //console.log(plato.imagen[0]);
     plato.imagen = plato.imagen[0].name;
     //console.log(plato.imagen);
@@ -76,7 +77,7 @@ const VistaAdmin = () => {
                 action=""
                 onSubmit={handleSubmit(platoAddSubmit)}
                 ref={formRef}
-                // enctype="multipart/form-data"
+                enctype="multipart/form-data"
               >
                 <div className="modal-body">
                   <div className="form-group mb-2">
@@ -160,7 +161,7 @@ const VistaAdmin = () => {
                       className="form-control"
                       id="imagen"
                       name="imagen"
-                      accept="image/*"
+                      accept=".png, .jpg, .jpeg"
                       {...register("imagen", {
                         required: {
                           value: true,

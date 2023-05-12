@@ -187,7 +187,7 @@ const VistaAdminOptionsPlatos = (prop_plato) => {
                     <strong>
                       <label className="mb-2">Descripcion:</label>
                     </strong>
-                    <input
+                    <textarea
                       type="text"
                       className="form-control"
                       id="descripcion"

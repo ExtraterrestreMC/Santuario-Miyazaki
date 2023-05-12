@@ -11,6 +11,7 @@ const logger = require("./Logs/logger");
 const cookieParser = require("cookie-parser")
 const https = require("https");
 const fs = require("fs")
+const path = require("path")
 
 
 
@@ -93,6 +94,8 @@ app.use((req, res) => {
 })
 
 
+// Static files
+app.use(express.static(path.join(__dirname, 'public')));
 
 const httpsOptions = {
     cert: fs.readFileSync("certificadosSSL/www.SatuarioMiyazaki.com+2.crt"),

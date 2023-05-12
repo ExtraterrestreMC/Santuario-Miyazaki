@@ -7,6 +7,10 @@
     min-height: $MHnoAuth;
 }
 
+#update_usuario_password_ADM {
+    height: 66.3vh;
+}
+
 .TDID,
 .TDName,
 .TDApe,
@@ -14,4 +18,52 @@
 .TDIDPerf,
 .TDOption {
     width: 1vw;
+}
+
+@include for-phone-only {
+    #adminContendor {
+        padding-top: 20%;
+    }
+
+    .TDApe,
+    .TDDNI,
+    .TDIDPerf,
+    .THeadApe,
+    .THeadDNI,
+    .THeadIDPer {
+        display: none;
+    }
+
+    #update_usuario_password_ADM {
+        height: 66.3vh;
+    }
+}
+
+@include for-tablet-only {
+    #adminContendor {
+        padding-top: 20%;
+    }
+
+    .TDApe,
+    .TDDNI,
+    .TDIDPerf,
+    .THeadApe,
+    .THeadDNI,
+    .THeadIDPer {
+        display: none;
+    }
+
+    #update_usuario_password_ADM {
+        height: 66.3vh;
+    }
+}
+
+@include for-desktop-only {
+    #adminContendor {
+        padding-top: 20%;
+    }
+
+    #update_usuario_password_ADM {
+        height: 66.3vh;
+    }
 }

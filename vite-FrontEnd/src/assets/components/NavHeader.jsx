@@ -45,6 +45,20 @@ const cerrarSesion = (e) => {
 export const NavHeader = () => {
   //console.log(usuario);
 
+  function habilitar() {
+    let tituloModal = document.getElementById("tituloModal");
+    console.log(tituloModal);
+    let nombre_user = document.getElementById("nombre_user");
+    console.log(nombre_user);
+    let apellido_user = document.getElementById("apellido_user");
+    let correo_user = document.getElementById("correo_user");
+    let DNI_user = document.getElementById("DNI_user");
+    tituloModal.innerText = "Editar Usuario";
+    nombre_user.removeAttribute("disabled");
+    apellido_user.removeAttribute("disabled");
+    correo_user.removeAttribute("disabled");
+    DNI_user.removeAttribute("disabled");
+  }
   const formRef = React.useRef();
   const formRefPas = React.useRef();
   const {
@@ -88,7 +102,7 @@ export const NavHeader = () => {
                 id="editarUser"
                 onClick={handleShow}
               >
-                Editar
+                Datos
               </button>
             </li>
             <li className="nav-item  px-2 mb-1">
@@ -147,7 +161,7 @@ export const NavHeader = () => {
             className="ModalEditUsuario"
           >
             <Modal.Header closeButton>
-              <Modal.Title>Editar un usuario</Modal.Title>
+              <Modal.Title id="tituloModal">Datos del usuario</Modal.Title>
             </Modal.Header>
             <form
               id="update_usuario"
@@ -169,6 +183,7 @@ export const NavHeader = () => {
                     defaultValue={usuario.Nombre}
                     required
                     tabIndex={0}
+                    disabled
                     {...register("Nombre", {
                       required: {
                         value: true,
@@ -194,6 +209,7 @@ export const NavHeader = () => {
                     placeholder="Introduce su apellido"
                     defaultValue={usuario.Apellidos}
                     required
+                    disabled
                     tabIndex={1}
                     {...register("Apellidos", {
                       required: {
@@ -220,6 +236,7 @@ export const NavHeader = () => {
                     placeholder="Introduce su correo electronico"
                     defaultValue={usuario.Correo}
                     required
+                    disabled
                     tabIndex={2}
                     {...register("Correo", {
                       required: {
@@ -250,6 +267,7 @@ export const NavHeader = () => {
                     placeholder="Introduce su DNI"
                     required
                     tabIndex={4}
+                    disabled
                     defaultValue={usuario.DNI}
                     {...register("DNI", {
                       required: {
@@ -270,7 +288,15 @@ export const NavHeader = () => {
                   )}
                 </div>
               </div>
-              <div className="modal-footer">
+
+              <div id="buttoneseditar" className="modal-footer">
+                <button
+                  className="btn btn-primary text-white"
+                  id="actualizar_usuario"
+                  type="submit"
+                >
+                  Actualizar Usuario
+                </button>
                 <button
                   type="button"
                   className="btn btn-secondary text-white"
@@ -280,26 +306,27 @@ export const NavHeader = () => {
                   Editar Contraseña
                 </button>
               </div>
-              <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn btn-secondary text-white"
-                  id="cancelar"
-                  onClick={handleClose}
-                >
-                  Cancelar
-                </button>
-                <button
-                  type="submit"
-                  className="btn btn-primary text-white"
-                  id="actualizar_usuario"
-                >
-                  Actualizar Usuario
-                </button>
-              </div>
             </form>
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn btn-secondary text-white"
+                id="cancelar"
+                onClick={handleClose}
+              >
+                Cancelar
+              </button>
+              <button
+                className="btn btn-primary text-white"
+                id="habilitar_usuario"
+                onClick={habilitar}
+              >
+                Habilitar editar usuario
+              </button>
+            </div>
             <Toaster></Toaster>
           </Modal>
+
           <Modal
             show={showPass}
             onHide={handleClosePass}
@@ -307,7 +334,7 @@ export const NavHeader = () => {
             className="ModalEditUsuarioPassword"
           >
             <Modal.Header closeButton>
-              <Modal.Title>Editar Contraseña</Modal.Title>
+              <Modal.Title id="tituloModal">Editar Contraseña</Modal.Title>
             </Modal.Header>
             <Modal.Body className="ModaBodyEditPassword">
               <form

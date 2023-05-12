@@ -4,13 +4,13 @@
 }
 
 .videoCarusel {
-    height: $HGalerryCarruselVideo;
+    max-height: $HGalerryCarruselVideo;
     object-fit: cover;
 }
 
 .textoCarrusel {
     margin: 0 auto;
-    max-width: 30vw;
+    width: 30vw;
     padding: 1%;
     background-color: rgba(0, 0, 0, 0.411);
     border-radius: 15px;
@@ -22,4 +22,73 @@
 
 .textoCarrusel hr {
     color: white;
+}
+
+@include for-phone-only {
+    .imgCarusel {
+        min-height: 85vh;
+    }
+
+    .videoCarusel {
+        min-height: 79.6vh;
+    }
+
+    .d-none {
+        display: block !important;
+    }
+
+    .textoCarrusel {
+        font-size: 0.7rem;
+    }
+
+    .textoCarrusel h5 {
+        font-size: 1rem;
+        text-decoration: none;
+    }
+}
+
+@include for-tablet-only {
+    #imagenUnoCarrusel {
+        min-height: 90vh;
+    }
+
+    .videoCarusel {
+        min-height: 79.6vh;
+    }
+
+    .d-none {
+        display: block !important;
+    }
+
+    .textoCarrusel {
+        font-size: 0.7rem;
+    }
+
+    .textoCarrusel h5 {
+        font-size: 1rem;
+        text-decoration: none;
+    }
+}
+
+@include for-desktop-only {
+    #imagenUnoCarrusel {
+        min-height: 90vh;
+    }
+
+    .videoCarusel {
+        min-height: 80.6vh;
+    }
+
+    .d-none {
+        display: block !important;
+    }
+
+    .textoCarrusel {
+        font-size: 0.7rem;
+    }
+
+    .textoCarrusel h5 {
+        font-size: 1rem;
+        text-decoration: none;
+    }
 }
