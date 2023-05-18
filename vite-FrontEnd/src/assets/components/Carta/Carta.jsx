@@ -19,7 +19,7 @@ function PlatosList() {
 
   const handleChange = (e) => {
     setBusqueda(e.target.value);
-    console.log(e.target.value);
+    //console.log(e.target.value);
     filtro(e.target.value);
   };
   const filtro = (texto) => {
@@ -28,7 +28,7 @@ function PlatosList() {
       if (
         elemento.nombre.toString().toLowerCase().includes(texto.toLowerCase())
       ) {
-        console.log(elemento);
+        //console.log(elemento);
         return elemento;
       }
     });
@@ -39,10 +39,10 @@ function PlatosList() {
       //console.log(response);
       let platos = response.data;
       //console.log(platos);
-      platos.map((plato) => {
-        plato.imagen = `${IPServidor}${plato._id}.jpg`;
-        // console.log(plato.imagen);
-      });
+      // platos.map((plato) => {
+      //   plato.imagen = `${IPServidor}${plato._id}.jpg`;
+      //   // console.log(plato.imagen);
+      // });
       //console.log(platos);
       setPlatos(platos);
       setplatosFinal(platos);
@@ -52,8 +52,8 @@ function PlatosList() {
   useEffect(() => {
     componentDidMount();
   }, []);
-  console.log(platos);
-  console.log(platosFinal);
+  //console.log(platos);
+  //console.log(platosFinal);
   return (
     <div>
       <section id="galleryCarta" className="pt-5">

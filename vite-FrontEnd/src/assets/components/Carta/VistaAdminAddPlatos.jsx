@@ -4,10 +4,11 @@ import axios from "axios";
 const usuario = JSON.parse(sessionStorage.getItem("usuario"));
 import toast, { Toaster } from "react-hot-toast";
 import { useForm } from "react-hook-form";
+import pako from "pako";
 const URL_Platos_Basica = `${import.meta.env.VITE_APP_BackEnd}${
   import.meta.env.VITE_APP_Platos
 }`;
-
+let contador = 0;
 const VistaAdmin = () => {
   const formRef = React.useRef();
 
@@ -18,8 +19,10 @@ const VistaAdmin = () => {
   } = useForm();
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
-
+  const [base64String, setBase64String] = useState("");
   function platoAddSubmit(evento) {
+    const formData = new FormData(formRef.current);
+    const plato = Object.fromEntries(formData);
     //console.log(evento);
     /*
         1. Usamos FormData para obtener la información
@@ -27,16 +30,33 @@ const VistaAdmin = () => {
            gracias al REF API podemos pasar esa referencia
         3. Finalmente obtenemos los datos serializados
       */
-    const plato = evento;
+    //const plato = evento;
     console.log(plato);
+
     //console.log(plato.imagen[0]);
-    plato.imagen = plato.imagen[0].name;
-    //console.log(plato.imagen);
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      const base64 = reader.result;
+      setBase64String(base64);
+    };
+
+    if (plato.imagen) {
+      reader.readAsDataURL(plato.imagen);
+    }
+    const compressedData = pako.gzip(base64String, { to: "string" });
+    console.log(base64String.length);
+    console.log(compressedData.length);
+    plato.imagen = base64String;
+    console.log(plato);
     // const formData = new FormData(formRef.current);
     // console.log(formData);
     // const plato = Object.fromEntries(formData);
     //console.log(plato);
-    registrar(URL_Platos_Basica, plato);
+    if (contador >= 1) {
+      registrar(URL_Platos_Basica, plato);
+    } else {
+      contador++;
+    }
   }
 
   async function registrar(URL_Platos_Basica, plato) {
@@ -48,7 +68,7 @@ const VistaAdmin = () => {
           location.reload();
         }, 2500);
       })
-      .catch((err) => toast.success(err.data.desc), console.log(err));
+      .catch((err) => toast.success(err.data.desc));
   }
   const handleShow = () => setShow(true);
   function comrobarADMINAdd() {
@@ -77,7 +97,7 @@ const VistaAdmin = () => {
                 action=""
                 onSubmit={handleSubmit(platoAddSubmit)}
                 ref={formRef}
-                enctype="multipart/form-data"
+                //enctype="multipart/form-data"
               >
                 <div className="modal-body">
                   <div className="form-group mb-2">
