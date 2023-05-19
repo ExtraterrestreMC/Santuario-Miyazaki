@@ -40,7 +40,7 @@ export default function Registro() {
             ". \n Se dirigira al incio de sesion a continuación"
         );
         setTimeout(() => {
-          document.location.href = "/login.html";
+          document.location.href = "/login";
         }, 2500);
       })
       .catch((err) =>
