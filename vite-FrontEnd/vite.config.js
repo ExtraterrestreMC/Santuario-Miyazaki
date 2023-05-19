@@ -10,6 +10,9 @@ export default defineConfig({
     /**
      * Modificacion para Vite Para HTTPS
      */
+    build: {
+        chunkSizeWarningLimit: 1024,
+    },
     server: {
         https: {
             key: fs.readFileSync('./certificadosSSL/www.SatuarioMiyazaki.com+2-key.pem'),
