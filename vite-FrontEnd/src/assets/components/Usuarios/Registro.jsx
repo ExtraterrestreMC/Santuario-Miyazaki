@@ -192,8 +192,7 @@ export default function Registro() {
                 </div>
                 <div className="card-footer d-flex justify-content-center">
                   <p>
-                    ¿Ya tienes una cuenta?{" "}
-                    <a href="login.html">¡Inicia Sesión!</a>
+                    ¿Ya tienes una cuenta? <a href="/login">¡Inicia Sesión!</a>
                   </p>
                 </div>
               </div>

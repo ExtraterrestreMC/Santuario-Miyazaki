@@ -14,7 +14,6 @@ import { Contenedor } from "./assets/components/QuienesSomos/Contenedor";
 function App() {
   return (
     <div>
-      <NavHeader></NavHeader>
       <Contenedor></Contenedor>
       <Footer></Footer>
     </div>

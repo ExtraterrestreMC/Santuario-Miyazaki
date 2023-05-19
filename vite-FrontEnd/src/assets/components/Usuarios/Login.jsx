@@ -38,7 +38,7 @@ export default function Login() {
         sessionStorage.setItem("usuario", JSON.stringify(responseData.data[0]));
 
         setTimeout(() => {
-          document.location.href = "index.html";
+          document.location.href = "/";
         }, 2500);
       })
       .catch(
@@ -130,7 +130,7 @@ export default function Login() {
                 <div className="card-footer d-flex justify-content-center">
                   <p>
                     ¿No tienes una cuenta?{" "}
-                    <a href="./registro.html" tabIndex={3}>
+                    <a href="/registrarse" tabIndex={3}>
                       ¡Regístrate!
                     </a>
                   </p>

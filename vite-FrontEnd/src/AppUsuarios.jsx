@@ -9,7 +9,6 @@ import { Footer } from "./assets/components/Footer";
 function App() {
   return (
     <div>
-      <NavHeader></NavHeader>
       <AdminUser></AdminUser>
       <Footer></Footer>
     </div>

@@ -1,4 +1,5 @@
 import { useState } from "react";
+
 // import reactLogo from "./assets/react.svg";
 // import viteLogo from "/vite.svg";
 // import "./App.css";
@@ -13,14 +14,7 @@ import { Carousell } from "./assets/components/Home/Carrusell";
 import { Footer } from "./assets/components/Footer";
 import CookiesPopUp from "./assets/components/CookiesPopUp";
 function App() {
-  return (
-    <div>
-      <CookiesPopUp></CookiesPopUp>
-      <NavHeader></NavHeader>
-      <Carousell></Carousell>
-      <Footer></Footer>
-    </div>
-  );
+  return <NavHeader></NavHeader>;
 }
 
 export default App;

@@ -3,7 +3,15 @@ import Modal from "react-bootstrap/Modal";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import { useForm } from "react-hook-form";
-import { read } from "@popperjs/core";
+import { BrowserRouter, Route, Routes, Link } from "react-router-dom";
+
+import Home from "../../AppHome";
+import Bonos from "../../AppBonos";
+import Carta from "../../AppCarta";
+import SobreNosotros from "../../AppQSomos";
+import Usuarios from "../../AppUsuarios";
+import Login from "../../AppLogin";
+import Registro from "../../AppRegistro";
 
 const usuario = JSON.parse(sessionStorage.getItem("usuario"));
 const URL_cerrarSesion = `${import.meta.env.VITE_APP_BackEnd}${
@@ -437,14 +445,14 @@ export const NavHeader = () => {
           </a>
           <ul className="dropdown-menu">
             <li>
-              <a className="dropdown-item" href="registro.html">
+              <Link className="dropdown-item" to="/registrarse">
                 Registro
-              </a>
+              </Link>
             </li>
             <li>
-              <a className="dropdown-item" href="login.html">
+              <Link className="dropdown-item" to="/login">
                 Inicio Sesion
-              </a>
+              </Link>
             </li>
           </ul>
         </div>
@@ -457,9 +465,9 @@ export const NavHeader = () => {
       if (usuario.id_perfiles == 1) {
         return (
           <li className="nav-item">
-            <a className="nav-link" href="usuarios.html">
+            <Link to="usuarios" className="nav-link">
               Usuarios
-            </a>
+            </Link>
           </li>
         );
       } else {
@@ -539,7 +547,7 @@ export const NavHeader = () => {
   }
 
   return (
-    <div>
+    <BrowserRouter>
       <nav className="navbar navbar-expand-sm navbar-dark bg-dark fixed-top">
         <div className="container-fluid">
           <img
@@ -559,24 +567,24 @@ export const NavHeader = () => {
           <div className="collapse navbar-collapse" id="mynavbar">
             <ul className="navbar-nav me-auto">
               <li className="nav-item">
-                <a className="nav-link" href="index.html">
+                <Link className="nav-link" to="/">
                   Home
-                </a>
+                </Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="carta.html">
+                <Link className="nav-link" to="/menu">
                   Carta
-                </a>
+                </Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="bonos.html">
+                <Link className="nav-link" to="/bonos">
                   Bonos
-                </a>
+                </Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="quienesSomos.html">
+                <Link className="nav-link" to="/contacnos">
                   Sobre Nosotros
-                </a>
+                </Link>
               </li>
               {comproAdmin()}
             </ul>
@@ -586,6 +594,15 @@ export const NavHeader = () => {
           </div>
         </div>
       </nav>
-    </div>
+      <Routes>
+        <Route exact path="/" element={<Home></Home>} />
+        <Route path="/menu" element={<Carta></Carta>} />
+        <Route path="/bonos" element={<Bonos></Bonos>} />
+        <Route path="/contacnos" element={<SobreNosotros></SobreNosotros>} />
+        <Route path="/login" element={<Login></Login>} />
+        <Route path="/registrarse" element={<Registro></Registro>} />
+        <Route path="/usuarios" element={<Usuarios></Usuarios>} />
+      </Routes>
+    </BrowserRouter>
   );
 };
