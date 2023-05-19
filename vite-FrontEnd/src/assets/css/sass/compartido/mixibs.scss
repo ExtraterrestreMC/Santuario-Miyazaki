@@ -1,0 +1,17 @@
+@mixin for-phone-only {
+    @media(max-width: $breackpoint-mobile) {
+        @content; //Recoge los datos que le pasamos que le pasamos en el include
+    }
+}
+
+@mixin for-tablet-only {
+    @media(max-width: $breackpoint-tablet) {
+        @content; //Recoge los datos que le pasamos que le pasamos en el include
+    }
+}
+
+@mixin for-desktop-only {
+    @media(max-width: $breackpoint-desktop) {
+        @content; //Recoge los datos que le pasamos que le pasamos en el include
+    }
+}

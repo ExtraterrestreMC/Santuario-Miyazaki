@@ -5,15 +5,22 @@ const utils = require("./controllers/utils");
 const version = "v1"
 const cors = require("cors");
 const AppError = require("./AppError");
-app.use(express.urlencoded({ extended: true }))
-app.use(express.json())
+
 const logger = require("./Logs/logger");
 const cookieParser = require("cookie-parser")
 const https = require("https");
 const fs = require("fs")
+const path = require("path")
+const bodyParser = require('body-parser');
 
+/**
+ * Tamaño body
+ */
+app.use(bodyParser.json({ limit: '10mb' }));
+app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
 
-
+app.use(express.urlencoded({ extended: true }))
+app.use(express.json())
 //Para las sessiones
 const session = require("express-session");
 const sessionOptions = {
@@ -25,6 +32,8 @@ const sessionOptions = {
     }
 }
 app.use(session(sessionOptions));
+
+
 
 //CORS
 const whitelist = ["http://localhost:5173", "https://localhost:5173", "http://127.0.0.1:5500", "http://127.0.0.1:5501", "http://127.0.0.1:5502"]
@@ -47,7 +56,6 @@ const corsOptions = {
 app.use(cors(corsOptions));
 //app.use(cors(corsOptions));
 app.use(cookieParser("passwordforcookies"))
-
 
 
 
@@ -93,6 +101,8 @@ app.use((req, res) => {
 })
 
 
+// Static files
+app.use(express.static(path.join(__dirname, 'public')));
 
 const httpsOptions = {
     cert: fs.readFileSync("certificadosSSL/www.SatuarioMiyazaki.com+2.crt"),

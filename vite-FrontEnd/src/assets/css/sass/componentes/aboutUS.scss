@@ -68,3 +68,26 @@
         transform: rotate(360deg);
     }
 }
+
+@include for-phone-only {
+    #conocenos {
+        margin: 60% 0 10%;
+        display: block;
+    }
+
+    .infomracion {
+        width: 100vw;
+        height: 30vh;
+    }
+
+    .infomracion::before {
+        width: 120vw;
+        height: 50vh;
+        left: -80px;
+        top: -80px;
+    }
+
+    .leaflet-tile .leaflet-tile-loaded {
+        display: none;
+    }
+}

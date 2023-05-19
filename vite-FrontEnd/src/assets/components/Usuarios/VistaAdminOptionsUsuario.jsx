@@ -38,6 +38,21 @@ const VistaAdminOptionsusuarios = (prop_Usuario) => {
   const handleCloseDelCuen = () => setShowDelCuen(false);
   const handleShowDelCuen = () => setShowDelCuen(true);
 
+  function habilitar() {
+    let tituloModal = document.getElementById("tituloModal");
+
+    let nombre_user = document.getElementById("nombre");
+    console.log(nombre_user);
+    let apellido_user = document.getElementById("apellido");
+    let correo_user = document.getElementById("correo");
+    let DNI_user = document.getElementById("DNI");
+    tituloModal.innerText = "Editar Usuario";
+    nombre_user.removeAttribute("disabled");
+    apellido_user.removeAttribute("disabled");
+    correo_user.removeAttribute("disabled");
+    DNI_user.removeAttribute("disabled");
+  }
+
   function usuarioEditSubmit(evento) {
     console.log(evento);
     delete evento.Password;
@@ -130,7 +145,7 @@ const VistaAdminOptionsusuarios = (prop_Usuario) => {
     return (
       <div className="btn-group">
         <button className=" btn btn-warning btn-rounded " onClick={handleShow}>
-          Editar
+          Datos
         </button>
 
         <button
@@ -169,7 +184,7 @@ const VistaAdminOptionsusuarios = (prop_Usuario) => {
         </Modal>
         <Modal show={show} onHide={handleClose} animation={false}>
           <Modal.Header closeButton>
-            <Modal.Title>Editar usuario</Modal.Title>
+            <Modal.Title id="tituloModal">Datos usuario</Modal.Title>
           </Modal.Header>
           <form
             id="update_usuario"
@@ -191,6 +206,7 @@ const VistaAdminOptionsusuarios = (prop_Usuario) => {
                   placeholder="Introduce el nombre del usuario"
                   defaultValue={prop_Usuario.prop_usuario.Nombre}
                   required
+                  disabled
                   {...register("Nombre", {
                     required: {
                       value: true,
@@ -216,6 +232,7 @@ const VistaAdminOptionsusuarios = (prop_Usuario) => {
                   placeholder="Introduce tus apellidos"
                   defaultValue={prop_Usuario.prop_usuario.Apellidos}
                   required
+                  disabled
                   {...register("Apellidos", {
                     required: {
                       value: true,
@@ -241,6 +258,7 @@ const VistaAdminOptionsusuarios = (prop_Usuario) => {
                   placeholder="Introduce la correo"
                   defaultValue={prop_Usuario.prop_usuario.Correo}
                   required
+                  disabled
                   {...register("Correo", {
                     required: {
                       value: true,
@@ -271,6 +289,7 @@ const VistaAdminOptionsusuarios = (prop_Usuario) => {
                   placeholder="Introduce el DNI"
                   defaultValue={prop_Usuario.prop_usuario.DNI}
                   required
+                  disabled
                   {...register("DNI", {
                     required: {
                       value: true,
@@ -301,6 +320,7 @@ const VistaAdminOptionsusuarios = (prop_Usuario) => {
                   defaultValue={selectedOption}
                   required
                   onChange={handleSelectChange}
+                  disabled
                 >
                   <option value={1}>Administrador</option>
                   <option value={2}>Usuario</option>
@@ -308,6 +328,13 @@ const VistaAdminOptionsusuarios = (prop_Usuario) => {
               </div>
             </div>
             <div className="modal-footer">
+              <button
+                className="btn btn-primary text-white"
+                id="actualizar_usuario"
+                type="submit"
+              >
+                Actualizar Usuario
+              </button>
               <button
                 type="button"
                 className="btn btn-secondary text-white"
@@ -317,23 +344,23 @@ const VistaAdminOptionsusuarios = (prop_Usuario) => {
                 Editar Password
               </button>
             </div>
-            <div className="modal-footer">
-              <button
-                type="button"
-                className="btn btn-secondary text-white"
-                onClick={handleClose}
-              >
-                Cancelar
-              </button>
-              <button
-                type="submit"
-                className="btn btn-primary text-white"
-                id="añadir_usuario"
-              >
-                Editar usuario
-              </button>
-            </div>
           </form>
+          <div className="modal-footer">
+            <button
+              type="button"
+              className="btn btn-secondary text-white"
+              onClick={handleClose}
+            >
+              Cancelar
+            </button>
+            <button
+              className="btn btn-primary text-white"
+              id="habilitar_usuario"
+              onClick={habilitar}
+            >
+              Habilitar editar usuario
+            </button>
+          </div>
           <Toaster></Toaster>
         </Modal>
         <Modal
@@ -347,7 +374,7 @@ const VistaAdminOptionsusuarios = (prop_Usuario) => {
           </Modal.Header>
           <Modal.Body className="ModaBodyEditPassword">
             <form
-              id="update_usuario_password"
+              id="update_usuario_password_ADM"
               method="PUT"
               onSubmit={handleSubmit(usuarioPassEditSubmit)}
               ref={formRefPas}

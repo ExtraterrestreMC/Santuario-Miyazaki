@@ -13,6 +13,25 @@ const path = require("path");
 const { log } = require("console");
 const ruta = "D:/dd/TFG/BackEnd/public/img"
 
+const multer = require('multer');
+
+/**
+ * PRueba imagnes
+ * 
+ * 
+ */
+
+
+// const storage = multer.diskStorage({
+//     destination: path.join(__dirname, "../public/img")
+// })
+// const uploadImge = multer({
+//     storage,
+//     limits: { fileSize: 4000000 }
+// }).single("image")
+
+
+
 exports.find_platos = utils.wrapAsync(async function (req, res, next) {
     try {
         await dbConn.conectar;
@@ -81,26 +100,28 @@ exports.get_plato_id = utils.wrapAsync(async function (req, res, next) {
 exports.add_plato = utils.wrapAsync(async function (req, res, next) {
     let plato = req.body;
     console.log(plato);
-    console.log(plato.imagen);
-    const rutavieja = `${ruta}/${plato.imagen}`
-    if (plato.nombre && plato.precio && plato.descripcion && plato.imagen) {
+
+    //const rutavieja = `${ruta}/${plato.imagen}`
+    if (plato.nombre && plato.precio && plato.descripcion && plato.imagen != "") {
         try {
             await dbConn.conectar;
             try {
                 await Platos.add_plato(plato)
                     .then((result) => {
-                        const rutanueva = `${ruta}/${result._id}.jpg`
-                        fs.rename(rutavieja, rutanueva, (error) => {
+                        ///const rutanueva = `${ruta}/${result._id}.jpg`
+                        // fs.rename(rutavieja, rutanueva, (error) => {
 
-                            if (!error) {
-                                result.imagen = result._id
-                                Platos.edit_plato(result._id, result)
-                                res.status(201).json(utils.creadoCorrectamente('plato'));
-                                logger.access.info(utilsLogs.creadoCorrectamente("plato", result._id));
-                            } else {
-                                console.log(error);
-                            }
-                        })
+                        //     if (!error) {
+                        //         result.imagen = result._id
+                        //         Platos.edit_plato(result._id, result)
+                        //         res.status(201).json(utils.creadoCorrectamente('plato'));
+                        //         logger.access.info(utilsLogs.creadoCorrectamente("plato", result._id));
+                        //     } else {
+                        //         console.log(error);
+                        //     }
+                        // })
+                        res.status(201).json(utils.creadoCorrectamente('plato'));
+                        logger.access.info(utilsLogs.creadoCorrectamente("plato", result._id));
                     }).catch((err) => {
                         console.log(err);
                         res.status(406).json(utils.parametrosIncorrectos())
@@ -131,24 +152,15 @@ exports.edit_plato = utils.wrapAsync(async function (req, res, next) {
     let plato = req.body;
     console.log("principal");
     console.log(plato);
-    const rutavieja = `${ruta}/${plato.imagen}`
-    console.log(rutavieja);
-    const rutanueva = `${ruta}/${id}.jpg`
-    console.log(rutanueva);
+    // const rutavieja = `${ruta}/${plato.imagen}`
+    // console.log(rutavieja);
+    // const rutanueva = `${ruta}/${id}.jpg`
+    // console.log(rutanueva);
     if (plato.nombre && plato.precio && plato.descripcion && plato.imagen) {
-        console.log("primer if");
-        console.log(plato);
+
         try {
             await dbConn.conectar;
-            console.log("dbconexion");
-            console.log(plato);
             try {
-                console.log("try despues DBConexion");
-                console.log(plato);
-                fs.renameSync(rutavieja, rutanueva)
-                plato.imagen = id
-                console.log("en rename:");
-                console.log(plato);
                 await Platos.edit_plato(id, plato)
                     .then((resultado) => {
                         if (resultado.value === null) {
@@ -169,7 +181,7 @@ exports.edit_plato = utils.wrapAsync(async function (req, res, next) {
                         logger.warning.warn(utilsLogs.parametrosIncorrectos());
                     })
             } catch (err) {
-                //res.status(406).json(utils.parametrosIncorrectos());
+                res.status(406).json(utils.parametrosIncorrectos());
                 logger.warning.warn(utilsLogs.parametrosIncorrectos());
             }
 

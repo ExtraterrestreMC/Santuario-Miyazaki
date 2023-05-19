@@ -6,9 +6,10 @@ export const Carousell = () => {
     <MDBCarousel showControls fade className="pt-5">
       <MDBCarouselItem
         className="imgCarusel w-100"
+        id="imagenUnoCarrusel"
         itemId={1}
         src="pexels-ron-lach-7849510.jpg"
-        alt="..."
+        alt="imagen promocional 1"
       >
         <div className="textoCarrusel">
           <h5>¡ Te esperamos !</h5>
@@ -21,7 +22,7 @@ export const Carousell = () => {
         className="imgCarusel w-100"
         itemId={2}
         src="pexels-yan-krukau-9072379.jpg"
-        alt="..."
+        alt="imagen promocional 2"
       >
         <div className="textoCarrusel">
           <h5>Ordenador de última generación</h5>
@@ -35,7 +36,7 @@ export const Carousell = () => {
         className="videoCarusel w-100"
         itemId={3}
         src="pexels-rodnae-productions-7914786.mp4"
-        alt="..."
+        alt="imagen promocional 3"
       >
         <div className="textoCarrusel">
           <h5>Crea y aumenta tus amistades</h5>

@@ -13,11 +13,10 @@ import { Footer } from "./assets/components/Footer";
 
 function App() {
   return (
-    <div>
-      <NavHeader></NavHeader>
+    <>
       <PlatosList></PlatosList>
       <Footer></Footer>
-    </div>
+    </>
   );
 }
 

@@ -13,7 +13,6 @@ import { Footer } from "./assets/components/Footer";
 function App() {
   return (
     <div>
-      <NavHeader></NavHeader>
       <BonosList></BonosList>
       <Footer></Footer>
     </div>

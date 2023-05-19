@@ -3,13 +3,16 @@ import Modal from "react-bootstrap/Modal";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
+import pako from "pako";
 const usuario = JSON.parse(sessionStorage.getItem("usuario"));
 const URL_Platos_Basica = `${import.meta.env.VITE_APP_BackEnd}${
   import.meta.env.VITE_APP_Platos
 }`;
 
+let contador = 0;
 const VistaAdminOptionsPlatos = (prop_plato) => {
   //console.log(prop_plato.prop_plato._id);
+  const [base64String, setBase64String] = useState("");
   const {
     register,
     handleSubmit,
@@ -23,16 +26,32 @@ const VistaAdminOptionsPlatos = (prop_plato) => {
   const handleCloseDelPlato = () => setShowdelPlato(false);
   const handleShowDelPlato = () => setShowdelPlato(true);
 
-  function platoEditSubmit() {
+  function platoEditSubmit(evento) {
     const formData = new FormData(formRef.current);
-    //console.log(formData);
     const plato = Object.fromEntries(formData);
-    //console.log(plato);
-    plato.imagen = plato.imagen.name;
+    console.log(plato);
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      const base64 = reader.result;
+      setBase64String(base64);
+    };
+
+    if (plato.imagen) {
+      reader.readAsDataURL(plato.imagen);
+    }
+    const compressedData = pako.gzip(base64String, { to: "string" });
+    console.log(base64String.length);
+    console.log(compressedData.length);
+    plato.imagen = base64String;
     console.log(plato);
     let urlModficada = URL_Platos_Basica + `${prop_plato.prop_plato._id}`;
-    console.log(urlModficada);
-    actulizarPlato(urlModficada, plato);
+    // console.log(urlModficada);
+    if (contador >= 1) {
+      actulizarPlato(urlModficada, plato);
+    } else {
+      contador++;
+    }
   }
 
   async function actulizarPlato(urlModficada, plato) {
@@ -67,7 +86,7 @@ const VistaAdminOptionsPlatos = (prop_plato) => {
           location.reload();
         }, 2500);
       })
-      .catch((err) => console.log(err), toast.success(err.data.desc));
+      .catch((err) => toast.success(err.data.desc));
   }
 
   function comprobarAdmin() {
@@ -123,14 +142,14 @@ const VistaAdminOptionsPlatos = (prop_plato) => {
 
             <Modal show={show} onHide={handleClose} animation={false}>
               <Modal.Header closeButton>
-                <Modal.Title>Añadir Plato</Modal.Title>
+                <Modal.Title>Editar Plato</Modal.Title>
               </Modal.Header>
               <form
-                id="update_plato"
-                method="PUT"
+                method="POST"
                 action=""
                 onSubmit={handleSubmit(platoEditSubmit)}
                 ref={formRef}
+                //enctype="multipart/form-data"
               >
                 <div className="modal-body">
                   <div className="form-group mb-2">
@@ -187,7 +206,7 @@ const VistaAdminOptionsPlatos = (prop_plato) => {
                     <strong>
                       <label className="mb-2">Descripcion:</label>
                     </strong>
-                    <input
+                    <textarea
                       type="text"
                       className="form-control"
                       id="descripcion"
