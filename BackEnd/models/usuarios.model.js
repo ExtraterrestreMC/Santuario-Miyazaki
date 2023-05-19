@@ -36,8 +36,10 @@ Usuario.findByemail = async function (email, resultado) {
     const sql = "select * from usuarios where Correo=?"
     dbConn.query(sql, email, function (err, res) {
         if (err) {
+            console.log(err);
             resultado(err, null)
         } else {
+
             resultado(null, res)
         }
     })

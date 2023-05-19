@@ -8,11 +8,13 @@ const dbConfig = {
 }
 //const url = process.env.MONGODB_URL;
 //const dbName = process.env.DB_NAME_MDB;
-console.log(dbConfig);
+//console.log(dbConfig);
 
 const dbConn = {
-    conectar: mongoose.connect(`mongodb://${dbConfig.host}:${dbConfig.port}/${dbConfig.database}`)
-    //conectar: mongoose.connect(url)
+    //conectar: mongoose.connect(`mongodb://${dbConfig.host}:${dbConfig.port}/${dbConfig.database}`)
+    conectar: mongoose.connect(process.env.MONGODB_URL)
+        .then(() => console.log("contectado a MongoDB Atlas"))
+        .catch((error) => console.log(error))
 
     // MongoClient(url, { useUnifiedTopology: true }, function(err, client) {
     //     if (err) throw err;
