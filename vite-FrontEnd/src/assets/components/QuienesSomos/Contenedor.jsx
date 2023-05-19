@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Mapa from "./mapa";
+import Mapa from "./Mapa";
 import FormularioContactanos from "./FormularioContactanos";
 import { Informacion } from "./Informacion";
 export class Contenedor extends Component {
