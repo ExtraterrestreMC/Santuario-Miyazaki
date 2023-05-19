@@ -11,6 +11,7 @@ export default defineConfig({
      * Modificacion para Vite Para HTTPS
      */
     build: {
+        outDir: 'dist',
         chunkSizeWarningLimit: 1024,
     },
     server: {
@@ -20,6 +21,9 @@ export default defineConfig({
             ca: fs.readFileSync("./certificadosSSL/rootCA.pem")
         }
 
+    },
+    react: {
+        fastRefresh: true,
     },
 
     plugins: [react()],
