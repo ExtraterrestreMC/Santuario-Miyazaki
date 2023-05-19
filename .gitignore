@@ -1,2 +1,4 @@
 backend/logs/archivosLogs/
 .pdf
+backend/lnode_modules
+vite-FrontEnd/lnode_modules

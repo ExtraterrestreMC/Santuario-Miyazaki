@@ -15,11 +15,6 @@ const dbConn = {
     conectar: mongoose.connect(process.env.MONGODB_URL)
         .then(() => console.log("contectado a MongoDB Atlas"))
         .catch((error) => console.log(error))
-
-    // MongoClient(url, { useUnifiedTopology: true }, function(err, client) {
-    //     if (err) throw err;
-    //     const db = client.db(dbName);
-    // })
 }
 
 module.exports = dbConn
