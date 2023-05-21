@@ -8,7 +8,6 @@ import { useForm } from "react-hook-form";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faUserPlus } from "@fortawesome/free-solid-svg-icons";
 
-//import { faUser } from "@fortawesome/free-brands-svg-icons";
 export default function Registro() {
   const formRef = React.useRef();
 
@@ -18,15 +17,6 @@ export default function Registro() {
     formState: { errors },
   } = useForm();
   function onSubmit(evento) {
-    console.log(evento);
-    /*
-        1. Usamos FormData para obtener la información
-        2. FormData requiere la referencia del DOM,
-           gracias al REF API podemos pasar esa referencia
-        3. Finalmente obtenemos los datos serializados
-      */
-    // const formData = new FormData(formRef.current);
-    // console.log(formData);
     const usuario = evento;
     registrar(URL_Creacion, usuario);
   }
@@ -43,10 +33,7 @@ export default function Registro() {
           document.location.href = "/login";
         }, 2500);
       })
-      .catch((err) =>
-        //alert(err.response.data.desc)
-        toast.error(err.response.data.desc)
-      );
+      .catch((err) => toast.error(err.response.data.desc));
   }
   return (
     <div id="contedorInicio">

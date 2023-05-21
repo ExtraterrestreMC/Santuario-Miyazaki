@@ -10,8 +10,7 @@ const URL_Bonos_Basica = `${import.meta.env.VITE_APP_BackEnd}${
 
 const VistaAdminOptionsbonos = (prop_bono) => {
   let bono = prop_bono.prop_bono.prop_bono;
-  // console.log("PROP");
-  // console.log(bono);
+
   const formRef = React.useRef();
   const [show, setShow] = useState(false);
 
@@ -30,16 +29,15 @@ const VistaAdminOptionsbonos = (prop_bono) => {
 
   function bonoEditSubmit() {
     const formData = new FormData(formRef.current);
-    //console.log(formData);
+
     const bonoEdit = Object.fromEntries(formData);
-    console.log(bonoEdit);
+
     let urlModficada = URL_Bonos_Basica + `${bono._id}`;
-    console.log(urlModficada);
+
     actulizarBono(urlModficada, bonoEdit);
   }
 
   async function actulizarBono(urlModficada, bono) {
-    console.log(urlModficada);
     await axios
       .put(urlModficada, bono, {
         "Content-Type": "application/json;charset=UTF-8",
@@ -52,12 +50,11 @@ const VistaAdminOptionsbonos = (prop_bono) => {
           location.reload();
         }, 2500);
       })
-      .catch((err) => console.log(err)); //toast.success(err.data.desc)
+      .catch((err) => toast.success(err.data.desc));
   }
   const handleShow = () => setShow(true);
 
   function eliminarbono() {
-    console.log(bono._id);
     let urlModficada = URL_Bonos_Basica + `${bono._id}`;
     axios
       .delete(urlModficada, { withCredentials: true, mode: "cors" })
@@ -68,11 +65,7 @@ const VistaAdminOptionsbonos = (prop_bono) => {
           location.reload();
         }, 2500);
       })
-      .catch(
-        (err) => console.log(err),
-        toast.success(err.data.desc)
-        // console.log(err)
-      );
+      .catch((err) => toast.success(err.data.desc));
   }
 
   function comprobarAdmin() {

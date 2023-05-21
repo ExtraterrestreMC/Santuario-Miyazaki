@@ -16,18 +16,8 @@ export default function Login() {
   } = useForm();
 
   const onSubmit = (evento) => {
-    console.log(evento);
-
-    /*
-        1. Usamos FormData para obtener la información
-        2. FormData requiere la referencia del DOM,
-           gracias al REF API podemos pasar esa referencia
-        3. Finalmente obtenemos los datos serializados
-      */
-    // const formData = new FormData(formRef.current);
-    // console.log(formData);
     const usuario = evento;
-    console.log(usuario);
+
     inciarSesion(URL_InicioSesion, usuario);
   };
   async function inciarSesion(url_inicioSesion, usuario) {
@@ -41,12 +31,7 @@ export default function Login() {
           document.location.href = "/";
         }, 2500);
       })
-      .catch(
-        (err) =>
-          toast.error(
-            err.response.data.desc
-          ) /* console.log(err.response.data.desc) */
-      );
+      .catch((err) => toast.error(err.response.data.desc));
   }
 
   return (

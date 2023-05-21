@@ -8,30 +8,10 @@ const ParametrosIncorrectosError = require("./errors/ParametrosIncorrectosError"
 const ErrInterno = require("./errors/ErrInterno");
 const logger = require("../logs/logger")
 const utilsLogs = require("./utilsLogs")
-const fs = require("fs")
-const path = require("path");
-const { log } = require("console");
-const ruta = "D:/dd/TFG/BackEnd/public/img"
-
-const multer = require('multer');
 
 /**
- * PRueba imagnes
- * 
- * 
+ * Funcion para recoger todos los platos de la base de datos
  */
-
-
-// const storage = multer.diskStorage({
-//     destination: path.join(__dirname, "../public/img")
-// })
-// const uploadImge = multer({
-//     storage,
-//     limits: { fileSize: 4000000 }
-// }).single("image")
-
-
-
 exports.find_platos = utils.wrapAsync(async function (req, res, next) {
     try {
         await dbConn.conectar;
@@ -52,6 +32,10 @@ exports.find_platos = utils.wrapAsync(async function (req, res, next) {
 
 })
 
+/**
+ * Funcion para recoger solo un plato de la base de datos 
+ * la id del plato se recoge por req.params.id
+ */
 exports.get_plato_id = utils.wrapAsync(async function (req, res, next) {
     let id = req.params.id;
 
@@ -97,45 +81,28 @@ exports.get_plato_id = utils.wrapAsync(async function (req, res, next) {
     }
 })
 
+/**
+ * Funcion para añadir un plato a la base de datos
+ * los datos se reciben por req.body
+ */
 exports.add_plato = utils.wrapAsync(async function (req, res, next) {
     let plato = req.body;
-    console.log(plato);
 
-    //const rutavieja = `${ruta}/${plato.imagen}`
     if (plato.nombre && plato.precio && plato.descripcion && plato.imagen != "") {
         try {
             await dbConn.conectar;
             try {
                 await Platos.add_plato(plato)
                     .then((result) => {
-                        ///const rutanueva = `${ruta}/${result._id}.jpg`
-                        // fs.rename(rutavieja, rutanueva, (error) => {
-
-                        //     if (!error) {
-                        //         result.imagen = result._id
-                        //         Platos.edit_plato(result._id, result)
-                        //         res.status(201).json(utils.creadoCorrectamente('plato'));
-                        //         logger.access.info(utilsLogs.creadoCorrectamente("plato", result._id));
-                        //     } else {
-                        //         console.log(error);
-                        //     }
-                        // })
                         res.status(201).json(utils.creadoCorrectamente('plato'));
                         logger.access.info(utilsLogs.creadoCorrectamente("plato", result._id));
                     }).catch((err) => {
-                        console.log(err);
                         res.status(406).json(utils.parametrosIncorrectos())
                         logger.warning.warn(utilsLogs.parametrosIncorrectos());;
                     })
             } catch (err) {
-                /**
-                 * TODO Corregir
-                 */
-                //console.log("segundo");
-                console.log(err);
-                //console.log(res);
-                //res.status(406).json(err);
-                //logger.warning.warn(utilsLogs.parametrosIncorrectos());
+                res.status(406).json(utils.parametrosIncorrectos())
+                logger.warning.warn(utilsLogs.parametrosIncorrectos());
             }
         } catch (err) {
             res.status(500).json(utils.baseDatosNoConectada());
@@ -147,15 +114,15 @@ exports.add_plato = utils.wrapAsync(async function (req, res, next) {
     }
 })
 
+/**
+ * Funcion para editar un plato de la base de datos
+ * id  se pasara por req.params.id
+ * Datos se pasaran por req.body
+ */
 exports.edit_plato = utils.wrapAsync(async function (req, res, next) {
     let id = req.params.id
     let plato = req.body;
-    console.log("principal");
-    console.log(plato);
-    // const rutavieja = `${ruta}/${plato.imagen}`
-    // console.log(rutavieja);
-    // const rutanueva = `${ruta}/${id}.jpg`
-    // console.log(rutanueva);
+
     if (plato.nombre && plato.precio && plato.descripcion && plato.imagen) {
 
         try {
@@ -167,16 +134,10 @@ exports.edit_plato = utils.wrapAsync(async function (req, res, next) {
                             res.status(404).json(utils.noExiste("plato"));
                             logger.warning.warn(utilsLogs.noExiste("plato"));
                         } else {
-
-                            console.log(resultado);
                             res.status(200).json(utils.editadoCorrectamente("plato"))
                             logger.access.info(utilsLogs.actualizadoCorrectamente("plato", resultado.value._id));
-
-
-
                         }
                     }).catch((err) => {
-                        console.log(err);
                         res.status(406).json(utils.parametrosIncorrectos())
                         logger.warning.warn(utilsLogs.parametrosIncorrectos());
                     })
@@ -194,9 +155,12 @@ exports.edit_plato = utils.wrapAsync(async function (req, res, next) {
         throw new MissingDatosError(utils.missingDatos())
     }
 })
+/**
+ * Funcion para elimnar un plato de la base de datos
+ * la id se pasara a traves de req.params.id
+ */
 exports.delete_plato = utils.wrapAsync(async function (req, res, next) {
     let id = req.params.id;
-
     try {
         await dbConn.conectar;
         try {
@@ -211,7 +175,6 @@ exports.delete_plato = utils.wrapAsync(async function (req, res, next) {
                     }
                 })
                 .catch((err) => {
-                    //res.status(406).json(utils.parametrosIncorrectos())
                     if (!(err instanceof NoExisteError)) {
                         logger.warning.warn(utilsLogs.parametrosIncorrectos());
                         throw new ParametrosIncorrectosError(utils.parametrosIncorrectos())
@@ -220,7 +183,6 @@ exports.delete_plato = utils.wrapAsync(async function (req, res, next) {
                     }
                 });
         } catch (err) {
-            //res.status(406).json(utils.parametrosIncorrectos());
             if (!((err instanceof NoExisteError) || (err instanceof ParametrosIncorrectosError))) {
                 logger.warning.warn(utilsLogs.parametrosIncorrectos());
                 throw new ParametrosIncorrectosError(utils.parametrosIncorrectos())
@@ -229,7 +191,6 @@ exports.delete_plato = utils.wrapAsync(async function (req, res, next) {
             }
         }
     } catch (err) {
-        //res.status(500).json(utils.baseDatosNoConectada());
         if (!((err instanceof NoExisteError) || (err instanceof ParametrosIncorrectosError))) {
             logger.error.error(utilsLogs.baseDatosNoConectada());
             throw new BaseDatosNoConectadaError(utils.baseDatosNoConectada())

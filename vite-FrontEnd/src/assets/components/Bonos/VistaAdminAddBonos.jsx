@@ -23,9 +23,9 @@ const VistaAdmin = () => {
 
   function bonoAddSubmit(evt) {
     const formData = new FormData(formRef.current);
-    //console.log(formData);
+
     const bono = Object.fromEntries(formData);
-    console.log(bono);
+
     registrar(URL_Bonos_Basica, bono);
   }
 
@@ -38,12 +38,10 @@ const VistaAdmin = () => {
           location.reload();
         }, 2500);
       })
-      .catch((err) => toast.success(err.data.desc), console.log(err));
+      .catch((err) => toast.success(err.data.desc));
   }
   const handleShow = () => setShow(true);
   function comrobarADMINAdd() {
-    //console.log("comprobando");
-    //console.log(usuario);
     if (usuario != null) {
       if (usuario.id_perfiles == 1) {
         return (

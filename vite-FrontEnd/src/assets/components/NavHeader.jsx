@@ -28,7 +28,6 @@ const borrarCuenta = (e) => {
   axios
     .delete(urlBorrar, { withCredentials: true, mode: "cors" })
     .then((datosRespuesta) => {
-      //console.log(datosRespuesta);
       sessionStorage.removeItem("usuario");
       toast.success("Se ha borrado la cuenta correctamente");
       setTimeout(() => {
@@ -42,8 +41,6 @@ const cerrarSesion = (e) => {
   axios
     .get(URL_cerrarSesion, { withCredentials: true, mode: "cors" })
     .then((datosRespuesta) => {
-      //console.log(datosRespuesta);
-
       sessionStorage.removeItem("usuario");
       document.location.href = `${window.location.pathname}`;
     })
@@ -51,13 +48,11 @@ const cerrarSesion = (e) => {
 };
 
 export const NavHeader = () => {
-  //console.log(usuario);
-
   function habilitar() {
     let tituloModal = document.getElementById("tituloModal");
-    console.log(tituloModal);
+
     let nombre_user = document.getElementById("nombre_user");
-    console.log(nombre_user);
+
     let apellido_user = document.getElementById("apellido_user");
     let correo_user = document.getElementById("correo_user");
     let DNI_user = document.getElementById("DNI_user");
@@ -90,7 +85,6 @@ export const NavHeader = () => {
   const handleShowDelCuen = () => setShowDelCuen(true);
 
   function comprobarInicioSession() {
-    //console.log("he entrado");
     if (usuario) {
       return (
         <div id="Inciar">
@@ -476,23 +470,16 @@ export const NavHeader = () => {
     }
   }
   function usuarioEditSubmit(evento) {
-    console.log(evento);
     delete evento.Password;
     delete evento.newPassword;
-    console.log(evento);
-    // const usuarioForm = Object.fromEntries(formData);
-    // if (usuarioForm.Contraseña == "*******") {
-    //   usuarioForm.Contraseña = usuario.Contraseña;
-    // }
+
     evento.id_perfiles = usuario.id_perfiles;
 
-    // //console.log(usuario);
     let urlModficada = URL_Usuarios_Basica + `/${usuario.id_usuario}`;
     actulizarusuario(urlModficada, evento);
   }
 
   async function actulizarusuario(urlModficada, usuarioEdit) {
-    console.log(urlModficada);
     await axios
       .put(urlModficada, usuarioEdit, {
         "Content-Type": "application/json;charset=UTF-8",
@@ -500,12 +487,10 @@ export const NavHeader = () => {
         mode: "cors",
       })
       .then(async (responseData) => {
-        console.log(responseData);
         toast.success(responseData.data.info);
         usuarioEdit.Contraseña = usuario.Contraseña;
         usuarioEdit.id_usuario = usuario.id_usuario;
         sessionStorage.setItem("usuario", JSON.stringify(usuarioEdit));
-        console.log(sessionStorage.getItem("usuario"));
       })
       .catch((err) =>
         //alert(err.response.data.desc)
@@ -514,14 +499,12 @@ export const NavHeader = () => {
   }
 
   function usuarioPassEditSubmit(evento) {
-    console.log(evento);
-    //console.log(constraseña);
     if (evento.Password != "" && evento.newPassword != "") {
       if (evento.Password === evento.newPassword) {
         let urlModficada =
           URL_Usuarios_Basica + `/${usuario.id_usuario}/password`;
         let constraseña = { Password: evento.Password };
-        //console.log(constraseña);
+
         actulizarusuarioPassword(urlModficada, constraseña);
       } else {
         toast.error("No cuiciden las contraseñas");
@@ -531,7 +514,6 @@ export const NavHeader = () => {
     }
   }
   async function actulizarusuarioPassword(urlModficada, constraseña) {
-    console.log(urlModficada);
     await axios
       .put(urlModficada, constraseña, {
         "Content-Type": "application/json;charset=UTF-8",
@@ -539,11 +521,10 @@ export const NavHeader = () => {
         mode: "cors",
       })
       .then(async (responseData) => {
-        console.log(responseData);
         toast.success(responseData.data.info);
         sessionStorage.setItem("usuario", JSON.stringify(usuario));
       })
-      .catch((err) => console.log(err), toast.success(err.data.desc));
+      .catch((err) => toast.success(err.data.desc));
   }
 
   return (

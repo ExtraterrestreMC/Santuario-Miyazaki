@@ -1,6 +1,6 @@
 /**
  * Funciones par los logs
- * 
+ * Y meses para los logs
  * */
 
 exports.accesoCorrecto = (usuario) => {
