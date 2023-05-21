@@ -1,5 +1,5 @@
-const Platos = require("../models/platos");
-const dbConn = require("../config/db.config.mongo_Ciber");
+const Platos = require("../models/platos.model");
+const dbConn = require("../config/db.config.MongoDB");
 
 /**
  * Seed de tareas para la base de datos
