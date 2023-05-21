@@ -11,7 +11,6 @@ const URL_Platos_Basica = `${import.meta.env.VITE_APP_BackEnd}${
 
 let contador = 0;
 const VistaAdminOptionsPlatos = (prop_plato) => {
-  //console.log(prop_plato.prop_plato._id);
   const [base64String, setBase64String] = useState("");
   const {
     register,
@@ -29,7 +28,6 @@ const VistaAdminOptionsPlatos = (prop_plato) => {
   function platoEditSubmit(evento) {
     const formData = new FormData(formRef.current);
     const plato = Object.fromEntries(formData);
-    console.log(plato);
 
     const reader = new FileReader();
     reader.onloadend = () => {
@@ -40,13 +38,11 @@ const VistaAdminOptionsPlatos = (prop_plato) => {
     if (plato.imagen) {
       reader.readAsDataURL(plato.imagen);
     }
-    const compressedData = pako.gzip(base64String, { to: "string" });
-    console.log(base64String.length);
-    console.log(compressedData.length);
+
     plato.imagen = base64String;
-    console.log(plato);
+
     let urlModficada = URL_Platos_Basica + `${prop_plato.prop_plato._id}`;
-    // console.log(urlModficada);
+
     if (contador >= 1) {
       actulizarPlato(urlModficada, plato);
     } else {
@@ -55,7 +51,6 @@ const VistaAdminOptionsPlatos = (prop_plato) => {
   }
 
   async function actulizarPlato(urlModficada, plato) {
-    console.log(urlModficada);
     await axios
       .put(urlModficada, plato, {
         "Content-Type": "application/json;charset=UTF-8",
@@ -63,16 +58,12 @@ const VistaAdminOptionsPlatos = (prop_plato) => {
         mode: "cors",
       })
       .then(async (responseData) => {
-        console.log(responseData);
         toast.success(responseData.data.info);
         setTimeout(() => {
           location.reload();
         }, 2500);
       })
-      .catch((err) =>
-        //alert(err.response.data.desc)
-        toast.success(err.data.desc)
-      ); //location.reload()); //toast.error("Se a producido un error"));
+      .catch((err) => toast.success(err.data.desc));
   }
   const handleShow = () => setShow(true);
 

@@ -10,7 +10,6 @@ export const Footer = () => {
   return (
     <>
       <footer className="bg-dark text-center text-white border-0">
-        {/* <!-- Grid container --> */}
         <div className="container p-2 pb-0 ">
           {/* <!-- Section: Redes Sociales --> */}
           <section className="mb-2 ">

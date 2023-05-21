@@ -23,17 +23,6 @@ const VistaAdmin = () => {
   function platoAddSubmit(evento) {
     const formData = new FormData(formRef.current);
     const plato = Object.fromEntries(formData);
-    //console.log(evento);
-    /*
-        1. Usamos FormData para obtener la información
-        2. FormData requiere la referencia del DOM,
-           gracias al REF API podemos pasar esa referencia
-        3. Finalmente obtenemos los datos serializados
-      */
-    //const plato = evento;
-    console.log(plato);
-
-    //console.log(plato.imagen[0]);
     const reader = new FileReader();
     reader.onloadend = () => {
       const base64 = reader.result;
@@ -44,14 +33,9 @@ const VistaAdmin = () => {
       reader.readAsDataURL(plato.imagen);
     }
     const compressedData = pako.gzip(base64String, { to: "string" });
-    console.log(base64String.length);
-    console.log(compressedData.length);
+
     plato.imagen = base64String;
-    console.log(plato);
-    // const formData = new FormData(formRef.current);
-    // console.log(formData);
-    // const plato = Object.fromEntries(formData);
-    //console.log(plato);
+
     if (contador >= 1) {
       registrar(URL_Platos_Basica, plato);
     } else {
@@ -72,8 +56,6 @@ const VistaAdmin = () => {
   }
   const handleShow = () => setShow(true);
   function comrobarADMINAdd() {
-    //console.log("comprobando");
-    //console.log(usuario);
     if (usuario != null) {
       if (usuario.id_perfiles == 1) {
         return (

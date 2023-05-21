@@ -3,12 +3,14 @@ const utils = require("./utils")
 const logger = require("../logs/logger")
 const utilsLogs = require("./utilsLogs")
 const bcrypt = require("bcrypt");
-const jwtMiddleware = require("../middlewares/jwt.mw")
+const jwtMiddleware = require("../middlewares/jwt.mw.new")
 const jwt = require("jsonwebtoken");
-/**
- * Funciones para la gestion de controladores  
- */
 
+/**
+ * Funcion para recoger todos los usuarios de la base de datos
+ * @param {datos recibidos} req 
+ * @param {respuesta} res 
+ */
 exports.find_usuarios = async function (req, res) {
     try {
         await Usuario.findAll(function (err, usuarios) {
@@ -27,9 +29,13 @@ exports.find_usuarios = async function (req, res) {
 
 }
 
+/**
+ * Funcion para recoger un usuario de la base de datos
+ * @param {datos recibidos} req 
+ * @param {respuesta} res 
+ */
 exports.findById = utils.wrapAsync(async function (req, res, next) {
     const { id } = req.params
-    //console.log(id);
     try {
         await Usuario.findById(id, function (err, usuario) {
             if (err) {
@@ -47,15 +53,18 @@ exports.findById = utils.wrapAsync(async function (req, res, next) {
             }
         })
     } catch (err) {
-        console.log(err);
         res.status(500).json((utils.baseDatosNoConectada())),
             logger.error.err(utilsLogs.baseDatosNoConectada());
     }
 })
 
+/**
+ * Funcion para recoger un usuario de la base de datos con un correo en especifico
+ * @param {datos recibidos} req 
+ * @param {respuesta} res 
+ */
 exports.findInicioSesion = async function (req, res, next) {
     const emailycontraseña = req.body
-    console.log(emailycontraseña);
     try {
         try {
             await Usuario.findByemail(emailycontraseña.username, async function (err, usuario) {
@@ -69,11 +78,10 @@ exports.findInicioSesion = async function (req, res, next) {
                     } else {
                         let val = bcrypt.compareSync(emailycontraseña.password, usuario[0].Contraseña)
                         if (val) {
-                            console.log(usuario);
-                            //console.log(req);
+
                             jwtMiddleware.createJWT(req);
                             req.session.usuario = usuario;
-                            //console.log(req.session.token);
+
                             logger.access.info(utilsLogs.accesoCorrecto(usuario[0]))
 
                             res.status(200).json((usuario));
@@ -95,11 +103,15 @@ exports.findInicioSesion = async function (req, res, next) {
     }
 }
 
+/**
+ * Funcion para eliminar la sesion de un usuario
+ * @param {datos recibidos} req 
+ * @param {respuesta} res 
+ */
 exports.cerrarSesion_usuario = function (req, res, next) {
-    console.log("Controler");
-    console.log(req.session);
+
     const token = jwtMiddleware.extractToken(req);
-    //console.log(token)
+
     if (token) {
         jwt.sign(token, jwtMiddleware.claveJWT, { expiresIn: 1 }, (cerrarSesion, err) => {
             if (cerrarSesion) {
@@ -117,17 +129,24 @@ exports.cerrarSesion_usuario = function (req, res, next) {
 }
 
 
-
+/**
+ * Funcion para añadir a un usuario en la base de datos
+ * @param {datos recibidos} req 
+ * @param {respuesta} res 
+ */
 exports.add_usuario = async function (req, res) {
     const newUser = new Usuario(req.body)
     newUser.id_perfiles = 2
-    console.log(newUser);
+
     if (newUser.DNI && newUser.Nombre && newUser.Apellidos && newUser.Correo && newUser.Contraseña && newUser.id_perfiles != null) {
 
+        /**
+         * Se encrimpata la contraseña
+         */
         newUser.Contraseña = await bcrypt.hash(newUser.Contraseña, 12)
         try {
             try {
-                //console.log(newUser);
+
                 await Usuario.create(newUser, function (err, usuario) {
                     if (err) {
                         res.status(406).json((utils.parametroDucplicado()));
@@ -151,9 +170,14 @@ exports.add_usuario = async function (req, res) {
     }
 }
 
+/**
+ * Funcion para editar un usuario de la base de datos
+ * @param {datos recibidos} req 
+ * @param {respuesta} res 
+ */
 exports.edit_usuario = async function (req, res) {
     const editUser = (req.body);
-    console.log(editUser);
+
     const { id } = req.params
 
 
@@ -171,13 +195,13 @@ exports.edit_usuario = async function (req, res) {
 
                     try {
                         try {
-                            console.log(editUser);
+
                             await Usuario.update(id, editUser, function (err, usuario) {
                                 if (err) {
                                     res.status(406).json((utils.missingDatos())),
                                         logger.warning.warn(utilsLogs.faltanDatos("al usuario"));;
                                 } else {
-                                    console.log("se edito bien");
+
                                     res.status(200).json((utils.editadoCorrectamente("usuario"))),
                                         logger.access.info(utilsLogs.actualizadoCorrectamente("usuario", usuario
                                             .id_usuario));
@@ -198,11 +222,16 @@ exports.edit_usuario = async function (req, res) {
 
     }
 }
+
+/**
+ * Funcion para editar la contraseña de un usuario de la base de datos
+ * @param {datos recibidos} req 
+ * @param {respuesta} res 
+ */
 exports.edit_password = async function (req, res) {
     const password = req.body;
     const { id } = req.params
-    console.log(password.Password);
-    console.log(id);
+
     if (password.Password) {
         try {
             Usuario.findById(id, function (err, usuario) {
@@ -214,11 +243,10 @@ exports.edit_password = async function (req, res) {
                         res.status(404).json(utils.noExiste("usuario")),
                             logger.warning.warn(utilsLogs.noExiste("usuario con id: " + id));
                     } else {
-                        /*7hJ#e2kM*/
-                        console.log(password.Password);
+
                         try {
                             let newContraseña = bcrypt.hashSync(password.Password, 12)
-                            console.log(newContraseña);
+
                             try {
                                 Usuario.updatePassword(id, newContraseña, function (err, usuario) {
                                     if (err) {
@@ -251,6 +279,11 @@ exports.edit_password = async function (req, res) {
             logger.warning.warn(utilsLogs.parametrosIncorrectos())
     }
 }
+/**
+ * Funcion para eliminar un usuario de la base de datos
+ * @param {datos recibidos} req 
+ * @param {respuesta} res 
+ */
 exports.delete_usuario = async function (req, res) {
     const { id } = req.params
     try {

@@ -19,9 +19,8 @@ export default class AdminUser extends React.Component {
         mode: "cors",
       })
       .then((response) => {
-        //console.log(response);
         let usuarios = response.data;
-        console.log(usuarios);
+
         this.setState({ usuarios });
       })
       .catch((err) => {

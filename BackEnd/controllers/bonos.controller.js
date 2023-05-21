@@ -9,6 +9,9 @@ const ErrInterno = require("./errors/ErrInterno");
 const logger = require("../logs/logger")
 const utilsLogs = require("./utilsLogs")
 
+/**
+ * Funciona para recoger todos los bonos de la base de datos
+ */
 exports.find_bonos = utils.wrapAsync(async function (req, res, next) {
     try {
         await dbConn.conectar;
@@ -29,15 +32,16 @@ exports.find_bonos = utils.wrapAsync(async function (req, res, next) {
 
 })
 
+/**
+ * Funciona para recoger un bono de la base de datos
+ */
 exports.get_bono_id = utils.wrapAsync(async function (req, res, next) {
     let id = req.params.id;
-    console.log(id);
     try {
         await dbConn.conectar;
         try {
             await Bonos.get_bono_id(id)
                 .then((bono) => {
-                    console.log(bono);
                     if (bono === null) {
                         logger.warning.warn(utilsLogs.noExiste("bono"));
                         throw new NoExisteError(utils.noExiste("bono"));
@@ -56,14 +60,12 @@ exports.get_bono_id = utils.wrapAsync(async function (req, res, next) {
                     }
                 })
         } catch (err) {
-            console.log(err);
-            res.status(406).json(err);
-            // if (!(err instanceof NoExisteError)) {
-            //     logger.error.error(utilsLogs.baseDatosNoConectada());
-            //     throw new ParametrosIncorrectosError(utils.parametrosIncorrectos())
-            // } else {
-            //     throw err;
-            // }
+            if (!(err instanceof NoExisteError)) {
+                logger.error.error(utilsLogs.baseDatosNoConectada());
+                throw new ParametrosIncorrectosError(utils.parametrosIncorrectos())
+            } else {
+                throw err;
+            }
         }
     } catch (err) {
         //res.status(500).json(utils.baseDatosNoConectada());
@@ -77,6 +79,10 @@ exports.get_bono_id = utils.wrapAsync(async function (req, res, next) {
 
 })
 
+/**
+ * Funcioncion para añadir un bono a la abse de datos 
+ * Datos se recogen por el req.body
+ */
 exports.add_bono = utils.wrapAsync(async function (req, res, next) {
     let bono = req.body;
     if (bono.nombre && bono.precio && bono.descripcion) {
@@ -105,6 +111,10 @@ exports.add_bono = utils.wrapAsync(async function (req, res, next) {
     }
 })
 
+/**
+ * Funciona para editar un bono 
+ * Datos se recogen por el req.body y el parametro de id del bono por req.params.id
+ */
 exports.edit_bono = utils.wrapAsync(async function (req, res, next) {
     let id = req.params.id
     let bono = req.body;
@@ -139,6 +149,10 @@ exports.edit_bono = utils.wrapAsync(async function (req, res, next) {
         throw new MissingDatosError(utils.missingDatos())
     }
 })
+/**
+ * Funcion para elimnar un bono de la base de atos
+ * el id del bono se recoge por req.params.id
+ */
 exports.delete_bono = utils.wrapAsync(async function (req, res, next) {
     let id = req.params.id;
 

@@ -1,8 +1,7 @@
-const { log } = require("console")
-const { connect } = require("http2")
 const mysql = require("mysql") //por instalar
 require('dotenv').config()
 var fs = require("fs")
+
 /**
  * Configuracion para crear conexion a la base de datos mysql
  */

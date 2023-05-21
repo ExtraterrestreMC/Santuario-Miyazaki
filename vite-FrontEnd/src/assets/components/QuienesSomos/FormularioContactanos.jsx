@@ -4,9 +4,8 @@ import toast, { Toaster } from "react-hot-toast";
 export const FormularioContactanos = () => {
   const form = useRef();
   const sendEmail = (e) => {
-    console.log("asdasdassda");
     e.preventDefault(form.current);
-    console.log();
+
     emailjs
       .sendForm(
         "service_zeb9n8o",

@@ -19,16 +19,13 @@ function PlatosList() {
 
   const handleChange = (e) => {
     setBusqueda(e.target.value);
-    //console.log(e.target.value);
     filtro(e.target.value);
   };
   const filtro = (texto) => {
     var resultadosBusqueda = platosFinal.filter((elemento) => {
-      //console.log(elemento);
       if (
         elemento.nombre.toString().toLowerCase().includes(texto.toLowerCase())
       ) {
-        //console.log(elemento);
         return elemento;
       }
     });
@@ -36,24 +33,16 @@ function PlatosList() {
   };
   const componentDidMount = async () => {
     axios.get(URL_Platos_Basica).then((response) => {
-      //console.log(response);
       let platos = response.data;
-      //console.log(platos);
-      // platos.map((plato) => {
-      //   plato.imagen = `${IPServidor}${plato._id}.jpg`;
-      //   // console.log(plato.imagen);
-      // });
-      //console.log(platos);
+
       setPlatos(platos);
       setplatosFinal(platos);
-      //console.log(platos);
     });
   };
   useEffect(() => {
     componentDidMount();
   }, []);
-  //console.log(platos);
-  //console.log(platosFinal);
+
   return (
     <div>
       <section id="galleryCarta" className="pt-5">

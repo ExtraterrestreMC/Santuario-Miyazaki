@@ -18,8 +18,6 @@ function noAdmin(bono) {
   );
 }
 function VistaAdminBono(prop_bono) {
-  console.log(prop_bono.prop_bono);
-
   if (usuario != null) {
     if (usuario.id_perfiles == 1) {
       return (

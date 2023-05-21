@@ -42,7 +42,7 @@ const VistaAdminOptionsusuarios = (prop_Usuario) => {
     let tituloModal = document.getElementById("tituloModal");
 
     let nombre_user = document.getElementById("nombre");
-    console.log(nombre_user);
+
     let apellido_user = document.getElementById("apellido");
     let correo_user = document.getElementById("correo");
     let DNI_user = document.getElementById("DNI");
@@ -54,7 +54,6 @@ const VistaAdminOptionsusuarios = (prop_Usuario) => {
   }
 
   function usuarioEditSubmit(evento) {
-    console.log(evento);
     delete evento.Password;
     delete evento.Password;
     evento.id_perfiles = prop_Usuario.prop_usuario.id_perfiles;
@@ -64,10 +63,8 @@ const VistaAdminOptionsusuarios = (prop_Usuario) => {
       URL_Usuarios_Basica + `/${prop_Usuario.prop_usuario.id_usuario}`;
     actulizarusuario(urlModficada, evento);
     // }
-    console.log(evento);
   }
   async function actulizarusuario(urlModficada, usuario) {
-    console.log(urlModficada);
     await axios
       .put(urlModficada, usuario, {
         "Content-Type": "application/json;charset=UTF-8",
@@ -84,15 +81,12 @@ const VistaAdminOptionsusuarios = (prop_Usuario) => {
       );
   }
   function usuarioPassEditSubmit(evento) {
-    console.log(evento);
-    //console.log(constraseña);
-
     if (evento.Password != "" && evento.newPassword != "") {
       if (evento.Password === evento.newPassword) {
         let urlModficada =
           URL_Usuarios_Basica + `/${usuario.id_usuario}/password`;
         let constraseña = { Password: evento.Password };
-        //console.log(constraseña);
+
         actulizarusuarioPassword(urlModficada, constraseña);
       } else {
         toast.error("No cuiciden las contraseñas");
@@ -102,7 +96,6 @@ const VistaAdminOptionsusuarios = (prop_Usuario) => {
     }
   }
   async function actulizarusuarioPassword(urlModficada, constraseña) {
-    console.log(urlModficada);
     await axios
       .put(urlModficada, constraseña, {
         "Content-Type": "application/json;charset=UTF-8",
@@ -115,10 +108,7 @@ const VistaAdminOptionsusuarios = (prop_Usuario) => {
           document.location.href = `${window.location.pathname}`;
         }, 2500);
       })
-      .catch((err) =>
-        //alert(err.response.data.desc)
-        toast.success(err.data.desc)
-      );
+      .catch((err) => toast.success(err.data.desc));
   }
 
   const handleShow = () => setShow(true);
@@ -138,7 +128,7 @@ const VistaAdminOptionsusuarios = (prop_Usuario) => {
           document.location.href = `${window.location.pathname}`;
         }, 2500);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => toast.success(err.data.desc));
   }
 
   function comprobarAdmin() {

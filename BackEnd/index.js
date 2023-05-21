@@ -39,8 +39,6 @@ app.use(session(sessionOptions));
 const whitelist = ["http://localhost:5173", "https://localhost:5173", "http://127.0.0.1:5500", "http://127.0.0.1:5501", "http://127.0.0.1:5502"]
 const corsOptions = {
     origin: (origin, callback) => {
-        //console.log(origin);
-        //console.log(origin);
         if (whitelist.indexOf(origin) !== -1) {
             logger.access.info("Acceso a la back desde " + origin);
             callback(null, true);
@@ -54,16 +52,14 @@ const corsOptions = {
 }
 
 app.use(cors(corsOptions));
-//app.use(cors(corsOptions));
 app.use(cookieParser("passwordforcookies"))
 
 
-
-//const basicRoutes = require("./routers/X.routes")
 const usuarioRoutes = require("./routers/usuario.routes")
 const bonosRoutes = require("./routers/bonos.routes")
 const platosRoutes = require("./routers/menu.routes")
-//app.use(`/api/${version}/basic`, basicRoutes);
+
+
 app.use(`/api/${version}/usuarios`, usuarioRoutes);
 app.use(`/api/${version}/bonos`, bonosRoutes);
 app.use(`/api/${version}/menu`, platosRoutes);
@@ -101,9 +97,6 @@ app.use((req, res) => {
 })
 
 
-// Static files
-app.use(express.static(path.join(__dirname, 'public')));
-
 const httpsOptions = {
     cert: fs.readFileSync("certificadosSSL/www.SatuarioMiyazaki.com+2.crt"),
     key: fs.readFileSync("certificadosSSL/www.SatuarioMiyazaki.com+2-key.key")
@@ -113,7 +106,3 @@ const httpsOptions = {
 https.createServer(httpsOptions, app).listen(port, () => {
     console.log("Servidor HTTPS escuchando en puerto " + port);
 });
-
-// app.listen(port, () => {
-//     console.log(`escuchando en puerto ${port}`);
-// })

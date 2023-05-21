@@ -1,4 +1,6 @@
-//TODO modificar
+/**
+ * Creacion de las funcion para los logs
+ */
 
 const log4js = require("log4js") //npm i log4js
 
